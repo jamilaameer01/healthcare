@@ -4,6 +4,7 @@ import { Reveal } from "@/components/animations/Reveal";
 import { Arrow } from "@/components/ui/ActionButton";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { TiltCard } from "@/components/animations/TiltCard";
+import { scrollToId } from "@/lib/scroll";
 import { cn } from "@/lib/utils";
 import { serviceById, studioImage } from "@/content/thryve";
 
@@ -59,8 +60,17 @@ export function CareCategories() {
         <Reveal className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-12" stagger={0.08} y={40}>
           {CATEGORIES.map((c) => (
             <TiltCard key={c.title} intensity={5} className={cn(c.span)}>
+              {/*
+                Still a real link, but the jump is handed to Lenis: a native
+                fragment jump is overridden by its next frame, and lands the
+                target under the fixed header.
+              */}
               <a
                 href="#discover"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("discover");
+                }}
                 className="group relative block h-full overflow-hidden rounded-lg bg-ivory"
               >
                 <ParallaxImage

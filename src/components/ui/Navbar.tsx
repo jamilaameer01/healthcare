@@ -1,17 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { gsap, prefersReducedMotion } from "@/lib/motion";
+import { setScrollLocked } from "@/lib/scroll";
 import { Container } from "./Container";
 import { ActionLink } from "./ActionButton";
 import { cn } from "@/lib/utils";
 import { site } from "@/content/thryve";
 import logo from "@/assets/logo.png";
 
+/*
+ * The section links carry a `hash` rather than an `href="/#…"`. A bare anchor
+ * is a document navigation: from any page but the home page it reloaded the
+ * whole bundle, and on the home page it jumped natively, past both the fixed
+ * header and Lenis. As router links they stay client-side and SmoothScroll
+ * lands them.
+ */
 const LINKS = [
   { label: "Home", to: "/" },
   { label: "Services", to: "/services" },
-  { label: "About", href: "/#team" },
-  { label: "Contact", href: "/#contact" },
+  { label: "About", to: "/", hash: "team" },
+  { label: "Contact", to: "/", hash: "contact" },
 ];
 
 export function Navbar() {
@@ -26,10 +34,17 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  /*
+   * Lenis keeps scrolling the window programmatically, so hiding the body's
+   * overflow is not enough on its own — without stopping it the page drifts
+   * behind the open menu and is somewhere else once it closes.
+   */
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    setScrollLocked(open);
     return () => {
       document.body.style.overflow = "";
+      setScrollLocked(false);
     };
   }, [open]);
 
@@ -88,25 +103,18 @@ export function Navbar() {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
-          {LINKS.map((l) =>
-            l.to ? (
-              <Link
-                key={l.label}
-                to={l.to}
-                className="text-sm text-ink-soft transition-colors hover:text-ink"
-              >
-                {l.label}
-              </Link>
-            ) : (
-              <a
-                key={l.label}
-                href={l.href}
-                className="text-sm text-ink-soft transition-colors hover:text-ink"
-              >
-                {l.label}
-              </a>
-            ),
-          )}
+          {LINKS.map((l) => (
+            <Link
+              key={l.label}
+              to={l.to}
+              /* Spread, not `hash={l.hash}`: the page links carry none, and
+                 `exactOptionalPropertyTypes` rejects an explicit undefined. */
+              {...(l.hash ? { hash: l.hash } : {})}
+              className="text-sm text-ink-soft transition-colors hover:text-ink"
+            >
+              {l.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -149,23 +157,14 @@ export function Navbar() {
             <nav aria-label="Mobile" className="flex flex-col">
               {LINKS.map((l) => (
                 <div key={l.label} data-menu-item className="rule-line">
-                  {l.to ? (
-                    <Link
-                      to={l.to}
-                      onClick={() => setOpen(false)}
-                      className="font-display block py-5 text-[clamp(1.9rem,8vw,2.75rem)] font-medium tracking-[-0.04em]"
-                    >
-                      {l.label}
-                    </Link>
-                  ) : (
-                    <a
-                      href={l.href}
-                      onClick={() => setOpen(false)}
-                      className="font-display block py-5 text-[clamp(1.9rem,8vw,2.75rem)] font-medium tracking-[-0.04em]"
-                    >
-                      {l.label}
-                    </a>
-                  )}
+                  <Link
+                    to={l.to}
+                    {...(l.hash ? { hash: l.hash } : {})}
+                    onClick={() => setOpen(false)}
+                    className="font-display block py-5 text-[clamp(1.9rem,8vw,2.75rem)] font-medium tracking-[-0.04em]"
+                  >
+                    {l.label}
+                  </Link>
                 </div>
               ))}
             </nav>

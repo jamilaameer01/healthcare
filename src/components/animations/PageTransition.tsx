@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { gsap, prefersReducedMotion } from "@/lib/motion";
+import { gsap, PAGE_INTRO_MS, prefersReducedMotion } from "@/lib/motion";
 
 /**
  * Subtle enter transition applied whenever the route path changes.
@@ -18,7 +18,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       {
         opacity: 1,
         y: 0,
-        duration: 0.9,
+        duration: PAGE_INTRO_MS / 1000,
         ease: "power3.out",
         // A lingering transform on the page wrapper would break position: fixed
         // for every pinned section, so it is cleared once the intro finishes.

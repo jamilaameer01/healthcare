@@ -48,4 +48,13 @@ export function useMediaQuery(query: string): boolean {
 
 export const EASE = "power3.out" as const;
 
+/**
+ * Length of the route-change intro, in ms.
+ *
+ * Shared, because `PageTransition` holds a transform on the page wrapper for
+ * exactly this long and a transformed ancestor breaks `position: fixed` — so
+ * nothing may measure the page or land on an anchor until it has cleared.
+ */
+export const PAGE_INTRO_MS = 900;
+
 export { gsap, ScrollTrigger };

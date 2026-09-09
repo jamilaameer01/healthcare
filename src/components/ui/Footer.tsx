@@ -45,15 +45,20 @@ export function Footer() {
               <Link to="/services" className="hover:text-on-dark">
                 Medical services
               </Link>
-              <a href="/#tools" className="hover:text-on-dark">
+              {/*
+                Router links with a hash, not `href="/#…"`: a bare anchor is a
+                document navigation, so from any page but the home page these
+                reloaded the whole bundle before moving.
+              */}
+              <Link to="/" hash="tools" className="hover:text-on-dark">
                 Membership
-              </a>
-              <a href="/#team" className="hover:text-on-dark">
+              </Link>
+              <Link to="/" hash="team" className="hover:text-on-dark">
                 About the practice
-              </a>
-              <a href="/#contact" className="hover:text-on-dark">
+              </Link>
+              <Link to="/" hash="contact" className="hover:text-on-dark">
                 Visit us
-              </a>
+              </Link>
               <a
                 href={site.bookingUrl}
                 target="_blank"
