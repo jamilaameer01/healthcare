@@ -175,8 +175,17 @@ export function TreatmentSequence() {
           start: "top top",
           end: () => `+=${SCENES.length * (isDesktop ? 120 : 100)}%`,
           pin: true,
+          pinSpacing: true,
           scrub: 0.8,
           anticipatePin: 1,
+          /*
+           * This section pins and sits above another pinned section
+           * (PatientStories). The earlier pin must be measured first,
+           * or the later one inherits a stale start and pins while this
+           * one is still fixed — the two then overlap on screen.
+           */
+          refreshPriority: 1,
+          invalidateOnRefresh: true,
           onUpdate: (self) => {
             const i = Math.min(
               SCENES.length - 1,
@@ -314,7 +323,7 @@ export function TreatmentSequence() {
       className="relative bg-ivory"
       style={{ ["--seq-accent" as string]: scene.shape.accent }}
     >
-      <div ref={root} className="relative h-svh overflow-hidden">
+      <div ref={root} className="relative z-20 h-svh overflow-hidden">
         {/*
           ---------- 3D visual space ----------
 

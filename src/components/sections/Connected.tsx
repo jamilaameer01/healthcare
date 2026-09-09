@@ -6,22 +6,22 @@ import { Stage } from "@/components/3d/Stage";
 
 const BEATS = [
   {
-    title: "Everything is measured together",
-    copy: "Sleep, bloodwork, movement, mood — reviewed as one picture, not four appointments.",
+    title: "A clinician signs every plan",
+    copy: "Written and reviewed by a licensed clinician — never generated and sent.",
   },
   {
-    title: "One record, one team",
-    copy: "Your clinicians see the same history, so you never repeat your story.",
+    title: "Only what the evidence supports",
+    copy: "If a treatment doesn't hold up in the research, we won't prescribe it.",
   },
   {
-    title: "Care that adapts",
-    copy: "Your plan is revisited as results change, not once a year.",
+    title: "Safety monitored throughout",
+    copy: "Bloodwork and check-ins are scheduled around your treatment, not left to you.",
   },
 ];
 
 /**
- * Scroll-driven storytelling: fragments resolve into a connected network of
- * health signals as the visitor moves through the section.
+ * Scroll-driven statement on clinical rigour: the treatment field resolves
+ * around a single focus as the visitor moves through the section.
  */
 export function Connected() {
   const root = useRef<HTMLElement>(null);
@@ -36,7 +36,7 @@ export function Connected() {
       ScrollTrigger.create({
         trigger: el,
         start: "top top",
-        end: "+=180%",
+        end: "+=90%",
         pin: "[data-connected-stage]",
         anticipatePin: 1,
         scrub: true,
@@ -68,12 +68,12 @@ export function Connected() {
     <section ref={root} className="dark-section relative overflow-hidden">
       <div
         data-connected-stage
-        className="relative flex min-h-[70vh] items-center py-24 md:min-h-screen md:py-32"
+        className="relative flex min-h-[58vh] items-center py-16 md:min-h-screen md:py-20"
       >
         <Stage
-          load={() => import("@/components/3d/NetworkScene")}
+          load={() => import("@/components/3d/SystemsScene")}
           progress={progress}
-          camera={{ position: [0, 0, 6.4], fov: 40 }}
+          camera={{ position: [0, 0, 4.8], fov: 42 }}
           className="pointer-events-none absolute inset-0 opacity-70"
         />
         <div
@@ -81,22 +81,22 @@ export function Connected() {
           className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[color:var(--navy-deep)] via-[color:var(--navy-deep)]/70 to-transparent md:to-transparent"
         />
         <Container wide className="relative">
-          <p className="label-mono text-clay-soft">The whole picture</p>
+          <p className="label-mono text-clay-soft">Evidence first</p>
           <TextReveal
             className="display-lg mt-8 max-w-[14ch] text-on-dark"
-            lines={["Your health", "is connected."]}
+            lines={["Medicine,", "not guesswork."]}
             stagger={0.1}
           />
           <p className="mt-8 max-w-sm text-lg leading-relaxed text-on-dark-soft">
-            We treat the system, not the symptom.
+            Every plan starts with what the research actually supports.
           </p>
         </Container>
       </div>
 
-      <Container wide className="relative pb-24 md:pb-36">
+      <Container wide className="relative pb-16 md:pb-20">
         <ul className="grid gap-px overflow-hidden md:grid-cols-3">
           {BEATS.map((b) => (
-            <li key={b.title} data-beat className="border-t border-white/12 py-10 pr-8">
+            <li key={b.title} data-beat className="border-t border-white/12 py-8 pr-8">
               <h3 className="display-sm text-on-dark">{b.title}</h3>
               <p className="mt-4 max-w-xs text-base leading-relaxed text-on-dark-soft">{b.copy}</p>
             </li>

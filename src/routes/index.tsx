@@ -3,7 +3,6 @@ import { Hero } from "@/components/sections/Hero";
 import { Statement } from "@/components/sections/Statement";
 import { CareCategories } from "@/components/sections/CareCategories";
 import { CareFinder } from "@/components/sections/CareFinder";
-import { Connected } from "@/components/sections/Connected";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { TreatmentSequence } from "@/components/sections/TreatmentSequence";
 import { HealthAssessment } from "@/components/sections/HealthAssessment";
@@ -43,13 +42,14 @@ function Index() {
   return (
     <>
       <Hero />
+      <TreatmentSequence />
       <CareCategories />
       <DigitalCare />
       <CareFinder />
-      <TreatmentSequence />
-      <Connected />
+      
+       <HealthAssessment />
       <HowItWorks />
-      <HealthAssessment />
+     
       <PatientStories />
       <Specialists />
       <Trust />

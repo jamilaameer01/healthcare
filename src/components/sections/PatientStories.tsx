@@ -48,6 +48,9 @@ export function PatientStories() {
         pin: "[data-story-stage]",
         anticipatePin: 1,
         scrub: true,
+        /* Refreshed after the earlier pinned sections. */
+        refreshPriority: -1,
+        invalidateOnRefresh: true,
         onUpdate: (self) => {
           const i = Math.min(STORIES.length - 1, Math.floor(self.progress * STORIES.length));
           setActive(i);
@@ -59,8 +62,14 @@ export function PatientStories() {
     return () => ctx.revert();
   }, []);
 
+  /*
+   * `isolate` keeps the absolutely-positioned portraits inside this
+   * section's own stacking context. Without it they paint above an
+   * earlier pinned (position: fixed) section, since they come later in
+   * the DOM and neither carries a z-index.
+   */
   return (
-    <section ref={root} className="bg-ink py-24 text-linen md:py-0">
+    <section ref={root} className="isolate bg-ink py-24 text-linen md:py-0">
       <div data-story-stage className="md:flex md:min-h-screen md:items-center md:py-24">
         <Container wide>
           <p className="label-mono text-clay">Patient experience</p>
