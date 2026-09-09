@@ -493,7 +493,7 @@ export function DigitalCare() {
       className="relative overflow-hidden bg-[#f7f2eb] py-24 sm:py-28 lg:py-36"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
-        <div className="grid items-center gap-14 lg:grid-cols-[0.82fr_1.18fr] lg:gap-10">
+        <div className="grid items-center gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-8">
           {/* --------------------------------
               CONTENT
           --------------------------------- */}
@@ -536,10 +536,10 @@ export function DigitalCare() {
               STAR TOPOLOGY
           --------------------------------- */}
 
-          <div className="relative flex min-h-[440px] items-center justify-center sm:min-h-[560px] lg:min-h-[680px]">
+          <div className="relative flex min-h-[440px] items-center justify-center sm:min-h-[560px] lg:-mr-14 lg:min-h-[680px] lg:justify-end xl:-mr-24 2xl:-mr-32">
             <div
               ref={networkRef}
-              className="relative aspect-square w-[min(94vw,720px)] max-w-[720px] [perspective:1200px]"
+              className="relative aspect-square w-[min(94vw,720px)] max-w-[720px] [perspective:1200px] lg:w-[min(56vw,820px)] lg:max-w-[820px]"
             >
               {/* --------------------------------
                   SOFT BACK GLOW
