@@ -95,8 +95,12 @@ const SCENES: TreatmentScene[] = [
   },
 ];
 
-/** How long each treatment holds the stage before handing off. */
-const SCENE_MS = 4500;
+/**
+ * How long each treatment holds the stage before handing off. Every duration
+ * in the choreography below is a fraction of this, so the whole sequence
+ * speeds up or slows down from this one number.
+ */
+const SCENE_MS = 2400;
 
 export function TreatmentSequence() {
   const root = useRef<HTMLDivElement>(null);
@@ -170,7 +174,7 @@ export function TreatmentSequence() {
     stages.forEach((s, i) => {
       gsap.to(s, {
         opacity: i === active ? 1 : 0,
-        duration: reduced ? 0 : 0.9,
+        duration: reduced ? 0 : (SCENE_MS / 1000) * 0.26,
         ease: "power2.inOut",
         overwrite: "auto",
       });
@@ -185,7 +189,8 @@ export function TreatmentSequence() {
     }
 
     const secs = SCENE_MS / 1000;
-    const settle = 1.5;
+    /* Entrances take a share of the turn, so they keep pace with SCENE_MS. */
+    const settle = secs * 0.42;
     const tl = gsap.timeline({ defaults: { overwrite: "auto" } });
 
     tl
@@ -234,14 +239,14 @@ export function TreatmentSequence() {
       .fromTo(
         bg,
         { z: -700, scale: 1.25, opacity: 0 },
-        { z: -440, scale: 1.12, opacity: 1, duration: 1.4, ease: "power2.out" },
+        { z: -440, scale: 1.12, opacity: 1, duration: secs * 0.4, ease: "power2.out" },
         0,
       )
-      .to(bg, { z: -880, scale: 1.28, duration: secs - 1.4, ease: "sine.inOut" }, 1.4)
+      .to(bg, { z: -880, scale: 1.28, duration: secs * 0.6, ease: "sine.inOut" }, secs * 0.4)
       .fromTo(
         blob,
         { z: -420, xPercent: 0, yPercent: 0, rotate: 0, opacity: 0 },
-        { opacity: 0.7, duration: 1.2, ease: "power2.out" },
+        { opacity: 0.7, duration: secs * 0.34, ease: "power2.out" },
         0,
       )
       .to(
@@ -254,8 +259,8 @@ export function TreatmentSequence() {
       tl.fromTo(
         chip,
         { z: 0, xPercent: 0, yPercent: 0, rotate: 0, opacity: 0 },
-        { opacity: 1, duration: 1, ease: "power2.out" },
-        0.15 * ci,
+        { opacity: 1, duration: secs * 0.3, ease: "power2.out" },
+        secs * 0.05 * ci,
       ).to(
         chip,
         {
