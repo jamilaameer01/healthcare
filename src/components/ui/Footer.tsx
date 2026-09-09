@@ -42,7 +42,7 @@ export function Footer() {
               <a href="/#tools" className="hover:text-on-dark">
                 Membership
               </a>
-              <Link to="/approach" className="hover:text-on-dark">
+              <Link to="/about" className="hover:text-on-dark">
                 About the practice
               </Link>
               <a href="/#contact" className="hover:text-on-dark">

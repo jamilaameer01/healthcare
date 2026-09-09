@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApproachRouteImport } from './routes/approach'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as ServicesRouteImport } from './routes/services'
 
@@ -19,9 +19,9 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApproachRoute = ApproachRouteImport.update({
-  id: '/approach',
-  path: '/approach',
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookRoute = BookRouteImport.update({
@@ -37,34 +37,34 @@ const ServicesRoute = ServicesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/approach': typeof ApproachRoute
+  '/about': typeof AboutRoute
   '/book': typeof BookRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/approach': typeof ApproachRoute
+  '/about': typeof AboutRoute
   '/book': typeof BookRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/approach': typeof ApproachRoute
+  '/about': typeof AboutRoute
   '/book': typeof BookRoute
   '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/approach' | '/book' | '/services'
+  fullPaths: '/' | '/about' | '/book' | '/services'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/approach' | '/book' | '/services'
-  id: '__root__' | '/' | '/approach' | '/book' | '/services'
+  to: '/' | '/about' | '/book' | '/services'
+  id: '__root__' | '/' | '/about' | '/book' | '/services'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ApproachRoute: typeof ApproachRoute
+  AboutRoute: typeof AboutRoute
   BookRoute: typeof BookRoute
   ServicesRoute: typeof ServicesRoute
 }
@@ -78,11 +78,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/approach': {
-      id: '/approach'
-      path: '/approach'
-      fullPath: '/approach'
-      preLoaderRoute: typeof ApproachRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book': {
@@ -104,7 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ApproachRoute: ApproachRoute,
+  AboutRoute: AboutRoute,
   BookRoute: BookRoute,
   ServicesRoute: ServicesRoute,
 }

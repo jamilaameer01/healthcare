@@ -7,11 +7,9 @@ import { cn } from "@/lib/utils";
 import { site } from "@/content/thryve";
 
 const LINKS = [
+  { label: "Home", to: "/" },
   { label: "Services", to: "/services" },
-  { label: "Assessment", href: "/#assessment" },
-  { label: "Membership", href: "/#tools" },
-  { label: "Team", href: "/#specialists" },
-  { label: "About", to: "/approach" },
+  { label: "About", to: "/about" },
   { label: "Contact", href: "/#contact" },
 ];
 

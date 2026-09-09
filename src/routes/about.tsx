@@ -5,7 +5,7 @@ import { Reveal } from "@/components/animations/Reveal";
 import { ActionLink } from "@/components/ui/ActionButton";
 import { imageAt, mission, missionClose, partners, serviceById, site, team } from "@/content/thryve";
 
-export const Route = createFileRoute("/approach")({
+export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Thryve Wellness" },
