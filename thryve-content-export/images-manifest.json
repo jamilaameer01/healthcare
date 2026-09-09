@@ -1,0 +1,164 @@
+[
+  {
+    "page": "home",
+    "section": "hero",
+    "alt": "Thryve Wellness",
+    "url": "/logo.png (local asset, see assets/logo.png)"
+  },
+  {
+    "page": "home",
+    "section": "mission",
+    "alt": "Thryve Wellness clinic",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/07B414BB-AF68-490F-96E4-2FFF26EE069D.PNG/:/cr=t:0%25,l:5.67%25,w:88.67%25,h:100%25/rs=w:1200,h:902,cg:true"
+  },
+  {
+    "page": "about",
+    "section": "team",
+    "alt": "Kathy Valerie Verdes APRN, A-GNP-C",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/IMG_2999.JPG/:/cr=t:4.84%25,l:0%25,w:100%25,h:33.4%25/rs=w:1200,h:600,cg:true"
+  },
+  {
+    "page": "about",
+    "section": "team",
+    "alt": "Dee Calderin, NCMA",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/A630E891-3CC7-4E38-971F-FFE26F5849DD.jpg/:/cr=t:24.62%25,l:0%25,w:100%25,h:29.33%25/rs=w:600,h:300,cg:true"
+  },
+  {
+    "page": "about",
+    "section": "team",
+    "alt": "Dan Verdes, Office Manager",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/IMG_0465.jpg/:/cr=t:10.17%25,l:0%25,w:100%25,h:23.67%25/rs=w:600,h:300,cg:true"
+  },
+  {
+    "page": "about",
+    "section": "partners",
+    "alt": "DUTCH Test",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/IMG_3189.jpg/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:346,h:100,cg:true"
+  },
+  {
+    "page": "about",
+    "section": "partners",
+    "alt": "SkinPen",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/Skin-pen-pic-1536x1098-720e2ed.jpg/:/cr=t:0%25,l:0%25,w:97.5%25,h:97.5%25/rs=w:280,h:200,cg:true,m"
+  },
+  {
+    "page": "about",
+    "section": "partners",
+    "alt": "Evexias / EvexiPEL",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/EvexiPEL-Certified-Provider-Seal_%20(2).png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:200,h:200,cg:true"
+  },
+  {
+    "page": "aesthetic-services",
+    "section": "hero",
+    "alt": "SkinPen microneedling device",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/Skin-pen-pic-1536x1098.jpg/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:800,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Direct Primary Care (DPC)",
+    "alt": "Direct Primary Care (DPC)",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/ChatGPT%20Image%20Feb%2025%2C%202026%2C%2002_47_09%20PM.png/:/cr=t:7.84%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Direct Primary Care (DPC)",
+    "alt": "What DPC Includes:",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/ChatGPT%20Image%20Feb%2025%2C%202026%2C%2002_57_22%20PM.png/:/cr=t:8.13%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Direct Primary Care (DPC)",
+    "alt": "Benefits",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/ChatGPT%20Image%20Feb%2025%2C%202026%2C%2002_49_03%20PM.png/:/cr=t:11.02%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Acute Care",
+    "alt": "Acute Care",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0-d89c6db.png/:/cr=t:5.23%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Acute Care",
+    "alt": "Acute Care",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0-d49ad1b.png/:/cr=t:0%25,l:5.67%25,w:88.67%25,h:100%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Acute Care",
+    "alt": "Acute Care",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/ChatGPT%20Image%20Feb%2025%2C%202026%2C%2002_51_19%20PM.png/:/cr=t:4.94%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "DOT",
+    "alt": "DOT",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/65C91CB2-FD2D-414C-A76C-67B49DFAF3D3.PNG/:/cr=t:25.96%25,l:28.69%25,w:42.63%25,h:48.08%25/rs=w:720,h:541,cg:true,m"
+  },
+  {
+    "page": "medical-services",
+    "section": "Weight Management",
+    "alt": "Medically Guided Weight Loss",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0-34e7797.png/:/cr=t:12.41%25,l:0%25,w:100%25,h:75.19%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Weight Management",
+    "alt": "Comprehensive Lab Testing and Clinical Evaluation",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0-33bd881.png/:/cr=t:0%25,l:5.67%25,w:88.67%25,h:100%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Weight Management",
+    "alt": "The goal",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0-1b2b2ed.png/:/cr=t:0%25,l:5.67%25,w:88.67%25,h:100%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Peptide Therapy",
+    "alt": "What Peptides Can Support",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0-c602676.png/:/cr=t:24.94%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Peptide Therapy",
+    "alt": "How Treatment Works",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0-8c78b61.png/:/cr=t:5.23%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Peptide Therapy",
+    "alt": "Why Patients Choose Peptide Therapy",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/ChatGPT%20Image%20Feb%2025%2C%202026%2C%2002_14_25%20PM.png/:/cr=t:3.78%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Hormone Optimization",
+    "alt": "Comprehensive Hormone Evaluation",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/CA6A4428-7C01-45B1-B66D-B3700B7481F3.PNG/:/cr=t:24.94%25,l:0%25,w:100%25,h:50.13%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Hormone Optimization",
+    "alt": "Testosterone Replacement Therapy",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0-1c35d35.png/:/cr=t:0%25,l:5.68%25,w:88.67%25,h:100%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Hormone Optimization",
+    "alt": "Bio-Identical Pellet",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/image0.png/:/cr=t:12.41%25,l:0%25,w:100%25,h:75.19%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "Piezo Wave 2",
+    "alt": "Piezo Wave 2",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/csm_PiezoWave2_720_405px_a3476023c0%20(1).jpg/:/cr=t:0%25,l:3.58%25,w:74.81%25,h:100%25/rs=w:720,h:541,cg:true"
+  },
+  {
+    "page": "medical-services",
+    "section": "DUTCH (Dried Urine Test for Comprehensive Hormones)",
+    "alt": "DUTCH (Dried Urine Test for Comprehensive Hormones)",
+    "url": "http://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6/IMG_3191.PNG/:/cr=t:6.54%25,l:0%25,w:100%25,h:86.92%25/rs=w:720,h:541,cg:true"
+  }
+]

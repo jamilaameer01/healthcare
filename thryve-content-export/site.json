@@ -1,0 +1,66 @@
+{
+  "name": "Thryve Wellness",
+  "tagline": "Refined Wellness. Elevated Results.",
+  "phone": "239-248-5560",
+  "phoneHref": "tel:2392485560",
+  "fax": "1-800-880-6198",
+  "faxHref": "tel:18008806198",
+  "address": "2950 Tamiami Trail North, Suite 5, Unit 31, Naples, FL, USA",
+  "bookingUrl": "https://app.squareup.com/appointments/book/i5stqx76hob2cg/L418Y8T8TPKBJ/start",
+  "facebook": "https://www.facebook.com/1041181485737041",
+  "instagram": "https://www.instagram.com/wellnessthryve/",
+  "tiktok": "https://www.tiktok.com/@thryve.wellness6",
+  "logo": "/logo.png",
+  "navLinks": [
+    {
+      "href": "/",
+      "label": "Home"
+    },
+    {
+      "href": "/about",
+      "label": "About"
+    },
+    {
+      "href": "/medical-services",
+      "label": "Medical Services"
+    },
+    {
+      "href": "/aesthetic-services",
+      "label": "Aesthetic Services"
+    },
+    {
+      "href": "/contact",
+      "label": "Contact"
+    }
+  ],
+  "hours": [
+    {
+      "day": "Mon",
+      "time": "09:00 am – 05:00 pm"
+    },
+    {
+      "day": "Tue",
+      "time": "09:00 am – 05:00 pm"
+    },
+    {
+      "day": "Wed",
+      "time": "09:00 am – 05:00 pm"
+    },
+    {
+      "day": "Thu",
+      "time": "09:00 am – 05:00 pm"
+    },
+    {
+      "day": "Fri",
+      "time": "09:00 am – 05:00 pm"
+    },
+    {
+      "day": "Sat",
+      "time": "Closed"
+    },
+    {
+      "day": "Sun",
+      "time": "Closed"
+    }
+  ]
+}

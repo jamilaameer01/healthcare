@@ -1,144 +1,96 @@
 import { useEffect, useRef, useState } from "react";
 import { ActionLink } from "@/components/ui/ActionButton";
+import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
 import { gsap, prefersReducedMotion, registerGsap, useMediaQuery } from "@/lib/motion";
 
-import treatment from "@/assets/goal-treatment.jpg";
-import weight from "@/assets/goal-weight.jpg";
-import labs from "@/assets/goal-labs.jpg";
-import hair from "@/assets/goal-hair.jpg";
-import hormone from "@/assets/care-primary.jpg";
-import wellness from "@/assets/care-wellness.jpg";
-import float from "@/assets/treatment-float.png";
-import texture from "@/assets/texture-1.jpg";
+import {
+  lead,
+  leadImage,
+  medicalServiceById,
+  type MedicalService,
+} from "@/content/medical-services";
 
 export type TreatmentScene = {
   id: string;
-  category: string;
+  /** Heading, copy and imagery all come from the medical service. */
+  service: MedicalService;
   name: string;
-  statement: string;
-  cta: string;
-  main: string;
-  mainAlt: string;
-  aside: string;
-  asideAlt: string;
   /** Distinct spatial recipe so no two scenes read the same. */
   shape: {
     mainRotate: [number, number, number];
-    asideOffset: [number, number];
     accent: string;
     blobClass: string;
     mainClass: string;
   };
 };
 
+/* One scene per medical service, keeping each scene's distinct spatial recipe. */
 const SCENES: TreatmentScene[] = [
   {
-    id: "treatment",
-    category: "Clinician-led treatment",
-    name: "Care that arrives with you.",
-    statement: "Reviewed by a clinician, delivered discreetly, adjusted as your results change.",
-    cta: "Start a consultation",
-    main: treatment,
-    mainAlt: "An amber medication bottle and plain carton on a warm ivory surface",
-    aside: float,
-    asideAlt: "Unbranded treatment pen and capsules",
+    id: "dpc",
+    service: medicalServiceById("direct-primary-care"),
+    name: "Healthcare the way it was meant to be.",
     shape: {
       mainRotate: [3, -8, -1.5],
-      asideOffset: [26, -18],
       accent: "var(--clay)",
       blobClass: "left-[6%] top-[14%] size-[46vmin] rounded-[46%_54%_38%_62%]",
-      mainClass: "w-[68%] max-w-[640px] aspect-[4/5] rounded-[2.5rem]",
+      mainClass: "w-[62%] max-w-[620px] aspect-[4/3] rounded-[2.25rem]",
     },
   },
   {
     id: "weight",
-    category: "Weight management",
+    service: medicalServiceById("weight-management"),
     name: "Progress, built around you.",
-    statement: "A plan shaped by your health, habits and goals — with treatment when it fits.",
-    cta: "Explore weight care",
-    main: weight,
-    mainAlt: "A person preparing a fresh balanced meal in a sunlit kitchen",
-    aside: texture,
-    asideAlt: "Soft warm texture study",
     shape: {
       mainRotate: [-4, 9, 1.5],
-      asideOffset: [-28, 20],
       accent: "var(--accent)",
       blobClass: "right-[8%] bottom-[10%] size-[52vmin] rounded-[62%_38%_58%_42%]",
-      mainClass: "w-[78%] max-w-[820px] aspect-[16/10] rounded-[2rem]",
-    },
-  },
-  {
-    id: "labs",
-    category: "Assessments and labs",
-    name: "Clear answers. Earlier.",
-    statement: "Focused testing turns the signals in your body into a plan you can act on.",
-    cta: "Book an assessment",
-    main: labs,
-    mainAlt: "A clinician preparing a sample in a warm, modern laboratory",
-    aside: float,
-    asideAlt: "Unbranded treatment objects floating",
-    shape: {
-      mainRotate: [5, 6, -2.5],
-      asideOffset: [30, 24],
-      accent: "var(--clay)",
-      blobClass: "left-[12%] bottom-[16%] size-[40vmin] rounded-full",
-      mainClass: "w-[62%] max-w-[560px] aspect-square rounded-[3rem]",
-    },
-  },
-  {
-    id: "hair",
-    category: "Hair health",
-    name: "Keep what feels like you.",
-    statement: "Guided care designed around your pattern, progress and pace.",
-    cta: "Explore hair care",
-    main: hair,
-    mainAlt: "Close-up editorial portrait showing healthy hair",
-    aside: texture,
-    asideAlt: "Soft warm texture study",
-    shape: {
-      mainRotate: [-2, -10, 2],
-      asideOffset: [-32, -16],
-      accent: "var(--accent)",
-      blobClass: "right-[14%] top-[12%] size-[44vmin] rounded-[38%_62%_47%_53%]",
-      mainClass: "w-[58%] max-w-[520px] aspect-[3/4] rounded-[999px]",
+      mainClass: "w-[70%] max-w-[720px] aspect-[4/3] rounded-[2rem]",
     },
   },
   {
     id: "hormone",
-    category: "Hormone health",
+    service: medicalServiceById("hormone-optimization"),
     name: "Understand what changed.",
-    statement: "Thoughtful testing and expert review for energy, metabolism and long-term health.",
-    cta: "Explore hormone care",
-    main: hormone,
-    mainAlt: "A patient having a focused conversation with a clinician",
-    aside: float,
-    asideAlt: "Unbranded treatment objects floating",
     shape: {
-      mainRotate: [4, 11, -1],
-      asideOffset: [24, -26],
+      mainRotate: [5, 6, -2.5],
       accent: "var(--clay)",
-      blobClass: "left-[8%] top-[18%] size-[50vmin] rounded-[54%_46%_35%_65%]",
-      mainClass: "w-[74%] max-w-[760px] aspect-[16/11] rounded-[2.25rem]",
+      blobClass: "left-[12%] bottom-[16%] size-[40vmin] rounded-full",
+      mainClass: "w-[56%] max-w-[560px] aspect-[4/3] rounded-[2.5rem]",
     },
   },
   {
-    id: "wellness",
-    category: "Ongoing wellness",
-    name: "Feel better, for longer.",
-    statement: "Nutrition, sleep and movement support that stays with you beyond one appointment.",
-    cta: "Explore wellness",
-    main: wellness,
-    mainAlt: "A person stretching in a sunlit room",
-    aside: texture,
-    asideAlt: "Soft warm texture study",
+    id: "peptides",
+    service: medicalServiceById("peptide-therapy"),
+    name: "Signals your body already knows.",
+    shape: {
+      mainRotate: [-2, -10, 2],
+      accent: "var(--accent)",
+      blobClass: "right-[14%] top-[12%] size-[44vmin] rounded-[38%_62%_47%_53%]",
+      mainClass: "w-[60%] max-w-[600px] aspect-[4/3] rounded-[2.75rem]",
+    },
+  },
+  {
+    id: "piezowave",
+    service: medicalServiceById("piezowave-2"),
+    name: "Healing, focused precisely.",
+    shape: {
+      mainRotate: [4, 11, -1],
+      accent: "var(--clay)",
+      blobClass: "left-[8%] top-[18%] size-[50vmin] rounded-[54%_46%_35%_65%]",
+      mainClass: "w-[64%] max-w-[660px] aspect-[4/3] rounded-[2rem]",
+    },
+  },
+  {
+    id: "acute",
+    service: medicalServiceById("acute-care"),
+    name: "Seen quickly, by someone who knows you.",
     shape: {
       mainRotate: [-5, -7, 1],
-      asideOffset: [-26, 22],
       accent: "var(--accent)",
       blobClass: "right-[10%] bottom-[14%] size-[48vmin] rounded-[60%_40%_55%_45%]",
-      mainClass: "w-[70%] max-w-[700px] aspect-[5/4] rounded-[2.75rem]",
+      mainClass: "w-[66%] max-w-[680px] aspect-[4/3] rounded-[2.5rem]",
     },
   },
 ];
@@ -154,7 +106,15 @@ export function TreatmentSequence() {
     if (!el) return;
 
     const reduced = prefersReducedMotion();
-    const depth = isDesktop ? 1 : 0.55;
+
+    /*
+     * Below md the pinned 3D sequence is replaced by a stacked list, so the
+     * timeline must not be built at all — pinning a hidden element leaves a
+     * stray spacer and breaks the sections after it.
+     */
+    if (!isDesktop) return;
+
+    const depth = 1;
 
     const ctx = gsap.context(() => {
       const stages = gsap.utils.toArray<HTMLElement>("[data-stage]");
@@ -173,7 +133,7 @@ export function TreatmentSequence() {
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: () => `+=${SCENES.length * (isDesktop ? 120 : 100)}%`,
+          end: () => `+=${SCENES.length * 120}%`,
           pin: true,
           pinSpacing: true,
           scrub: 0.8,
@@ -200,10 +160,8 @@ export function TreatmentSequence() {
         const bg = stage.querySelector<HTMLElement>("[data-layer='bg']")!;
         const blob = stage.querySelector<HTMLElement>("[data-layer='blob']")!;
         const main = stage.querySelector<HTMLElement>("[data-layer='main']")!;
-        const aside = stage.querySelector<HTMLElement>("[data-layer='aside']");
         const chips = gsap.utils.toArray<HTMLElement>("[data-layer='chip']", stage);
         const rot = SCENES[i]!.shape.mainRotate;
-        const off = SCENES[i]!.shape.asideOffset;
         const t = i;
 
         // Scene 01 — assembled composition
@@ -246,27 +204,6 @@ export function TreatmentSequence() {
             t + 0.02,
           );
 
-        if (aside) {
-          tl.fromTo(
-            aside,
-            {
-              z: 60 * depth,
-              xPercent: off[0] * 0.45,
-              yPercent: off[1] * 0.45,
-              rotate: 0,
-              opacity: 0.9,
-            },
-            {
-              z: 380 * depth,
-              xPercent: off[0],
-              yPercent: off[1],
-              rotate: rot[2] * 8,
-              opacity: 1,
-              duration: 0.42,
-            },
-            t + 0.02,
-          );
-        }
         chips.forEach((chip, ci) => {
           tl.to(
             chip,
@@ -306,7 +243,6 @@ export function TreatmentSequence() {
           .to(bg, { opacity: 0, scale: 1.4, duration: 0.24 }, t + 0.82)
           .to(stage, { opacity: i === SCENES.length - 1 ? 1 : 0, duration: 0.2 }, t + 0.84);
 
-        if (aside) tl.to(aside, { opacity: 0, z: 620 * depth, duration: 0.22 }, t + 0.8);
         if (chips.length) tl.to(chips, { opacity: 0, duration: 0.2 }, t + 0.8);
       });
     }, el);
@@ -323,7 +259,62 @@ export function TreatmentSequence() {
       className="relative bg-ivory"
       style={{ ["--seq-accent" as string]: scene.shape.accent }}
     >
-      <div ref={root} className="relative z-20 h-svh overflow-hidden">
+      {/*
+        ---------- mobile: stacked list ----------
+
+        The pinned 3D sequence needs a tall viewport and a hover-free pointer
+        to read at all; on a phone the copy landed on top of the plate. Below
+        md the same content is a plain scrollable list instead.
+      */}
+      <div className="md:hidden">
+        <Container wide className="py-14">
+          <p className="label-mono text-clay">Medical services</p>
+
+          <div className="mt-8 space-y-12">
+            {SCENES.map((s) => {
+              const picture = leadImage(s.service);
+
+              return (
+                <article key={s.id}>
+                  <div
+                    className={cn(
+                      "w-full overflow-hidden rounded-lg",
+                      picture?.fit === "contain"
+                        ? "flex aspect-16/9 items-center justify-center border border-line bg-white p-5"
+                        : "aspect-4/3 bg-linen",
+                    )}
+                  >
+                    <img
+                      src={picture?.src}
+                      alt={s.service.title}
+                      loading="lazy"
+                      width={1400}
+                      height={1050}
+                      className={
+                        picture?.fit === "contain"
+                          ? "max-h-full w-auto max-w-full object-contain"
+                          : "size-full object-cover object-top"
+                      }
+                    />
+                  </div>
+
+                  <h3 className="display-sm mt-5">{s.service.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">{lead(s.service)}</p>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="mt-12">
+            <ActionLink to="/services" className="w-full">
+              View all services
+            </ActionLink>
+          </div>
+        </Container>
+      </div>
+
+      {/* ---------- desktop: pinned 3D sequence ---------- */}
+      <div ref={root} className="relative z-20 hidden h-svh overflow-hidden md:block">
         {/*
           ---------- 3D visual space ----------
 
@@ -355,32 +346,31 @@ export function TreatmentSequence() {
                 <figure
                   data-layer="main"
                   className={cn(
-                    "seq-plate relative overflow-hidden bg-linen max-md:!w-[88%]",
+                    /*
+                     * The plate is capped in height so it cannot outgrow the
+                     * pinned stage as the scroll pushes it toward the viewer.
+                     */
+                    "seq-plate relative max-h-[58svh] overflow-hidden max-md:!w-[88%] max-md:max-h-[46svh]",
+                    leadImage(s.service)?.fit === "contain"
+                      ? "flex items-center justify-center bg-white p-8"
+                      : "bg-linen",
                     s.shape.mainClass,
                   )}
                 >
                   <img
-                    src={s.main}
-                    alt={s.mainAlt}
+                    src={leadImage(s.service)?.src}
+                    alt={s.service.title}
                     loading="lazy"
-                    width={1200}
-                    height={1400}
-                    className="size-full object-cover"
+                    width={1400}
+                    height={1050}
+                    className={cn(
+                      leadImage(s.service)?.fit === "contain"
+                        ? "max-h-full w-auto max-w-full object-contain"
+                        : /* anchor to the top so faces stay in frame */
+                          "size-full object-cover object-top",
+                    )}
                   />
                 </figure>
-              </div>
-
-              <div className="absolute inset-0 hidden items-center justify-center md:flex">
-                <img
-                  data-layer="aside"
-                  src={s.aside}
-                  alt=""
-                  aria-hidden
-                  loading="lazy"
-                  width={520}
-                  height={520}
-                  className="seq-aside w-[26%] max-w-[280px] rounded-[1.75rem] object-contain"
-                />
               </div>
 
               <span
@@ -417,21 +407,21 @@ export function TreatmentSequence() {
         {/* ---------- flat 2D typography ---------- */}
         <div className="pointer-events-none relative z-10 flex h-full flex-col justify-between px-6 pb-10 pt-24 md:px-12 md:pb-14 md:pt-28">
           <div className="flex items-start justify-between gap-6">
-            <p className="label-mono text-clay">Treatments</p>
+            <p className="label-mono text-clay">Medical services</p>
             <p className="label-mono text-ink-soft">
               {String(active + 1).padStart(2, "0")} / {String(SCENES.length).padStart(2, "0")}
             </p>
           </div>
 
           <div key={scene.id} className="max-w-xl animate-fade-in">
-            <p className="label-mono text-ink-soft">{scene.category}</p>
-            <h2 className="display-lg mt-4 text-ink">{scene.name}</h2>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-ink-soft sm:text-base">
-              {scene.statement}
+            {/* The service's own title is the heading, with a short lead-in. */}
+            <h2 className="display-lg text-ink">{scene.service.title}</h2>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-ink-soft sm:text-base">
+              {lead(scene.service)}
             </p>
             <div className="pointer-events-auto mt-7">
-              <ActionLink to="/book" className="min-h-11 px-5 text-sm">
-                {scene.cta}
+              <ActionLink to="/services" className="min-h-11 px-5 text-sm">
+                View all services
               </ActionLink>
             </div>
           </div>

@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/",
+    "title": "Thryve Wellness ",
+    "description": "Refined Wellness. Elevated Results."
+  },
+  {
+    "path": "/about",
+    "title": "About | Thryve Wellness",
+    "description": "Refined Wellness. Elevated Results."
+  },
+  {
+    "path": "/medical-services",
+    "title": "Medical Services",
+    "description": "Refined Wellness. Elevated Results."
+  },
+  {
+    "path": "/aesthetic-services",
+    "title": "Aesthetic Services",
+    "description": "Refined Wellness. Elevated Results."
+  },
+  {
+    "path": "/contact",
+    "title": "Contact | Thryve Wellness",
+    "description": "Refined Wellness. Elevated Results."
+  }
+]

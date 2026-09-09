@@ -19,17 +19,20 @@ import { DigitalCare } from "@/components/sections/DigitalCare";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Meridian Health — Better care, made personal" },
+      { title: "Thryve Wellness — Refined Wellness. Elevated Results." },
       {
         name: "description",
         content:
-          "Modern healthcare designed around you: weight and hormone care, hair health, preventive reviews, labs and wellness, with one team and one shared record.",
+          "A concierge-level wellness practice in Naples, Florida: direct primary care, hormone optimization, medically guided weight management, peptide therapy and SkinPen® microneedling.",
       },
-      { property: "og:title", content: "Meridian Health — Better care, made personal" },
+      {
+        property: "og:title",
+        content: "Thryve Wellness — Refined Wellness. Elevated Results.",
+      },
       {
         property: "og:description",
         content:
-          "Weight management, hormone health, hair health, preventive reviews, labs and wellness from a small team of clinicians.",
+          "Direct primary care, hormone optimization, medical weight management, peptide therapy and aesthetics in Naples, Florida.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

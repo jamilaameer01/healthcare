@@ -3,17 +3,22 @@ import { gsap, registerGsap, prefersReducedMotion, ScrollTrigger } from "@/lib/m
 import { Container } from "@/components/ui/Container";
 import { TextReveal } from "@/components/animations/TextReveal";
 
+/* The Direct Primary Care model, in the order a patient experiences it. */
 const STEPS = [
-  { id: "01", title: "Tell us what you need", copy: "A short conversation, not a form maze." },
+  {
+    id: "01",
+    title: "One monthly membership",
+    copy: "No insurance billed per visit, no copays, no surprise bills.",
+  },
   {
     id: "02",
-    title: "Get connected with the right care",
-    copy: "Matched to a physician the same week.",
+    title: "Reach your provider directly",
+    copy: "Phone, text or email — plus same-day or next-day appointments.",
   },
   {
     id: "03",
-    title: "Keep moving forward",
-    copy: "One record, one plan, reviewed as life changes.",
+    title: "Care that has time for you",
+    copy: "Extended, unhurried visits, with discounted labs and medications.",
   },
 ];
 
@@ -58,11 +63,11 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section ref={root} className="dark-section py-24 md:py-36">
+    <section ref={root} className="dark-section py-16 md:py-24">
       <Container wide>
         <TextReveal
-          className="display-md max-w-[16ch] text-on-dark"
-          lines={["Healthcare,", "without the hassle."]}
+          className="display-md max-w-[18ch] text-on-dark"
+          lines={["Direct primary care,", "explained."]}
         />
 
         <div className="relative mt-16 md:mt-24">

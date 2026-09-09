@@ -3,6 +3,7 @@ import { ActionLink } from "@/components/ui/ActionButton";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import cta from "@/assets/cta-lifestyle.jpg";
+import { missionClose, site } from "@/content/thryve";
 
 export function FinalCTA() {
   return (
@@ -22,15 +23,18 @@ export function FinalCTA() {
             <div className="w-full p-8 md:p-14">
               <TextReveal
                 className="display-lg text-on-dark"
-                lines={["Your health.", "Your care.", "Your way."]}
+                lines={["Refined wellness.", "Elevated results."]}
                 stagger={0.09}
               />
-              <p className="mt-6 max-w-sm text-base leading-relaxed text-on-dark/85">
-                Start with a conversation. We'll take it from there.
+              <p className="mt-6 max-w-md text-base leading-relaxed text-on-dark/85">
+                {missionClose}
               </p>
-              <div className="mt-8">
-                <ActionLink to="/book" variant="onDark">
-                  Get started
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <ActionLink href={site.bookingUrl} external variant="onDark">
+                  Book an appointment
+                </ActionLink>
+                <ActionLink href={site.phoneHref} variant="onDarkOutline" withArrow={false}>
+                  {site.phone}
                 </ActionLink>
               </div>
             </div>

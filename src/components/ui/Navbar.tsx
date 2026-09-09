@@ -4,14 +4,13 @@ import { gsap, prefersReducedMotion } from "@/lib/motion";
 import { Container } from "./Container";
 import { ActionLink } from "./ActionButton";
 import { cn } from "@/lib/utils";
+import { site } from "@/content/thryve";
+import logo from "@/assets/logo.png";
 
 const LINKS = [
-  { label: "Care", href: "/#care" },
-  { label: "Treatment", href: "/#treatment" },
-  { label: "Services", href: "/#services" },
-  { label: "Specialists", href: "/#specialists" },
-  { label: "Tools", href: "/#tools" },
-  { label: "About", to: "/approach" },
+  { label: "Home", to: "/" },
+  { label: "Services", to: "/services" },
+  { label: "About", href: "/#team" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -65,15 +64,27 @@ export function Navbar() {
       <Container
         wide
         className={cn(
-          "flex items-center justify-between transition-[height] duration-500 ease-cinematic",
-          scrolled ? "h-16" : "h-20 md:h-24",
+          /*
+            The mobile menu overlay is a later sibling at z-40, so this row
+            needs its own stacking level or the overlay paints over the logo
+            and the close button.
+          */
+          "relative z-50 flex items-center justify-between transition-[height] duration-500 ease-cinematic",
+          scrolled ? "h-[72px] md:h-20" : "h-24 md:h-32",
         )}
       >
-        <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span aria-hidden className="size-2 rounded-full bg-clay" />
-          <span className="font-display text-[17px] font-medium tracking-[-0.03em]">
-            Meridian Health
-          </span>
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
+          {/* Logo only — the alt text carries the brand name for assistive tech. */}
+          <img
+            src={logo}
+            alt={site.name}
+            width={512}
+            height={512}
+            className={cn(
+              "w-auto transition-[height] duration-500 ease-cinematic",
+              scrolled ? "h-14 md:h-16" : "h-[68px] md:h-28",
+            )}
+          />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
@@ -99,8 +110,13 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <ActionLink to="/book" className="hidden h-11 min-h-11 md:inline-flex" withArrow={false}>
-            Get started
+          <ActionLink
+            href={site.bookingUrl}
+            external
+            className="hidden h-11 min-h-11 md:inline-flex"
+            withArrow={false}
+          >
+            Book now
           </ActionLink>
           <button
             type="button"
@@ -128,7 +144,7 @@ export function Navbar() {
       </Container>
 
       {open ? (
-        <div ref={menuRef} className="fixed inset-0 top-0 z-40 bg-ivory pt-24 lg:hidden">
+        <div ref={menuRef} className="fixed inset-0 top-0 z-40 bg-ivory pt-32 lg:hidden">
           <Container className="flex h-full flex-col justify-between pb-12">
             <nav aria-label="Mobile" className="flex flex-col">
               {LINKS.map((l) => (
@@ -153,10 +169,18 @@ export function Navbar() {
                 </div>
               ))}
             </nav>
-            <div data-menu-item>
-              <ActionLink to="/book" className="w-full" onClick={() => setOpen(false)}>
-                Get started
+            <div data-menu-item className="space-y-4">
+              <ActionLink
+                href={site.bookingUrl}
+                external
+                className="w-full"
+                onClick={() => setOpen(false)}
+              >
+                Book an appointment
               </ActionLink>
+              <a href={site.phoneHref} className="block text-sm text-ink-soft">
+                {site.phone}
+              </a>
             </div>
           </Container>
         </div>
