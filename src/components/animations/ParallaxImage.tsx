@@ -13,6 +13,7 @@ export function ParallaxImage({
   width,
   height,
   amount = 12,
+  zoom = 1.12,
   priority = false,
 }: {
   src: string;
@@ -22,6 +23,8 @@ export function ParallaxImage({
   width: number;
   height: number;
   amount?: number;
+  /** Starting scale for the drift. Lower it when the frame already crops hard. */
+  zoom?: number;
   priority?: boolean;
 }) {
   const frame = useRef<HTMLDivElement>(null);
@@ -36,7 +39,7 @@ export function ParallaxImage({
     const ctx = gsap.context(() => {
       gsap.fromTo(
         target,
-        { yPercent: -amount / 2, scale: 1.12 },
+        { yPercent: -amount / 2, scale: zoom },
         {
           yPercent: amount / 2,
           scale: 1,
@@ -48,7 +51,7 @@ export function ParallaxImage({
 
     ScrollTrigger.refresh();
     return () => ctx.revert();
-  }, [amount]);
+  }, [amount, zoom]);
 
   return (
     <div ref={frame} className={cn("media-depth-drift overflow-hidden bg-linen", className)}>

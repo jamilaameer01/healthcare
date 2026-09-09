@@ -81,7 +81,7 @@ export function CareFinder() {
           ]}
         />
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div className="mx-auto mt-12 grid max-w-[1320px] gap-10 lg:grid-cols-2 lg:gap-14">
           <div>
             <ul className="border-t border-ink/12">
               {OPTIONS.map((o, i) => (
@@ -113,7 +113,7 @@ export function CareFinder() {
               ))}
             </ul>
 
-            <div className="mt-10 max-w-md">
+            <div className="mt-10 max-w-lg">
               <h3 key={`h-${current.id}`} className="display-sm animate-fade-in">
                 {current.headline}
               </h3>
@@ -129,7 +129,7 @@ export function CareFinder() {
             </div>
           </div>
 
-          <div className="media-depth-drift relative aspect-4/3 w-full overflow-hidden rounded-lg bg-linen lg:aspect-5/4 lg:max-h-[600px]">
+          <div className="media-depth-drift relative aspect-4/3 w-full overflow-hidden rounded-lg bg-linen sm:mx-auto sm:max-w-[420px] lg:aspect-5/4 lg:max-h-[460px] lg:max-w-[580px]">
             {OPTIONS.map((o, i) => (
               <img
                 key={o.id}

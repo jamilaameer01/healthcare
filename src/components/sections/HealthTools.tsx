@@ -67,16 +67,7 @@ export function HealthTools() {
           </Reveal>
         </div>
 
-        <div className="mt-16">
-          <ParallaxImage
-            src={tools}
-            alt="A woman on a sofa in warm daylight speaking with her clinician on her phone"
-            width={1400}
-            height={1200}
-            amount={12}
-            className="aspect-16/9 w-full overflow-hidden rounded-lg bg-mist"
-          />
-        </div>
+        
       </Container>
     </section>
   );

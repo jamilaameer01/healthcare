@@ -29,10 +29,10 @@ export function HealthAssessment() {
   };
 
   return (
-    <section id="assessment" className="bg-sand py-24 md:py-36">
+    <section id="assessment" className="bg-sand py-12 md:py-16">
       <Container wide>
         <p className="label-mono text-clay">Your assessment</p>
-        <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
+        <div className="mt-8 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-14">
           <div>
             <TextReveal
               className="display-md max-w-[15ch]"
@@ -81,8 +81,13 @@ export function HealthAssessment() {
           <Stage
             load={() => import("@/components/3d/SystemsScene")}
             progress={progress}
-            camera={{ position: [0, 0, 5.2], fov: 42 }}
-            className="h-[440px] w-full rounded-xl bg-linen/60 md:h-[500px] lg:h-[540px]"
+            /*
+             * The scene is ~4 units wide but only ~2 tall, so the box is
+             * kept landscape and the field of view tightened to match —
+             * otherwise the composition floats in empty vertical space.
+             */
+            camera={{ position: [0, 0, 4.2], fov: 33 }}
+            className="h-[320px] w-full md:h-[400px] lg:-mr-8 lg:h-[440px] xl:-mr-16"
           />
         </div>
       </Container>

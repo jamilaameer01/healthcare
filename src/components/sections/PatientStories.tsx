@@ -44,7 +44,7 @@ export function PatientStories() {
       ScrollTrigger.create({
         trigger: el,
         start: "top top",
-        end: `+=${STORIES.length * 70}%`,
+        end: `+=${STORIES.length * 50}%`,
         pin: "[data-story-stage]",
         anticipatePin: 1,
         scrub: true,
@@ -69,32 +69,35 @@ export function PatientStories() {
    * the DOM and neither carries a z-index.
    */
   return (
-    <section ref={root} className="isolate bg-ink py-24 text-linen md:py-0">
-      <div data-story-stage className="md:flex md:min-h-screen md:items-center md:py-24">
+    <section ref={root} className="isolate bg-ink py-10 text-linen md:py-0">
+      <div data-story-stage className="md:flex md:min-h-screen md:items-center md:py-10">
         <Container wide>
-          <p className="label-mono text-clay">Patient experience</p>
-          <div className="mt-10 grid gap-12 md:grid-cols-[1.2fr_0.8fr] md:items-center md:gap-16">
-            <div className="relative md:min-h-[18rem]">
-              {STORIES.map((s, i) => (
-                <blockquote
-                  key={s.name}
-                  className={cn(
-                    "transition-all duration-700 ease-cinematic md:absolute md:inset-0",
-                    i === active
-                      ? "opacity-100 md:translate-y-0"
-                      : "md:pointer-events-none md:translate-y-6 md:opacity-0",
-                    i !== active ? "mt-14 md:mt-0" : "",
-                  )}
-                >
-                  <p className="display-md max-w-[18ch]">“{s.quote}”</p>
-                  <footer className="mt-8 text-sm text-ink-soft">
-                    {s.name} · {s.detail}
-                  </footer>
-                </blockquote>
-              ))}
+          <div className="mx-auto grid max-w-[1180px] gap-10 md:grid-cols-[1fr_0.7fr] md:items-center md:gap-12">
+            <div>
+              <p className="label-mono text-clay">Patient experience</p>
+
+              <div className="relative mt-6 md:min-h-[16rem]">
+                {STORIES.map((s, i) => (
+                  <blockquote
+                    key={s.name}
+                    className={cn(
+                      "transition-all duration-700 ease-cinematic md:absolute md:inset-0",
+                      i === active
+                        ? "opacity-100 md:translate-y-0"
+                        : "md:pointer-events-none md:translate-y-6 md:opacity-0",
+                      i !== active ? "mt-14 md:mt-0" : "",
+                    )}
+                  >
+                    <p className="display-md max-w-[24ch]">“{s.quote}”</p>
+                    <footer className="mt-8 text-sm text-ink-soft">
+                      {s.name} · {s.detail}
+                    </footer>
+                  </blockquote>
+                ))}
+              </div>
             </div>
 
-            <div className="media-depth-drift relative aspect-4/5 w-full overflow-hidden rounded-lg bg-mist">
+            <div className="media-depth-drift relative aspect-4/5 w-full overflow-hidden rounded-lg bg-mist sm:mx-auto sm:max-w-[360px] md:mx-0 md:ml-auto md:max-h-[460px] md:max-w-[380px]">
               {STORIES.map((s, i) => (
                 <img
                   key={s.name}
