@@ -281,6 +281,16 @@
   }
 }
 
+/* Fills the active line of the treatment sequence over one auto-play turn. */
+@keyframes seq-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @keyframes shadow-breathe {
   0%,
   100% {

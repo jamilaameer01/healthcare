@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ActionLink } from "@/components/ui/ActionButton";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
-import { gsap, prefersReducedMotion, registerGsap, useMediaQuery } from "@/lib/motion";
+import { gsap, registerGsap, useMediaQuery, useReducedMotion } from "@/lib/motion";
 
 import {
   lead,
@@ -95,162 +95,192 @@ const SCENES: TreatmentScene[] = [
   },
 ];
 
+/** How long each treatment holds the stage before handing off. */
+const SCENE_MS = 4500;
+
 export function TreatmentSequence() {
   const root = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  /** Bumped on every hand-off so the timer and the progress bar stay in step. */
+  const [cycle, setCycle] = useState(0);
+  const [inView, setInView] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const reduced = useReducedMotion();
 
+  /*
+   * The sequence plays itself instead of being scrubbed by the scroll, and
+   * it is no longer pinned — scrolling moves straight on to the next
+   * section while the loop keeps running behind it.
+   *
+   * Below md the sequence is replaced by a stacked list, so nothing here
+   * needs to run at all.
+   */
+  const playing = isDesktop && inView && !reduced;
+
+  // Only advance while the section is actually on screen.
+  useEffect(() => {
+    const el = root.current;
+    if (!el || !isDesktop) return;
+
+    const io = new IntersectionObserver(([entry]) => setInView(entry?.isIntersecting ?? false), {
+      threshold: 0.35,
+    });
+    io.observe(el);
+
+    return () => io.disconnect();
+  }, [isDesktop]);
+
+  // Restart the turn cleanly when the section comes back into view.
+  useEffect(() => {
+    if (playing) setCycle((c) => c + 1);
+  }, [playing]);
+
+  /*
+   * A chained timeout rather than an interval: a manual jump bumps `cycle`
+   * and so restarts the wait, instead of inheriting a part-spent tick.
+   */
+  useEffect(() => {
+    if (!playing) return;
+
+    const id = window.setTimeout(() => {
+      setActive((i) => (i + 1) % SCENES.length);
+      setCycle((c) => c + 1);
+    }, SCENE_MS);
+
+    return () => window.clearTimeout(id);
+  }, [playing, cycle]);
+
+  // Depth choreography for whichever treatment currently holds the stage.
   useEffect(() => {
     registerGsap();
     const el = root.current;
-    if (!el) return;
+    if (!el || !isDesktop) return;
 
-    const reduced = prefersReducedMotion();
+    const stages = gsap.utils.toArray<HTMLElement>("[data-stage]", el);
+    const stage = stages[active];
+    if (!stage) return;
 
-    /*
-     * Below md the pinned 3D sequence is replaced by a stacked list, so the
-     * timeline must not be built at all — pinning a hidden element leaves a
-     * stray spacer and breaks the sections after it.
-     */
-    if (!isDesktop) return;
+    const bg = stage.querySelector<HTMLElement>("[data-layer='bg']")!;
+    const blob = stage.querySelector<HTMLElement>("[data-layer='blob']")!;
+    const main = stage.querySelector<HTMLElement>("[data-layer='main']")!;
+    const chips = gsap.utils.toArray<HTMLElement>("[data-layer='chip']", stage);
+    const rot = SCENES[active]!.shape.mainRotate;
 
-    const depth = 1;
+    // Crossfade: the outgoing scene sinks away under the incoming one.
+    stages.forEach((s, i) => {
+      gsap.to(s, {
+        opacity: i === active ? 1 : 0,
+        duration: reduced ? 0 : 0.9,
+        ease: "power2.inOut",
+        overwrite: "auto",
+      });
+    });
 
-    const ctx = gsap.context(() => {
-      const stages = gsap.utils.toArray<HTMLElement>("[data-stage]");
+    // Static, readable fallback for reduced motion.
+    if (reduced) {
+      gsap.set(bg, { opacity: 1, clearProps: "transform" });
+      gsap.set(blob, { opacity: 0.7, clearProps: "transform" });
+      gsap.set([main, ...chips], { opacity: 1, clearProps: "transform" });
+      return;
+    }
 
-      // Static, readable fallback for reduced motion.
-      if (reduced) {
-        gsap.set(stages, { opacity: 1, position: "relative" });
-        return;
-      }
+    const secs = SCENE_MS / 1000;
+    const settle = 1.5;
+    const tl = gsap.timeline({ defaults: { overwrite: "auto" } });
 
-      gsap.set(stages, { opacity: 0 });
-      gsap.set(stages[0]!, { opacity: 1 });
-
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: el,
-          start: "top top",
-          end: () => `+=${SCENES.length * 120}%`,
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.8,
-          anticipatePin: 1,
-          /*
-           * This section pins and sits above another pinned section
-           * (PatientStories). The earlier pin must be measured first,
-           * or the later one inherits a stale start and pins while this
-           * one is still fixed — the two then overlap on screen.
-           */
-          refreshPriority: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const i = Math.min(
-              SCENES.length - 1,
-              Math.floor(self.progress * SCENES.length + 0.0001),
-            );
-            setActive(i);
-          },
+    tl
+      // Assemble: the plate arrives out of depth and squares up.
+      .fromTo(
+        main,
+        {
+          z: -260,
+          rotateX: rot[0],
+          rotateY: rot[1] * 1.6,
+          rotateZ: rot[2] * 0.4,
+          scale: 0.86,
+          xPercent: 0,
+          yPercent: 6,
+          opacity: 0,
         },
-      });
+        {
+          z: 40,
+          rotateX: 0,
+          rotateY: 0,
+          rotateZ: 0,
+          scale: 1,
+          xPercent: 0,
+          yPercent: 0,
+          opacity: 1,
+          duration: settle,
+          ease: "power3.out",
+        },
+        0,
+      )
+      // Then drift toward the viewer for the rest of its turn.
+      .to(
+        main,
+        {
+          z: 170,
+          rotateX: rot[0] * 0.4,
+          rotateY: rot[1] * 0.5,
+          rotateZ: rot[2] * 0.6,
+          xPercent: -4,
+          scale: 1.05,
+          duration: secs - settle,
+          ease: "sine.inOut",
+        },
+        settle,
+      )
+      .fromTo(
+        bg,
+        { z: -700, scale: 1.25, opacity: 0 },
+        { z: -440, scale: 1.12, opacity: 1, duration: 1.4, ease: "power2.out" },
+        0,
+      )
+      .to(bg, { z: -880, scale: 1.28, duration: secs - 1.4, ease: "sine.inOut" }, 1.4)
+      .fromTo(
+        blob,
+        { z: -420, xPercent: 0, yPercent: 0, rotate: 0, opacity: 0 },
+        { opacity: 0.7, duration: 1.2, ease: "power2.out" },
+        0,
+      )
+      .to(
+        blob,
+        { z: -540, xPercent: 16, yPercent: -10, rotate: 22, duration: secs, ease: "sine.inOut" },
+        0,
+      );
 
-      stages.forEach((stage, i) => {
-        const bg = stage.querySelector<HTMLElement>("[data-layer='bg']")!;
-        const blob = stage.querySelector<HTMLElement>("[data-layer='blob']")!;
-        const main = stage.querySelector<HTMLElement>("[data-layer='main']")!;
-        const chips = gsap.utils.toArray<HTMLElement>("[data-layer='chip']", stage);
-        const rot = SCENES[i]!.shape.mainRotate;
-        const t = i;
+    chips.forEach((chip, ci) => {
+      tl.fromTo(
+        chip,
+        { z: 0, xPercent: 0, yPercent: 0, rotate: 0, opacity: 0 },
+        { opacity: 1, duration: 1, ease: "power2.out" },
+        0.15 * ci,
+      ).to(
+        chip,
+        {
+          z: 110 + ci * 80,
+          xPercent: (ci % 2 === 0 ? 1 : -1) * (26 + ci * 12),
+          yPercent: (ci % 2 === 0 ? -1 : 1) * (18 + ci * 9),
+          rotate: (ci % 2 === 0 ? 1 : -1) * 20,
+          duration: secs,
+          ease: "sine.inOut",
+        },
+        0,
+      );
+    });
 
-        // Scene 01 — assembled composition
-        tl.fromTo(
-          stage,
-          { opacity: i === 0 ? 1 : 0 },
-          { opacity: 1, duration: 0.18 },
-          Math.max(0, t - 0.18),
-        )
-          .fromTo(
-            main,
-            { z: -260 * depth, rotateY: rot[1] * 1.6, rotateX: rot[0], scale: 0.86, yPercent: 6 },
-            { z: 0, rotateY: 0, rotateX: 0, scale: 1, yPercent: 0, duration: 0.3 },
-            Math.max(0, t - 0.18),
-          )
-          .fromTo(
-            bg,
-            { z: -700 * depth, scale: 1.25, opacity: 0 },
-            { z: -420 * depth, scale: 1.12, opacity: 1, duration: 0.3 },
-            Math.max(0, t - 0.18),
-          )
-
-          // Scene 02 — deconstruction: layers pull apart along Z
-          .to(bg, { z: -900 * depth, scale: 1.3, duration: 0.42 }, t + 0.02)
-          .to(
-            main,
-            {
-              z: 180 * depth,
-              rotateX: rot[0],
-              rotateY: rot[1],
-              rotateZ: rot[2],
-              xPercent: -6,
-              duration: 0.42,
-            },
-            t + 0.02,
-          )
-          .to(
-            blob,
-            { z: -520 * depth, xPercent: 18, yPercent: -12, rotate: 28, duration: 0.42 },
-            t + 0.02,
-          );
-
-        chips.forEach((chip, ci) => {
-          tl.to(
-            chip,
-            {
-              z: (120 + ci * 90) * depth,
-              xPercent: (ci % 2 === 0 ? 1 : -1) * (30 + ci * 14),
-              yPercent: (ci % 2 === 0 ? -1 : 1) * (22 + ci * 10),
-              rotate: (ci % 2 === 0 ? 1 : -1) * 24,
-              duration: 0.42,
-            },
-            t + 0.02,
-          );
-        });
-
-        // Scene 03 — transformation: the arrangement re-forms
-        tl.to(
-          main,
-          {
-            rotateY: -rot[1] * 1.4,
-            rotateX: -rot[0] * 0.6,
-            rotateZ: -rot[2],
-            z: 60 * depth,
-            xPercent: 5,
-            scale: 1.04,
-            duration: 0.28,
-          },
-          t + 0.5,
-        )
-          .to(blob, { xPercent: -14, yPercent: 10, rotate: -20, duration: 0.28 }, t + 0.5)
-
-          // Scene 04 — hand-off into the next treatment
-          .to(
-            main,
-            { z: 520 * depth, scale: 1.18, opacity: 0, rotateY: rot[1] * 0.5, duration: 0.24 },
-            t + 0.8,
-          )
-          .to(bg, { opacity: 0, scale: 1.4, duration: 0.24 }, t + 0.82)
-          .to(stage, { opacity: i === SCENES.length - 1 ? 1 : 0, duration: 0.2 }, t + 0.84);
-
-        if (chips.length) tl.to(chips, { opacity: 0, duration: 0.2 }, t + 0.8);
-      });
-    }, el);
-
-    return () => ctx.revert();
-  }, [isDesktop]);
+    return () => {
+      tl.kill();
+    };
+  }, [active, isDesktop, reduced]);
 
   const scene = SCENES[active]!;
+
+  const goTo = (i: number) => {
+    setActive(i);
+    setCycle((c) => c + 1);
+  };
 
   return (
     <section
@@ -262,9 +292,9 @@ export function TreatmentSequence() {
       {/*
         ---------- mobile: stacked list ----------
 
-        The pinned 3D sequence needs a tall viewport and a hover-free pointer
-        to read at all; on a phone the copy landed on top of the plate. Below
-        md the same content is a plain scrollable list instead.
+        The 3D sequence needs a tall viewport and a hover-free pointer to read
+        at all; on a phone the copy landed on top of the plate. Below md the
+        same content is a plain scrollable list instead.
       */}
       <div className="md:hidden">
         <Container wide className="py-14">
@@ -313,7 +343,7 @@ export function TreatmentSequence() {
         </Container>
       </div>
 
-      {/* ---------- desktop: pinned 3D sequence ---------- */}
+      {/* ---------- desktop: auto-playing 3D sequence ---------- */}
       <div ref={root} className="relative z-20 hidden h-svh overflow-hidden md:block">
         {/*
           ---------- 3D visual space ----------
@@ -324,7 +354,7 @@ export function TreatmentSequence() {
         */}
         <div className="seq-space absolute inset-y-0 left-0 right-0 md:left-[28%]">
           {SCENES.map((s) => (
-            <div key={s.id} data-stage className="seq-stage absolute inset-0">
+            <div key={s.id} data-stage className="seq-stage absolute inset-0 opacity-0">
               <div
                 data-layer="bg"
                 aria-hidden
@@ -348,7 +378,7 @@ export function TreatmentSequence() {
                   className={cn(
                     /*
                      * The plate is capped in height so it cannot outgrow the
-                     * pinned stage as the scroll pushes it toward the viewer.
+                     * stage as the loop drifts it toward the viewer.
                      */
                     "seq-plate relative max-h-[58svh] overflow-hidden max-md:!w-[88%] max-md:max-h-[46svh]",
                     leadImage(s.service)?.fit === "contain"
@@ -426,15 +456,44 @@ export function TreatmentSequence() {
             </div>
           </div>
 
-          <div className="mt-8 flex gap-2" aria-hidden>
+          {/*
+            The bar used to track scroll progress; now it tracks the
+            auto-play and doubles as a way to jump between treatments —
+            the only way through the set when motion is reduced.
+          */}
+          <div className="pointer-events-auto mt-8 flex gap-2">
             {SCENES.map((s, i) => (
-              <span
+              <button
                 key={s.id}
-                className={cn(
-                  "h-px flex-1 origin-left transition-all duration-500 ease-cinematic",
-                  i <= active ? "bg-ink/60" : "bg-ink/15",
-                )}
-              />
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={s.service.title}
+                aria-current={i === active}
+                className="group relative h-6 flex-1 cursor-pointer"
+              >
+                <span
+                  className={cn(
+                    "absolute inset-x-0 top-1/2 h-px -translate-y-1/2 overflow-hidden bg-ink/15 transition-colors duration-500 ease-cinematic",
+                    i !== active && "group-hover:bg-ink/40",
+                  )}
+                >
+                  {i === active && (
+                    /*
+                     * Keyed on the cycle so the fill restarts with the
+                     * timer; with the timer stopped it simply sits full.
+                     */
+                    <span
+                      key={cycle}
+                      className="absolute inset-0 origin-left bg-ink/60"
+                      style={
+                        playing
+                          ? { animation: `seq-progress ${SCENE_MS}ms linear forwards` }
+                          : undefined
+                      }
+                    />
+                  )}
+                </span>
+              </button>
             ))}
           </div>
         </div>
