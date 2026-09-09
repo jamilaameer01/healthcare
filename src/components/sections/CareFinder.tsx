@@ -69,10 +69,17 @@ export function CareFinder() {
   return (
     <section
       id="discover"
-      className={cn("py-24 transition-colors duration-700 ease-cinematic md:py-36", current.tone)}
+      className={cn("py-10 transition-colors duration-700 ease-cinematic", current.tone)}
     >
       <Container wide>
-        <TextReveal className="display-md max-w-[18ch]" lines={["What are you", "looking for?"]} />
+        <TextReveal
+          className="display-md mx-auto max-w-[18ch] text-center text-ink"
+          lines={[
+            <>
+              What are you <span className="text-clay">looking for?</span>
+            </>,
+          ]}
+        />
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
@@ -122,7 +129,7 @@ export function CareFinder() {
             </div>
           </div>
 
-          <div className="media-depth-drift relative aspect-4/3 w-full overflow-hidden rounded-lg bg-linen lg:aspect-4/5">
+          <div className="media-depth-drift relative aspect-4/3 w-full overflow-hidden rounded-lg bg-linen lg:aspect-5/4 lg:max-h-[600px]">
             {OPTIONS.map((o, i) => (
               <img
                 key={o.id}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ElementType } from "react";
+import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 import { gsap, registerGsap, prefersReducedMotion, ScrollTrigger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -13,7 +13,8 @@ export function TextReveal({
   stagger = 0.1,
   immediate = false,
 }: {
-  lines: string[];
+  /** Plain strings, or nodes when a line needs its own emphasis colour. */
+  lines: ReactNode[];
   className?: string;
   as?: ElementType;
   delay?: number;
@@ -58,8 +59,8 @@ export function TextReveal({
 
   return (
     <Component ref={ref as never} className={cn(className)}>
-      {lines.map((line) => (
-        <span key={line} className="block overflow-hidden pb-[0.08em]">
+      {lines.map((line, index) => (
+        <span key={index} className="block overflow-hidden pb-[0.08em]">
           <span data-reveal-line className="block" style={{ opacity: 0 }}>
             {line}
           </span>
