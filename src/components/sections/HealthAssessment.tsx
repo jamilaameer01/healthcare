@@ -13,7 +13,6 @@ const SYSTEMS = [
   { name: "Musculoskeletal", copy: "Strength, mobility, pain and injury history." },
   { name: "Mental wellbeing", copy: "Stress, focus and how you actually feel day to day." },
   // { name: "Nutrition", copy: "Diet, deficiencies and practical everyday change." },
-
 ];
 
 /**

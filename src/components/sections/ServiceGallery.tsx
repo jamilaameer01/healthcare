@@ -54,7 +54,10 @@ export function ServiceGallery() {
       <Container wide>
         <div className="max-w-3xl">
           <p className="label-mono text-clay">More ways to feel well</p>
-          <TextReveal className="display-lg mt-6" lines={["Care that sees", "the whole picture."]} />
+          <TextReveal
+            className="display-lg mt-6"
+            lines={["Care that sees", "the whole picture."]}
+          />
         </div>
         <div className="mt-20 space-y-20 md:mt-28 md:space-y-32 lg:space-y-44">
           {SERVICES.map((item) => (

@@ -15,6 +15,7 @@ import { Education } from "@/components/sections/Education";
 import { HealthTools } from "@/components/sections/HealthTools";
 import { Contact } from "@/components/sections/Contact";
 import { FinalCTA } from "@/components/sections/FinalCTA";
+import { DigitalCare } from "@/components/sections/DigitalCare";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -43,6 +44,7 @@ function Index() {
     <>
       <Hero />
       <CareCategories />
+      <DigitalCare />
       <CareFinder />
       <TreatmentSequence />
       <Connected />

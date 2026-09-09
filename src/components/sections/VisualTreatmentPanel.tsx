@@ -107,7 +107,9 @@ export function VisualTreatmentPanel({ treatment }: { treatment: VisualTreatment
           treatment.imagePosition,
         )}
       />
-      <div className={cn("absolute inset-0", light ? "treatment-scrim-light" : "treatment-scrim-dark")} />
+      <div
+        className={cn("absolute inset-0", light ? "treatment-scrim-light" : "treatment-scrim-dark")}
+      />
 
       <div
         className={cn(

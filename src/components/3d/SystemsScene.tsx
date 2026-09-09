@@ -1,13 +1,6 @@
 import { useMemo, useRef } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import {
-  Color,
-  Group,
-  Mesh,
-  MeshStandardMaterial,
-  ShaderMaterial,
-  TextureLoader,
-} from "three";
+import { Color, Group, Mesh, MeshStandardMaterial, ShaderMaterial, TextureLoader } from "three";
 import type { SceneProps } from "./Stage";
 
 const CENTER_IMAGE =
@@ -34,57 +27,32 @@ const ACTIVE_COLOR = new Color("#F3A16D");
 
 const PILL_COUNT = 28;
 
-export default function SystemsScene({
-  quality,
-  progress,
-  pointer,
-}: SceneProps) {
+export default function SystemsScene({ quality, progress, pointer }: SceneProps) {
   const group = useRef<Group>(null);
   const pills = useRef<(Group | null)[]>([]);
 
-  const centerTexture = useLoader(
-    TextureLoader,
-    CENTER_IMAGE,
-  );
+  const centerTexture = useLoader(TextureLoader, CENTER_IMAGE);
 
   const pillData = useMemo(
     () =>
-      Array.from(
-        { length: PILL_COUNT },
-        (_, i) => ({
-          angle:
-            (i / PILL_COUNT) *
-            Math.PI *
-            2,
+      Array.from({ length: PILL_COUNT }, (_, i) => ({
+        angle: (i / PILL_COUNT) * Math.PI * 2,
 
-          radius:
-            1.25 +
-            (i % 5) * 0.16,
+        radius: 1.25 + (i % 5) * 0.16,
 
-          speed:
-            0.22 +
-            (i % 4) * 0.07,
+        speed: 0.22 + (i % 4) * 0.07,
 
-          y:
-            Math.sin(i * 1.7) *
-            0.45,
+        y: Math.sin(i * 1.7) * 0.45,
 
-          scale:
-            0.095 +
-            (i % 3) * 0.018,
+        scale: 0.095 + (i % 3) * 0.018,
 
-          color:
-            PILL_COLORS[
-              i % PILL_COLORS.length
-            ],
-        }),
-      ),
+        color: PILL_COLORS[i % PILL_COLORS.length],
+      })),
     [],
   );
 
   useFrame((state, delta) => {
-    const t =
-      state.clock.elapsedTime;
+    const t = state.clock.elapsedTime;
 
     const g = group.current;
 
@@ -108,15 +76,9 @@ export default function SystemsScene({
      * Remove this too if you want the
      * entire scene completely fixed.
      */
-    g.rotation.x +=
-      (pointer.current.y * 0.08 -
-        g.rotation.x) *
-      Math.min(1, delta * 3);
+    g.rotation.x += (pointer.current.y * 0.08 - g.rotation.x) * Math.min(1, delta * 3);
 
-    g.position.x +=
-      (pointer.current.x * 0.035 -
-        g.position.x) *
-      Math.min(1, delta * 3);
+    g.position.x += (pointer.current.x * 0.035 - g.position.x) * Math.min(1, delta * 3);
 
     /*
      * --------------------------------
@@ -124,16 +86,7 @@ export default function SystemsScene({
      * --------------------------------
      */
 
-    const activeIdx = Math.round(
-      Math.min(
-        1,
-        Math.max(
-          0,
-          progress.current,
-        ),
-      ) *
-        (PILL_COUNT - 1),
-    );
+    const activeIdx = Math.round(Math.min(1, Math.max(0, progress.current)) * (PILL_COUNT - 1));
 
     /*
      * --------------------------------
@@ -141,178 +94,85 @@ export default function SystemsScene({
      * --------------------------------
      */
 
-    pills.current.forEach(
-      (pill, i) => {
-        if (!pill) return;
+    pills.current.forEach((pill, i) => {
+      if (!pill) return;
 
-        const data = pillData[i];
+      const data = pillData[i];
 
-        /*
-         * Continuous orbit
-         */
-        const angle =
-          data.angle +
-          t * data.speed;
+      /*
+       * Continuous orbit
+       */
+      const angle = data.angle + t * data.speed;
 
-        /*
-         * 3D elliptical orbit
-         */
-        const x =
-          Math.cos(angle) *
-          data.radius;
+      /*
+       * 3D elliptical orbit
+       */
+      const x = Math.cos(angle) * data.radius;
 
-        const z =
-          Math.sin(angle) *
-          data.radius *
-          0.72;
+      const z = Math.sin(angle) * data.radius * 0.72;
 
-        const y =
-          data.y +
-          Math.sin(
-            t * 0.9 +
-              i * 1.35,
-          ) *
-            0.1;
+      const y = data.y + Math.sin(t * 0.9 + i * 1.35) * 0.1;
 
-        /*
-         * Smooth position
-         */
-        pill.position.x +=
-          (x -
-            pill.position.x) *
-          Math.min(
-            1,
-            delta * 9,
-          );
+      /*
+       * Smooth position
+       */
+      pill.position.x += (x - pill.position.x) * Math.min(1, delta * 9);
 
-        pill.position.y +=
-          (y -
-            pill.position.y) *
-          Math.min(
-            1,
-            delta * 9,
-          );
+      pill.position.y += (y - pill.position.y) * Math.min(1, delta * 9);
 
-        pill.position.z +=
-          (z -
-            pill.position.z) *
-          Math.min(
-            1,
-            delta * 9,
-          );
+      pill.position.z += (z - pill.position.z) * Math.min(1, delta * 9);
 
-        /*
-         * --------------------------------
-         * ACTIVE STATE
-         * --------------------------------
-         */
+      /*
+       * --------------------------------
+       * ACTIVE STATE
+       * --------------------------------
+       */
 
-        const active =
-          i === activeIdx;
+      const active = i === activeIdx;
 
-        const targetScale =
-          active
-            ? data.scale * 1.5
-            : data.scale;
+      const targetScale = active ? data.scale * 1.5 : data.scale;
 
-        pill.scale.x +=
-          (targetScale -
-            pill.scale.x) *
-          Math.min(
-            1,
-            delta * 10,
-          );
+      pill.scale.x += (targetScale - pill.scale.x) * Math.min(1, delta * 10);
 
-        pill.scale.y +=
-          (targetScale -
-            pill.scale.y) *
-          Math.min(
-            1,
-            delta * 10,
-          );
+      pill.scale.y += (targetScale - pill.scale.y) * Math.min(1, delta * 10);
 
-        pill.scale.z +=
-          (targetScale -
-            pill.scale.z) *
-          Math.min(
-            1,
-            delta * 10,
-          );
+      pill.scale.z += (targetScale - pill.scale.z) * Math.min(1, delta * 10);
 
-        /*
-         * --------------------------------
-         * TABLET ROTATION
-         * --------------------------------
-         */
+      /*
+       * --------------------------------
+       * TABLET ROTATION
+       * --------------------------------
+       */
 
-        pill.rotation.x +=
-          delta *
-          (active
-            ? 0.35
-            : 0.16);
+      pill.rotation.x += delta * (active ? 0.35 : 0.16);
 
-        pill.rotation.y +=
-          delta *
-          (active
-            ? 0.45
-            : 0.2);
+      pill.rotation.y += delta * (active ? 0.45 : 0.2);
 
-        pill.rotation.z +=
-          delta *
-          (active
-            ? 0.2
-            : 0.08);
+      pill.rotation.z += delta * (active ? 0.2 : 0.08);
 
-        /*
-         * --------------------------------
-         * TABLET COLORS
-         * --------------------------------
-         */
+      /*
+       * --------------------------------
+       * TABLET COLORS
+       * --------------------------------
+       */
 
-        const mesh =
-          pill.children[0] as Mesh;
+      const mesh = pill.children[0] as Mesh;
 
-        if (
-          mesh &&
-          mesh.material
-        ) {
-          const material =
-            mesh.material as MeshStandardMaterial;
+      if (mesh && mesh.material) {
+        const material = mesh.material as MeshStandardMaterial;
 
-          const targetColor =
-            active
-              ? ACTIVE_COLOR
-              : new Color(
-                  data.color,
-                );
+        const targetColor = active ? ACTIVE_COLOR : new Color(data.color);
 
-          material.color.lerp(
-            targetColor,
-            Math.min(
-              1,
-              delta * 8,
-            ),
-          );
+        material.color.lerp(targetColor, Math.min(1, delta * 8));
 
-          material.emissive.lerp(
-            active
-              ? ACTIVE_COLOR
-              : new Color(
-                  "#000000",
-                ),
-            Math.min(
-              1,
-              delta * 6,
-            ),
-          );
+        material.emissive.lerp(
+          active ? ACTIVE_COLOR : new Color("#000000"),
+          Math.min(1, delta * 6),
+        );
 
-          material.emissiveIntensity =
-            active
-              ? 0.12
-              : 0;
-        }
-      },
-    );
+        material.emissiveIntensity = active ? 0.12 : 0;
+      }
+    });
   });
 
   return (
@@ -321,79 +181,47 @@ export default function SystemsScene({
           LIGHTING
       -------------------------------- */}
 
-      <ambientLight
-        intensity={0.9}
-      />
+      <ambientLight intensity={0.9} />
 
-      <directionalLight
-        position={[3, 4, 5]}
-        intensity={1.3}
-        color="#fff3e6"
-      />
+      <directionalLight position={[3, 4, 5]} intensity={1.3} color="#fff3e6" />
 
-      <directionalLight
-        position={[-4, -2, -3]}
-        intensity={0.35}
-        color="#9db8c6"
-      />
+      <directionalLight position={[-4, -2, -3]} intensity={0.35} color="#9db8c6" />
 
       {/* --------------------------------
           STATIC CENTER IMAGE
           Rounded transparent corners
       -------------------------------- */}
 
-      <mesh
-        position={[0, 0, 0]}
-        scale={[1.25, 1.25, 1]}
-      >
-        <planeGeometry
-          args={[1.6, 1.6]}
-        />
+      <mesh position={[0, 0, 0]} scale={[1.25, 1.25, 1]}>
+        <planeGeometry args={[1.6, 1.6]} />
 
-        <RoundedImageMaterial
-          texture={centerTexture}
-        />
+        <RoundedImageMaterial texture={centerTexture} />
       </mesh>
 
       {/* --------------------------------
           MULTI-COLOR TABLETS
       -------------------------------- */}
 
-      {pillData.map(
-        (pill, i) => (
-          <group
-            key={i}
-            ref={(el) => {
-              pills.current[i] =
-                el;
-            }}
-          >
-            <mesh>
-              <capsuleGeometry
-                args={[
-                  0.28,
-                  0.5,
-                  8,
-                  quality ===
-                  "high"
-                    ? 16
-                    : 8,
-                ]}
-              />
+      {pillData.map((pill, i) => (
+        <group
+          key={i}
+          ref={(el) => {
+            pills.current[i] = el;
+          }}
+        >
+          <mesh>
+            <capsuleGeometry args={[0.28, 0.5, 8, quality === "high" ? 16 : 8]} />
 
-              <meshStandardMaterial
-                color={
-                  pill.color
-                }
-                roughness={0.28}
-                metalness={0.02}
-                emissive="#000000"
-                emissiveIntensity={0}
-              />
-            </mesh>
-          </group>
-        ),
-      )}
+            <meshStandardMaterial
+              color={pill.color}
+              roughness={0.28}
+              metalness={0.02}
+              emissive="#000000"
+              emissiveIntensity={0}
+            />
+          </mesh>
+        </group>
+      ))}
     </group>
   );
 }
@@ -410,12 +238,7 @@ export default function SystemsScene({
 function RoundedImageMaterial({
   texture,
 }: {
-  texture: ReturnType<
-    typeof useLoader<
-      typeof TextureLoader,
-      string
-    >
-  >;
+  texture: ReturnType<typeof useLoader<typeof TextureLoader, string>>;
 }) {
   const material = useMemo(
     () =>
@@ -518,10 +341,5 @@ function RoundedImageMaterial({
     [texture],
   );
 
-  return (
-    <primitive
-      object={material}
-      attach="material"
-    />
-  );
+  return <primitive object={material} attach="material" />;
 }

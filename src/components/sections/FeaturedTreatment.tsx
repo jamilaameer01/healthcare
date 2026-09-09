@@ -26,7 +26,8 @@ const FEATURED_TREATMENTS: VisualTreatment[] = [
     number: "02",
     eyebrow: "Weight management",
     title: "Progress, built around you.",
-    statement: "A plan shaped by your health, habits and goals — with treatment when it is right for you.",
+    statement:
+      "A plan shaped by your health, habits and goals — with treatment when it is right for you.",
     image: weight,
     alt: "A person preparing a fresh balanced meal in a sunlit kitchen",
     tone: "dark",
@@ -54,10 +55,7 @@ export function FeaturedTreatment() {
       <Container wide>
         <Reveal className="mx-auto max-w-3xl text-center" stagger={0.08}>
           <p className="label-mono text-clay">Care, made visible</p>
-          <TextReveal
-            className="display-lg mt-6"
-            lines={["Treatment that", "fits your life."]}
-          />
+          <TextReveal className="display-lg mt-6" lines={["Treatment that", "fits your life."]} />
           <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-ink-soft">
             Personal care, shown simply — from the first conversation to every step after.
           </p>
