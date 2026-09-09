@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./Container";
 import { site } from "@/content/thryve";
+import logo from "@/assets/logo.png";
 
 const SOCIALS = [
   { label: "Instagram", href: site.instagram },
@@ -14,11 +15,16 @@ export function Footer() {
       <Container wide>
         <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr_0.9fr] md:gap-12">
           <div>
-            <div className="flex items-center gap-2">
-              <span aria-hidden className="size-2 rounded-full bg-clay" />
-              <span className="text-[15px] font-medium tracking-[-0.02em]">{site.name}</span>
-            </div>
-            <p className="mt-3 max-w-xs text-sm text-on-dark-soft">{site.tagline}</p>
+            {/* The full lockup reads properly at this size, on the dark ground. */}
+            <img
+              src={logo}
+              alt={site.name}
+              width={512}
+              height={512}
+              loading="lazy"
+              className="h-24 w-auto"
+            />
+            <p className="mt-4 max-w-xs text-sm text-on-dark-soft">{site.tagline}</p>
             <p className="mt-5 text-sm text-on-dark-soft">{site.address.join(", ")}</p>
           </div>
 

@@ -97,7 +97,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={root} className="relative overflow-hidden bg-ivory pt-28 md:pt-32">
+    <section ref={root} className="relative overflow-hidden bg-ivory pt-36 md:pt-44">
       {/* Ambient background video — decorative, sits behind everything. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <video
@@ -155,16 +155,7 @@ export function Hero() {
               </ActionLink>
             </div>
 
-            <ul data-hero-fade className="mt-9 flex flex-wrap gap-2 opacity-0">
-              {BADGES.map((badge) => (
-                <li
-                  key={badge}
-                  className="rounded-full border border-line bg-white/60 px-3.5 py-1.5 text-sm text-ink-soft backdrop-blur-sm"
-                >
-                  {badge}
-                </li>
-              ))}
-            </ul>
+        
 
            
           </div>

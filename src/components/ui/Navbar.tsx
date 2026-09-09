@@ -5,6 +5,7 @@ import { Container } from "./Container";
 import { ActionLink } from "./ActionButton";
 import { cn } from "@/lib/utils";
 import { site } from "@/content/thryve";
+import logo from "@/assets/logo.png";
 
 const LINKS = [
   { label: "Home", to: "/" },
@@ -64,14 +65,21 @@ export function Navbar() {
         wide
         className={cn(
           "flex items-center justify-between transition-[height] duration-500 ease-cinematic",
-          scrolled ? "h-16" : "h-20 md:h-24",
+          scrolled ? "h-20" : "h-28 md:h-32",
         )}
       >
-        <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span aria-hidden className="size-2 rounded-full bg-clay" />
-          <span className="font-display text-[17px] font-medium tracking-[-0.03em]">
-            {site.name}
-          </span>
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
+          {/* Logo only — the alt text carries the brand name for assistive tech. */}
+          <img
+            src={logo}
+            alt={site.name}
+            width={512}
+            height={512}
+            className={cn(
+              "w-auto transition-[height] duration-500 ease-cinematic",
+              scrolled ? "h-16" : "h-24 md:h-28",
+            )}
+          />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
@@ -131,7 +139,7 @@ export function Navbar() {
       </Container>
 
       {open ? (
-        <div ref={menuRef} className="fixed inset-0 top-0 z-40 bg-ivory pt-24 lg:hidden">
+        <div ref={menuRef} className="fixed inset-0 top-0 z-40 bg-ivory pt-32 lg:hidden">
           <Container className="flex h-full flex-col justify-between pb-12">
             <nav aria-label="Mobile" className="flex flex-col">
               {LINKS.map((l) => (
