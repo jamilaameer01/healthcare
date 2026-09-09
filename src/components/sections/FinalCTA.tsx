@@ -33,11 +33,7 @@ export function FinalCTA() {
                 <ActionLink href={site.bookingUrl} external variant="onDark">
                   Book an appointment
                 </ActionLink>
-                <ActionLink
-                  href={site.phoneHref}
-                  variant="onDarkOutline"
-                  withArrow={false}
-                >
+                <ActionLink href={site.phoneHref} variant="onDarkOutline" withArrow={false}>
                   {site.phone}
                 </ActionLink>
               </div>

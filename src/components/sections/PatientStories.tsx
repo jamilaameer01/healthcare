@@ -55,12 +55,48 @@ export function PatientStories() {
    * the DOM and neither carries a z-index.
    */
   return (
-    <section id="team" ref={root} className="isolate bg-ink py-10 text-linen md:py-0">
-      <div data-story-stage className="md:flex md:min-h-screen md:items-center md:py-10">
+    <section id="team" ref={root} className="isolate bg-ink py-14 text-linen md:py-0">
+      {/*
+        ---------- mobile: stacked list ----------
+
+        The pinned rotation only runs at md+, so below that the three people
+        would have shown as stacked quotes against a single frozen portrait.
+        Each one gets its own block instead.
+      */}
+      <div className="md:hidden">
+        <Container wide>
+          <p className="label-mono text-clay">Meet the people behind your care</p>
+
+          <div className="mt-8 space-y-12">
+            {STORIES.map((s) => (
+              <article key={s.name}>
+                <div className="aspect-4/5 w-full max-w-[300px] overflow-hidden rounded-lg bg-mist">
+                  <img
+                    src={s.image}
+                    alt={s.alt}
+                    loading="lazy"
+                    width={1200}
+                    height={1500}
+                    className="size-full object-cover object-top"
+                  />
+                </div>
+
+                <p className="mt-6 text-base leading-[1.65] text-on-dark">{s.excerpt}</p>
+                <p className="mt-4 text-sm text-on-dark-soft">
+                  {s.name} · {s.detail}
+                </p>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </div>
+
+      {/* ---------- desktop: pinned rotation ---------- */}
+      <div data-story-stage className="hidden md:flex md:min-h-screen md:items-center md:py-10">
         <Container wide>
           <div className="mx-auto grid max-w-[1180px] gap-10 md:grid-cols-[1fr_0.7fr] md:items-center md:gap-12">
             <div>
-                <p className="label-mono text-clay">Meet the people behind your care</p>
+              <p className="label-mono text-clay">Meet the people behind your care</p>
 
               {/*
                 The quotes are stacked absolutely, so this box has to reserve
@@ -72,11 +108,10 @@ export function PatientStories() {
                   <blockquote
                     key={s.name}
                     className={cn(
-                      "transition-all duration-700 ease-cinematic md:absolute md:inset-0",
+                      "absolute inset-0 transition-all duration-700 ease-cinematic",
                       i === active
-                        ? "opacity-100 md:translate-y-0"
-                        : "md:pointer-events-none md:translate-y-6 md:opacity-0",
-                      i !== active ? "mt-14 md:mt-0" : "",
+                        ? "translate-y-0 opacity-100"
+                        : "pointer-events-none translate-y-6 opacity-0",
                     )}
                   >
                     {/* Dark section: keep type on the on-dark palette. */}

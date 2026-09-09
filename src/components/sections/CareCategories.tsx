@@ -47,7 +47,7 @@ const CATEGORIES = [
 
 export function CareCategories() {
   return (
-    <section id="care" className="bg-sand py-24 md:py-36">
+    <section id="care" className="bg-sand py-16 md:py-24">
       <Container wide>
         <div className="flex flex-wrap items-end justify-between gap-8">
           <TextReveal className="display-md max-w-[16ch]" lines={["Start with", "your goal."]} />

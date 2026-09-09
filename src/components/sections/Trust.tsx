@@ -110,7 +110,7 @@ export function Trust() {
           <dl className="lg:pt-1">
             {FIGURES.map((f) => (
               <div key={f.label} className="border-t border-ink/12 py-7 first:border-t-0 lg:py-8">
-                <div className="flex items-baseline justify-between gap-8">
+                <div className="flex items-baseline justify-between gap-4 sm:gap-8">
                   <dt className="max-w-[24ch] text-sm leading-relaxed text-ink-soft">{f.label}</dt>
                   <dd className="display-md shrink-0 tabular-nums text-ink">
                     <span data-figure data-value={f.value}>

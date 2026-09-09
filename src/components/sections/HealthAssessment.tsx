@@ -23,7 +23,7 @@ export function HealthAssessment() {
   };
 
   return (
-    <section id="assessment" className="bg-sand py-12 md:py-16">
+    <section id="assessment" className="overflow-hidden bg-sand py-12 md:py-16">
       <Container wide>
         <p className="label-mono text-clay">Testing and assessment</p>
         <div className="mt-8 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-14">
@@ -57,7 +57,7 @@ export function HealthAssessment() {
                     </span>
                     <span
                       className={cn(
-                        "max-w-[22ch] text-sm leading-relaxed text-ink-soft transition-opacity duration-500 ease-cinematic",
+                        "hidden max-w-[22ch] text-sm leading-relaxed text-ink-soft transition-opacity duration-500 ease-cinematic sm:block",
                         i === active ? "opacity-100" : "opacity-0 md:opacity-40",
                       )}
                     >

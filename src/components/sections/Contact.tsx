@@ -85,7 +85,7 @@ export function Contact() {
               title={`Map showing ${site.name} in Naples, Florida`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              className="h-[420px] w-full rounded-md grayscale-[0.9] contrast-[0.95]"
+              className="h-[300px] w-full rounded-md grayscale-[0.9] contrast-[0.95] sm:h-[360px] lg:h-[420px]"
               src={`https://www.google.com/maps?q=${site.mapQuery}&output=embed`}
             />
             <p className="px-1 pb-1 pt-4 text-xs text-ink-soft">

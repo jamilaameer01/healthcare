@@ -63,7 +63,7 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section ref={root} className="dark-section py-24 md:py-36">
+    <section ref={root} className="dark-section py-16 md:py-24">
       <Container wide>
         <TextReveal
           className="display-md max-w-[18ch] text-on-dark"

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ActionLink } from "@/components/ui/ActionButton";
+import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
 import { gsap, prefersReducedMotion, registerGsap, useMediaQuery } from "@/lib/motion";
 
@@ -105,7 +106,15 @@ export function TreatmentSequence() {
     if (!el) return;
 
     const reduced = prefersReducedMotion();
-    const depth = isDesktop ? 1 : 0.55;
+
+    /*
+     * Below md the pinned 3D sequence is replaced by a stacked list, so the
+     * timeline must not be built at all — pinning a hidden element leaves a
+     * stray spacer and breaks the sections after it.
+     */
+    if (!isDesktop) return;
+
+    const depth = 1;
 
     const ctx = gsap.context(() => {
       const stages = gsap.utils.toArray<HTMLElement>("[data-stage]");
@@ -124,7 +133,7 @@ export function TreatmentSequence() {
         scrollTrigger: {
           trigger: el,
           start: "top top",
-          end: () => `+=${SCENES.length * (isDesktop ? 120 : 100)}%`,
+          end: () => `+=${SCENES.length * 120}%`,
           pin: true,
           pinSpacing: true,
           scrub: 0.8,
@@ -250,7 +259,62 @@ export function TreatmentSequence() {
       className="relative bg-ivory"
       style={{ ["--seq-accent" as string]: scene.shape.accent }}
     >
-      <div ref={root} className="relative z-20 h-svh overflow-hidden">
+      {/*
+        ---------- mobile: stacked list ----------
+
+        The pinned 3D sequence needs a tall viewport and a hover-free pointer
+        to read at all; on a phone the copy landed on top of the plate. Below
+        md the same content is a plain scrollable list instead.
+      */}
+      <div className="md:hidden">
+        <Container wide className="py-14">
+          <p className="label-mono text-clay">Medical services</p>
+
+          <div className="mt-8 space-y-12">
+            {SCENES.map((s) => {
+              const picture = leadImage(s.service);
+
+              return (
+                <article key={s.id}>
+                  <div
+                    className={cn(
+                      "w-full overflow-hidden rounded-lg",
+                      picture?.fit === "contain"
+                        ? "flex aspect-16/9 items-center justify-center border border-line bg-white p-5"
+                        : "aspect-4/3 bg-linen",
+                    )}
+                  >
+                    <img
+                      src={picture?.src}
+                      alt={s.service.title}
+                      loading="lazy"
+                      width={1400}
+                      height={1050}
+                      className={
+                        picture?.fit === "contain"
+                          ? "max-h-full w-auto max-w-full object-contain"
+                          : "size-full object-cover object-top"
+                      }
+                    />
+                  </div>
+
+                  <h3 className="display-sm mt-5">{s.service.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-soft">{lead(s.service)}</p>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="mt-12">
+            <ActionLink to="/services" className="w-full">
+              View all services
+            </ActionLink>
+          </div>
+        </Container>
+      </div>
+
+      {/* ---------- desktop: pinned 3D sequence ---------- */}
+      <div ref={root} className="relative z-20 hidden h-svh overflow-hidden md:block">
         {/*
           ---------- 3D visual space ----------
 

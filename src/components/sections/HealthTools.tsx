@@ -9,7 +9,7 @@ const TOOLS = membership;
 
 export function HealthTools() {
   return (
-    <section id="tools" className="bg-linen py-24 md:py-36">
+    <section id="tools" className="bg-linen py-16 md:py-24">
       <Container wide>
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
           <div>
@@ -47,8 +47,6 @@ export function HealthTools() {
             ))}
           </Reveal>
         </div>
-
-        
       </Container>
     </section>
   );

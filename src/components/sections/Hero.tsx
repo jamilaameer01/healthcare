@@ -143,8 +143,8 @@ export function Hero() {
               data-hero-fade
               className="mt-8 max-w-md text-lg leading-relaxed text-ink-soft opacity-0"
             >
-              A concierge-level practice combining modern medicine with advanced therapies —
-              hormone optimization, peptides and medically guided weight management.
+              A concierge-level practice combining modern medicine with advanced therapies — hormone
+              optimization, peptides and medically guided weight management.
             </p>
             <div data-hero-fade className="mt-10 flex flex-wrap items-center gap-3 opacity-0">
               <ActionLink href={site.bookingUrl} external>
@@ -154,10 +154,6 @@ export function Hero() {
                 {site.phone}
               </ActionLink>
             </div>
-
-        
-
-           
           </div>
 
           <div className="media-depth-drift relative">

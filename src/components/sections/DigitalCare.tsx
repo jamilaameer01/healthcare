@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -58,15 +57,9 @@ const INTERNAL_POINTS: Point3D[] = [
   { x: -0.34, y: 0.38, z: -0.2 },
 ];
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
-const rotatePoint = (
-  point: Point3D,
-  rotationY: number,
-  rotationX: number,
-  rotationZ: number,
-) => {
+const rotatePoint = (point: Point3D, rotationY: number, rotationX: number, rotationZ: number) => {
   let { x, y, z } = point;
 
   // Y rotation
@@ -110,12 +103,7 @@ const projectPoint = (
   rotationZ: number,
   radius: number,
 ) => {
-  const rotated = rotatePoint(
-    point,
-    rotationY,
-    rotationX,
-    rotationZ,
-  );
+  const rotated = rotatePoint(point, rotationY, rotationX, rotationZ);
 
   /*
    * Perspective:
@@ -150,9 +138,7 @@ export function DigitalCare() {
 
     if (!section || !network) return;
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
       /*
@@ -177,37 +163,21 @@ export function DigitalCare() {
        * -----------------------------
        */
 
-      const renderNetwork = (
-        rotationY: number,
-        rotationX: number,
-        rotationZ: number,
-      ) => {
+      const renderNetwork = (rotationY: number, rotationX: number, rotationZ: number) => {
         const radius = getRadius();
 
         /*
          * Project outer nodes.
          */
         const projectedNodes = NODE_LAYOUT.map((point) =>
-          projectPoint(
-            point,
-            rotationY,
-            rotationX,
-            rotationZ,
-            radius,
-          ),
+          projectPoint(point, rotationY, rotationX, rotationZ, radius),
         );
 
         /*
          * Project internal topology vertices.
          */
         const projectedInternal = INTERNAL_POINTS.map((point) =>
-          projectPoint(
-            point,
-            rotationY,
-            rotationX,
-            rotationZ,
-            radius,
-          ),
+          projectPoint(point, rotationY, rotationX, rotationZ, radius),
         );
 
         /*
@@ -299,11 +269,7 @@ export function DigitalCare() {
 
           if (!node || !internal) return;
 
-          const depth = clamp(
-            ((node.z + internal.z) / 2 + 1) / 2,
-            0,
-            1,
-          );
+          const depth = clamp(((node.z + internal.z) / 2 + 1) / 2, 0, 1);
 
           gsap.set(line, {
             attr: {
@@ -374,23 +340,15 @@ export function DigitalCare() {
         onUpdate: () => {
           const time = gsap.ticker.time;
 
-          const floatingX =
-            Math.sin(time * 0.42) * 0.045;
+          const floatingX = Math.sin(time * 0.42) * 0.045;
 
-          const floatingZ =
-            Math.sin(time * 0.3) * 0.035;
+          const floatingZ = Math.sin(time * 0.3) * 0.035;
 
-          const rotationX =
-            Math.sin(time * 0.52) * 0.12;
+          const rotationX = Math.sin(time * 0.52) * 0.12;
 
-          const rotationZ =
-            Math.sin(time * 0.31) * 0.035;
+          const rotationZ = Math.sin(time * 0.31) * 0.035;
 
-          renderNetwork(
-            motion.rotationY + floatingZ,
-            rotationX,
-            rotationZ + floatingX,
-          );
+          renderNetwork(motion.rotationY + floatingZ, rotationX, rotationZ + floatingX);
         },
       });
 
@@ -444,11 +402,7 @@ export function DigitalCare() {
        * Recalculate responsive positions.
        */
       const handleResize = () => {
-        renderNetwork(
-          motion.rotationY,
-          motion.rotationX,
-          motion.rotationZ,
-        );
+        renderNetwork(motion.rotationY, motion.rotationX, motion.rotationZ);
       };
 
       window.addEventListener("resize", handleResize);
@@ -463,10 +417,7 @@ export function DigitalCare() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden bg-[#f7f2eb]"
-    >
+    <section ref={sectionRef} className="relative overflow-hidden bg-[#f7f2eb]">
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
         <div className="grid items-center gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-8">
           {/* --------------------------------
@@ -480,14 +431,10 @@ export function DigitalCare() {
 
             <h2 className="max-w-lg text-4xl font-medium leading-[1.05] tracking-[-0.04em] text-[#29231f] sm:text-5xl lg:text-6xl">
               Modern medicine,
-              <span className="block text-[#b76f4b]">
-                advanced therapies.
-              </span>
+              <span className="block text-[#b76f4b]">advanced therapies.</span>
             </h2>
 
-            <p className="mt-6 max-w-lg text-base leading-7 text-[#665c55] sm:text-lg">
-              {mission}
-            </p>
+            <p className="mt-6 max-w-lg text-base leading-7 text-[#665c55] sm:text-lg">{mission}</p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               {["Hormone optimization", "Peptide therapy", "Weight management"].map((pill) => (
@@ -505,7 +452,7 @@ export function DigitalCare() {
               STAR TOPOLOGY
           --------------------------------- */}
 
-          <div className="relative flex min-h-[440px] items-center justify-center sm:min-h-[560px] lg:-mr-14 lg:min-h-[680px] lg:justify-end xl:-mr-24 2xl:-mr-32">
+          <div className="relative flex min-h-[380px] items-center justify-center py-10 sm:min-h-[520px] sm:py-0 lg:-mr-14 lg:min-h-[680px] lg:justify-end xl:-mr-24 2xl:-mr-32">
             <div
               ref={networkRef}
               className="relative aspect-square w-[min(94vw,720px)] max-w-[720px] [perspective:1200px] lg:w-[min(56vw,820px)] lg:max-w-[820px]"
@@ -527,17 +474,8 @@ export function DigitalCare() {
                 aria-hidden="true"
               >
                 <defs>
-                  <filter
-                    id="topologyGlow"
-                    x="-50%"
-                    y="-50%"
-                    width="200%"
-                    height="200%"
-                  >
-                    <feGaussianBlur
-                      stdDeviation="0.5"
-                      result="blur"
-                    />
+                  <filter id="topologyGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="0.5" result="blur" />
 
                     <feMerge>
                       <feMergeNode in="blur" />
@@ -644,9 +582,9 @@ export function DigitalCare() {
                   CENTER HUB
               --------------------------------- */}
 
-             <div
-  ref={centerRef}
-  className="
+              <div
+                ref={centerRef}
+                className="
     absolute
     left-1/2
     top-1/2
@@ -657,14 +595,14 @@ export function DigitalCare() {
     sm:w-[190px]
     lg:w-[225px]
   "
-  style={{
-    transformStyle: "preserve-3d",
-    willChange: "transform",
-  }}
->
-  {/* SOFT OUTER GLOW */}
-  <div
-    className="
+                style={{
+                  transformStyle: "preserve-3d",
+                  willChange: "transform",
+                }}
+              >
+                {/* SOFT OUTER GLOW */}
+                <div
+                  className="
       pointer-events-none
       absolute
       -inset-[2px]
@@ -677,11 +615,11 @@ export function DigitalCare() {
       blur-[2px]
       sm:rounded-[40px]
     "
-  />
+                />
 
-  {/* MAIN GLASS FRAME */}
-  <div
-    className="
+                {/* MAIN GLASS FRAME */}
+                <div
+                  className="
       relative
       flex
       aspect-square
@@ -695,27 +633,27 @@ export function DigitalCare() {
       sm:rounded-[38px]
       sm:p-[6px]
     "
-  >
-    {/* IMAGE CONTAINER */}
-    <div
-       className="
+                >
+                  {/* IMAGE CONTAINER */}
+                  <div
+                    className="
     relative
     aspect-[4/3]
     overflow-hidden
     rounded-[24px]
     bg-white
   "
-    >
-      <img
-        src={CENTER_IMAGE}
-        alt="A patient in an unhurried consultation with her provider"
-          className="h-full w-full object-cover object-center"
-        draggable={false}
-      />
+                  >
+                    <img
+                      src={CENTER_IMAGE}
+                      alt="A patient in an unhurried consultation with her provider"
+                      className="h-full w-full object-cover object-center"
+                      draggable={false}
+                    />
 
-      {/* SOFT WARM IMAGE TONE */}
-      <div
-        className="
+                    {/* SOFT WARM IMAGE TONE */}
+                    <div
+                      className="
           pointer-events-none
           absolute
           inset-0
@@ -724,11 +662,11 @@ export function DigitalCare() {
           via-transparent
           to-[#d5a27d]/10
         "
-      />
+                    />
 
-      {/* SUBTLE GLASS HIGHLIGHT */}
-      <div
-        className="
+                    {/* SUBTLE GLASS HIGHLIGHT */}
+                    <div
+                      className="
           pointer-events-none
           absolute
           inset-0
@@ -737,18 +675,17 @@ export function DigitalCare() {
           ring-white/35
           sm:rounded-[31px]
         "
-      />
+                    />
+                  </div>
 
-    </div>
-
-    {/*
+                  {/*
       CONNECTED CARE LABEL
 
       The frame is square while the image is 4:3, so this sits in the
       strip left underneath and `flex-1` lets it fill that space.
     */}
-    <div
-      className="
+                  <div
+                    className="
         flex
         flex-1
         items-center
@@ -758,9 +695,9 @@ export function DigitalCare() {
         sm:px-2
         sm:pt-2
       "
-    >
-      <div
-        className="
+                  >
+                    <div
+                      className="
           flex
           w-full
           items-center
@@ -775,9 +712,9 @@ export function DigitalCare() {
           shadow-[0_8px_24px_rgba(30,22,18,0.12)]
           backdrop-blur-lg
         "
-      >
-        <p
-          className="
+                    >
+                      <p
+                        className="
             text-center
             text-[9px]
             font-medium
@@ -786,22 +723,22 @@ export function DigitalCare() {
             text-white/90
             sm:text-[10px]
           "
-        >
-          One practice
-        </p>
+                      >
+                        One practice
+                      </p>
 
-        {/* LIVE DOT */}
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8fc4bd] opacity-60" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-[#8fc4bd]" />
-        </span>
-      </div>
-    </div>
-  </div>
+                      {/* LIVE DOT */}
+                      <span className="relative flex h-2 w-2">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8fc4bd] opacity-60" />
+                        <span className="relative inline-flex h-2 w-2 rounded-full bg-[#8fc4bd]" />
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-  {/* CENTER NODE DOT */}
-  <div
-    className="
+                {/* CENTER NODE DOT */}
+                <div
+                  className="
       absolute
       left-1/2
       top-1/2
@@ -815,14 +752,12 @@ export function DigitalCare() {
       bg-[#c98055]
       opacity-0
     "
-  />
-</div>
+                />
+              </div>
 
               {/* --------------------------------
                   SMALL TOPOLOGY LABEL
               --------------------------------- */}
-
-             
             </div>
           </div>
         </div>
@@ -830,4 +765,3 @@ export function DigitalCare() {
     </section>
   );
 }
-

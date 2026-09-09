@@ -64,8 +64,13 @@ export function Navbar() {
       <Container
         wide
         className={cn(
-          "flex items-center justify-between transition-[height] duration-500 ease-cinematic",
-          scrolled ? "h-20" : "h-28 md:h-32",
+          /*
+            The mobile menu overlay is a later sibling at z-40, so this row
+            needs its own stacking level or the overlay paints over the logo
+            and the close button.
+          */
+          "relative z-50 flex items-center justify-between transition-[height] duration-500 ease-cinematic",
+          scrolled ? "h-[72px] md:h-20" : "h-24 md:h-32",
         )}
       >
         <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
@@ -77,7 +82,7 @@ export function Navbar() {
             height={512}
             className={cn(
               "w-auto transition-[height] duration-500 ease-cinematic",
-              scrolled ? "h-16" : "h-24 md:h-28",
+              scrolled ? "h-14 md:h-16" : "h-[68px] md:h-28",
             )}
           />
         </Link>

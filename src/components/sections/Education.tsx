@@ -39,7 +39,7 @@ const ARTICLES = [
 
 export function Education() {
   return (
-    <section id="resources" className="bg-ivory py-24 md:py-36">
+    <section id="resources" className="bg-ivory py-16 md:py-24">
       <Container wide>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <TextReveal className="display-md max-w-[16ch]" lines={["Understand", "your options."]} />
