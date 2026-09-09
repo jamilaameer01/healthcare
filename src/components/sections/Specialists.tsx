@@ -39,15 +39,16 @@ function Stars({ rating }: { rating: number }) {
 const NUDGE_MS = 700;
 
 /*
- * The arrows straddle the cards' top border: `top-0` is the card's top edge
- * and `-translate-y-1/2` splits the control across it, lower half inside the
- * card, upper half out in the section's own ground.
+ * The arrows straddle the cards' top border: `top-2` lands on that edge —
+ * matching the track's `pt-2` — and `-translate-y-1/2` splits the control
+ * across it, lower half inside the card, upper half out in the section's own
+ * ground. Keep the two paddings in step.
  *
  * The fill is solid rather than translucent so the border it interrupts stops
  * cleanly at its rim instead of showing through.
  */
 const CONTROL =
-  "group absolute top-0 z-10 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-ink/15 bg-ivory text-ink transition-colors duration-500 ease-cinematic hover:border-ink hover:bg-ink hover:text-on-dark";
+  "group absolute top-2 z-10 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-ink/15 bg-ivory text-ink transition-colors duration-500 ease-cinematic hover:border-ink hover:bg-ink hover:text-on-dark";
 
 export function Specialists() {
   const track = useRef<HTMLUListElement>(null);
@@ -124,9 +125,15 @@ export function Specialists() {
         The pause handlers live on this wrapper rather than the track, so
         reaching for an arrow — which sits outside the track — holds the
         drift too instead of letting it slide out from under the pointer.
+
+        The track's `pt-2` is load-bearing: `overflow-x-auto` forces
+        overflow-y from visible to auto, so the track clips vertically, and
+        TiltCard lifts a hovered card by up to ~3px — which cut its top
+        border off against the container's edge. The wrapper's top margin is
+        reduced by the same amount to keep the gap under the heading.
       */}
       <div
-        className="relative mt-12 md:mt-16"
+        className="relative mt-10 md:mt-14"
         onPointerEnter={() => setPaused(true)}
         onPointerLeave={() => setPaused(false)}
         onFocusCapture={() => setPaused(true)}
@@ -135,7 +142,7 @@ export function Specialists() {
         <ul
           ref={track}
           id="review-track"
-          className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 md:px-10"
+          className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 pt-2 md:px-10"
         >
           {cardLoop.map((card, index) => (
             <li
