@@ -78,7 +78,7 @@ const SCENES: TreatmentScene[] = [
     main: labs,
     mainAlt: "A clinician preparing a sample in a warm, modern laboratory",
     aside: float,
-    asideAlt: "Unbranded treatment objects floating",
+    asideAlt: "Unbranded treatment objects floating.",
     shape: {
       mainRotate: [5, 6, -2.5],
       asideOffset: [30, 24],
