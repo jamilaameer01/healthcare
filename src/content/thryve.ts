@@ -296,7 +296,7 @@ export const panels = [
   },
   { name: "Adrenal function", copy: "Cortisol patterning across the day, and DHEA." },
   { name: "Thyroid & metabolic", copy: "Thyroid function, glucose and insulin resistance." },
-  { name: "Inflammation", copy: "Markers that quietly stall weight and recovery." },
+  // { name: "Inflammation", copy: "Markers that quietly stall weight and recovery." },
   { name: "Nutrient status", copy: "Deficiencies that hold results back once treatment starts." },
 ];
 

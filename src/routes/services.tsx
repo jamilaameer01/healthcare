@@ -3,7 +3,8 @@ import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
-import { ActionLink } from "@/components/ui/ActionButton";
+import { ActionLink, Arrow } from "@/components/ui/ActionButton";
+import facility from "@/assets/facility.jpg";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { cn } from "@/lib/utils";
 import { medicalServices, type ServiceItem } from "@/content/medical-services";
@@ -29,6 +30,14 @@ export const Route = createFileRoute("/services")({
   }),
   component: ServicesPage,
 });
+
+/** Items that carry a heading or copy — rendered as two-column rows. */
+const withCopy = (service: { items: ServiceItem[] }) =>
+  service.items.filter((i) => Boolean(i.parts?.length || i.title));
+
+/** Items that are only a photograph — collected into one grid. */
+const imagesOnly = (service: { items: ServiceItem[] }) =>
+  service.items.filter((i) => i.image && !i.parts?.length && !i.title);
 
 /** Body copy for one item: paragraphs and bulleted lists, in order. */
 function ItemBody({ item }: { item: ServiceItem }) {
@@ -60,29 +69,53 @@ function ServicesPage() {
   return (
     <>
       {/* ---------- page opening ---------- */}
-      <section className="bg-ivory pb-16 pt-40 md:pb-20 md:pt-52">
+      <section className="bg-ivory pb-14 pt-36 md:pb-20 md:pt-44">
         <Container wide>
-          <SectionLabel>Medical services</SectionLabel>
-          <TextReveal
-            as="h1"
-            immediate
-            className="display-lg mt-10 max-w-[20ch]"
-            lines={["Everything we", "look after."]}
-          />
-          <p className="mt-10 max-w-xl text-lg leading-relaxed text-ink-soft">
-            Modern medicine and advanced therapies under one roof in {site.city} — from everyday
-            primary care to hormone optimization, peptides and focused shockwave therapy.
-          </p>
+          <div className="grid items-end gap-12 lg:grid-cols-[1fr_0.82fr] lg:gap-16">
+            <div>
+              <SectionLabel>Medical services</SectionLabel>
+              <TextReveal
+                as="h1"
+                immediate
+                className="display-lg mt-8 max-w-[16ch]"
+                lines={["Everything we", "look after."]}
+              />
+              <p className="mt-8 max-w-md text-lg leading-relaxed text-ink-soft">
+                Modern medicine and advanced therapies under one roof in {site.city} — from everyday
+                primary care to hormone optimization and focused shockwave therapy.
+              </p>
+            </div>
 
-          {/* jump links, so a long page stays navigable */}
-          <Reveal className="mt-12 flex flex-wrap gap-2" blur={false} stagger={0.05}>
+            <ParallaxImage
+              src={facility}
+              alt="A quiet, daylit room at the practice"
+              width={1600}
+              height={1000}
+              amount={8}
+              zoom={1.06}
+              className="aspect-4/3 w-full rounded-lg sm:aspect-16/10 lg:aspect-4/3"
+            />
+          </div>
+
+          {/*
+            The index doubles as navigation for a long page — hairline rows in
+            the site's own rule language rather than a cloud of pills.
+          */}
+          <Reveal
+            className="mt-16 grid gap-x-14 border-t border-ink/12 sm:grid-cols-2 md:mt-20"
+            blur={false}
+            stagger={0.05}
+          >
             {medicalServices.map((s) => (
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className="rounded-full border border-line bg-white/60 px-4 py-2 text-sm text-ink-soft transition-colors duration-500 ease-cinematic hover:border-clay/40 hover:text-ink"
+                className="group flex items-baseline justify-between gap-6 border-b border-ink/12 py-5 transition-colors duration-500 ease-cinematic hover:text-clay"
               >
-                {s.title}
+                <span className="text-[17px] tracking-[-0.01em]">{s.title}</span>
+                <span className="shrink-0 text-ink/30 transition-colors duration-500 group-hover:text-clay">
+                  <Arrow />
+                </span>
               </a>
             ))}
           </Reveal>
@@ -99,7 +132,8 @@ function ServicesPage() {
           <Container wide>
             <Reveal className="max-w-3xl" blur={false} stagger={0.08}>
               <p className="label-mono text-clay">
-                {String(index + 1).padStart(2, "0")} / {String(medicalServices.length).padStart(2, "0")}
+                {String(index + 1).padStart(2, "0")} /{" "}
+                {String(medicalServices.length).padStart(2, "0")}
               </p>
               <h2 className="display-md mt-5 max-w-[24ch]">{service.title}</h2>
               <p className="mt-6 text-base leading-relaxed text-ink-soft md:text-lg">
@@ -124,72 +158,84 @@ function ServicesPage() {
               </Reveal>
             ) : null}
 
-            <div className="mt-16 space-y-16 md:mt-20 md:space-y-24">
-              {service.items.map((item, i) => {
-                const hasText = Boolean(item.parts?.length || item.title);
+            {/*
+              Items with copy alternate as two-column rows with their tops
+              aligned; the image column is capped so a 4:3 photo cannot run
+              away in height. Image-only items are collected into one tidy
+              grid instead of a stack of full-width plates.
+            */}
+            <div className="mt-14 space-y-14 md:mt-16 md:space-y-20">
+              {withCopy(service).map((item, i) => (
+                <Reveal
+                  key={item.title ?? i}
+                  className={cn(
+                    "grid items-start gap-8 lg:gap-14",
+                    !item.image
+                      ? "max-w-3xl"
+                      : i % 2 === 1
+                        ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)]"
+                        : "lg:grid-cols-[minmax(0,440px)_minmax(0,1fr)]",
+                  )}
+                  blur={false}
+                  stagger={0.08}
+                >
+                  {item.image ? (
+                    <div
+                      className={cn(
+                        "media-depth-drift w-full overflow-hidden rounded-lg",
+                        item.fit === "contain"
+                          ? "flex aspect-16/9 items-center justify-center border border-line bg-white p-6"
+                          : "aspect-4/3 bg-linen",
+                        i % 2 === 1 ? "lg:order-last" : "",
+                      )}
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.title ?? service.title}
+                        loading="lazy"
+                        width={1400}
+                        height={1050}
+                        className={cn(
+                          item.fit === "contain"
+                            ? "max-h-full w-auto max-w-full object-contain"
+                            : "size-full object-cover",
+                        )}
+                      />
+                    </div>
+                  ) : null}
 
-                /* Image-only items sit in a row; items with copy alternate. */
-                if (!hasText && item.image) {
-                  return (
+                  <div className="lg:pt-1">
+                    {item.title && item.title !== service.title ? (
+                      <h3 className="display-sm mb-5 max-w-[26ch]">{item.title}</h3>
+                    ) : null}
+                    <ItemBody item={item} />
+                  </div>
+                </Reveal>
+              ))}
+
+              {imagesOnly(service).length ? (
+                <Reveal
+                  className={cn(
+                    "grid gap-5",
+                    imagesOnly(service).length > 1 ? "sm:grid-cols-2 lg:grid-cols-3" : "max-w-xl",
+                  )}
+                  blur={false}
+                  stagger={0.08}
+                >
+                  {imagesOnly(service).map((item, i) => (
                     <ParallaxImage
                       key={i}
-                      src={item.image}
-                      alt={`${service.title} at Thryve Wellness`}
+                      src={item.image!}
+                      alt={`${service.title} at ${site.name}`}
                       width={1400}
                       height={1050}
-                      amount={6}
-                      zoom={1.05}
-                      className="mx-auto aspect-3/2 w-full max-w-[900px] rounded-lg"
+                      amount={5}
+                      zoom={1.04}
+                      className="aspect-4/3 w-full rounded-lg"
                     />
-                  );
-                }
-
-                return (
-                  <Reveal
-                    key={i}
-                    className={cn(
-                      "grid items-center gap-10 lg:gap-16",
-                      item.image ? "lg:grid-cols-2" : "max-w-3xl",
-                    )}
-                    blur={false}
-                    stagger={0.08}
-                  >
-                    {item.image ? (
-                      <div
-                        className={cn(
-                          "media-depth-drift w-full overflow-hidden rounded-lg",
-                          item.fit === "contain"
-                            ? "flex aspect-3/2 items-center justify-center border border-line bg-white p-8"
-                            : "aspect-4/3 bg-linen",
-                          /* alternate sides on desktop */
-                          i % 2 === 1 ? "lg:order-last" : "",
-                        )}
-                      >
-                        <img
-                          src={item.image}
-                          alt={item.title ? `${item.title}` : service.title}
-                          loading="lazy"
-                          width={1400}
-                          height={1050}
-                          className={cn(
-                            "transition-transform duration-[1200ms] ease-cinematic",
-                            item.fit === "contain"
-                              ? "max-h-full w-auto max-w-full object-contain"
-                              : "size-full object-cover",
-                          )}
-                        />
-                      </div>
-                    ) : null}
-
-                    <div>
-                      {item.title && item.title !== service.title ? (
-                        <h3 className="display-sm mb-6 max-w-[24ch]">{item.title}</h3>
-                      ) : null}
-                      <ItemBody item={item} />
-                    </div>
-                  </Reveal>
-                );
-              })}
+                  ))}
+                </Reveal>
+              ) : null}
             </div>
           </Container>
         </section>

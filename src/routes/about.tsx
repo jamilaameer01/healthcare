@@ -57,12 +57,8 @@ function ApproachPage() {
       <section className="bg-ivory pb-20 pt-40 md:pb-24 md:pt-52">
         <Container wide>
           <SectionLabel>About the practice</SectionLabel>
-          <Reveal as="h1" className="display-lg mt-10 max-w-[18ch]" stagger={0.13}>
-            <span className="block">Refined wellness.</span>
-            <span className="block">Elevated results.</span>
-          </Reveal>
-          <p className="mt-10 max-w-xl text-lg leading-relaxed text-ink-soft">{mission}</p>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{missionClose}</p>
+        
+          
         </Container>
       </section>
 

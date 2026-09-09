@@ -55,7 +55,7 @@ export function PatientStories() {
    * the DOM and neither carries a z-index.
    */
   return (
-    <section ref={root} className="isolate bg-ink py-10 text-linen md:py-0">
+    <section id="team" ref={root} className="isolate bg-ink py-10 text-linen md:py-0">
       <div data-story-stage className="md:flex md:min-h-screen md:items-center md:py-10">
         <Container wide>
           <div className="mx-auto grid max-w-[1180px] gap-10 md:grid-cols-[1fr_0.7fr] md:items-center md:gap-12">
