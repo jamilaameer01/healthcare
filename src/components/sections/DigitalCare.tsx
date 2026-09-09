@@ -490,7 +490,7 @@ export function DigitalCare() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#f7f2eb] py-24 sm:py-28 lg:py-36"
+      className="relative overflow-hidden bg-[#f7f2eb]"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-10">
         <div className="grid items-center gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:gap-8">
@@ -498,7 +498,7 @@ export function DigitalCare() {
               CONTENT
           --------------------------------- */}
 
-          <div className="relative z-30 max-w-xl">
+          <div className="relative z-30 max-w-xl lg:-ml-4 xl:-ml-8">
             <span className="mb-5 inline-flex items-center rounded-full border border-[#c98055]/20 bg-white/60 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-[#9a6042]">
               Digital care
             </span>
@@ -714,7 +714,9 @@ export function DigitalCare() {
   <div
     className="
       relative
+      flex
       aspect-square
+      flex-col
       rounded-[30px]
       border
       border-[#d5b9a5]/55
@@ -768,46 +770,62 @@ export function DigitalCare() {
         "
       />
 
-      {/* CONNECTED CARE LABEL */}
+    </div>
+
+    {/*
+      CONNECTED CARE LABEL
+
+      The frame is square while the image is 4:3, so this sits in the
+      strip left underneath and `flex-1` lets it fill that space.
+    */}
+    <div
+      className="
+        flex
+        flex-1
+        items-center
+        px-1.5
+        pb-0.5
+        pt-1.5
+        sm:px-2
+        sm:pt-2
+      "
+    >
       <div
         className="
-          absolute
-          bottom-3
-          left-3
-          right-3
+          flex
+          w-full
+          items-center
+          justify-center
+          gap-2
           rounded-[18px]
           border
-          border-white/25
-          bg-[#40352f]/35
+          border-white/20
+          bg-[#40352f]/80
           px-3
           py-2
           shadow-[0_8px_24px_rgba(30,22,18,0.12)]
           backdrop-blur-lg
-          sm:bottom-4
-          sm:left-4
-          sm:right-4
         "
       >
-        <div className="flex items-center justify-between">
-          <p
-            className="
-              text-[9px]
-              font-medium
-              uppercase
-              tracking-[0.14em]
-              text-white/90
-              sm:text-[10px]
-            "
-          >
-            Connected care
-          </p>
+        <p
+          className="
+            text-center
+            text-[9px]
+            font-medium
+            uppercase
+            tracking-[0.14em]
+            text-white/90
+            sm:text-[10px]
+          "
+        >
+          Connected care
+        </p>
 
-          {/* LIVE DOT */}
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8fc4bd] opacity-60" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#8fc4bd]" />
-          </span>
-        </div>
+        {/* LIVE DOT */}
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8fc4bd] opacity-60" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-[#8fc4bd]" />
+        </span>
       </div>
     </div>
   </div>
@@ -835,9 +853,7 @@ export function DigitalCare() {
                   SMALL TOPOLOGY LABEL
               --------------------------------- */}
 
-              <div className="pointer-events-none absolute bottom-[3%] left-1/2 z-[210] -translate-x-1/2 whitespace-nowrap rounded-full border border-[#29231f]/10 bg-white/65 px-3 py-1.5 text-[9px] uppercase tracking-[0.16em] text-[#776a61] backdrop-blur-md sm:text-[10px]">
-                Connected care network
-              </div>
+             
             </div>
           </div>
         </div>
