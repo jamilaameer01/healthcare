@@ -315,8 +315,14 @@ export function TreatmentSequence() {
       style={{ ["--seq-accent" as string]: scene.shape.accent }}
     >
       <div ref={root} className="relative h-svh overflow-hidden">
-        {/* ---------- 3D visual space ---------- */}
-        <div className="seq-space absolute inset-0">
+        {/*
+          ---------- 3D visual space ----------
+
+          On desktop the stage starts to the right of the copy column,
+          so the composition fills the empty right side instead of
+          sitting centred underneath the type.
+        */}
+        <div className="seq-space absolute inset-y-0 left-0 right-0 md:left-[28%]">
           {SCENES.map((s) => (
             <div key={s.id} data-stage className="seq-stage absolute inset-0">
               <div
