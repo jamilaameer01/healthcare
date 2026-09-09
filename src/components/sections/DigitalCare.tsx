@@ -52,7 +52,7 @@ const NODE_IMAGES: NodeImage[] = [
 ];
 
 const CENTER_IMAGE =
-  "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=1200&q=95";
+   "https://thumbs.wbm.im/pw/medium/588697064908331e962391273026cb41.jpg";
 
 /*
  * STAR TOPOLOGY
@@ -675,60 +675,161 @@ export function DigitalCare() {
                   CENTER HUB
               --------------------------------- */}
 
-              <div
-                ref={centerRef}
-                className="
-                  absolute
-                  left-1/2
-                  top-1/2
-                  z-[200]
-                  w-[150px]
-                  -translate-x-1/2
-                  -translate-y-1/2
-                  sm:w-[190px]
-                  lg:w-[225px]
-                "
-                style={{
-                  transformStyle: "preserve-3d",
-                  willChange: "transform",
-                }}
-              >
-                <div
-                  className="
-                    relative
-                    aspect-square
-                    overflow-hidden
-                    rounded-[30px]
-                    border
-                    border-white
-                    bg-white
-                    p-2
-                    shadow-[0_30px_80px_rgba(53,38,29,0.2)]
-                    sm:rounded-[38px]
-                    sm:p-2.5
-                  "
-                >
-                  <div className="relative h-full w-full overflow-hidden rounded-[24px] sm:rounded-[30px]">
-                    <img
-                      src={CENTER_IMAGE}
-                      alt="Connected digital healthcare"
-                      className="h-full w-full object-cover"
-                      draggable={false}
-                    />
+             <div
+  ref={centerRef}
+  className="
+    absolute
+    left-1/2
+    top-1/2
+    z-[200]
+    w-[150px]
+    -translate-x-1/2
+    -translate-y-1/2
+    sm:w-[190px]
+    lg:w-[225px]
+  "
+  style={{
+    transformStyle: "preserve-3d",
+    willChange: "transform",
+  }}
+>
+  {/* SOFT OUTER GLOW */}
+  <div
+    className="
+      pointer-events-none
+      absolute
+      -inset-[2px]
+      rounded-[32px]
+      bg-gradient-to-br
+      from-[#c98055]/35
+      via-[#eadfd5]/20
+      to-[#6fa9a8]/30
+      opacity-80
+      blur-[2px]
+      sm:rounded-[40px]
+    "
+  />
 
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#241b17]/25 via-transparent to-white/5" />
+  {/* MAIN GLASS FRAME */}
+  <div
+    className="
+      relative
+      aspect-square
+      rounded-[30px]
+      border
+      border-[#d5b9a5]/55
+      bg-[#eee5dc]
+      p-[5px]
+      shadow-[0_28px_80px_rgba(65,48,38,0.16)]
+      sm:rounded-[38px]
+      sm:p-[6px]
+    "
+  >
+    {/* IMAGE CONTAINER */}
+    <div
+       className="
+    relative
+    aspect-[4/3]
+    overflow-hidden
+    rounded-[24px]
+    bg-white
+  "
+    >
+      <img
+        src={CENTER_IMAGE}
+        alt="Connected digital healthcare"
+          className="h-full w-full object-cover object-center"
+        draggable={false}
+      />
 
-                    <div className="absolute bottom-3 left-3 right-3 rounded-2xl border border-white/20 bg-white/15 px-3 py-2 backdrop-blur-md">
-                      <p className="text-[9px] font-medium uppercase tracking-[0.14em] text-white/90 sm:text-[10px]">
-                        Connected care
-                      </p>
-                    </div>
-                  </div>
-                </div>
+      {/* SOFT WARM IMAGE TONE */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          bg-gradient-to-tr
+          from-[#49382f]/15
+          via-transparent
+          to-[#d5a27d]/10
+        "
+      />
 
-                {/* CENTER NODE DOT */}
-                <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white/80 bg-[#c98055] opacity-0" />
-              </div>
+      {/* SUBTLE GLASS HIGHLIGHT */}
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          rounded-[25px]
+          ring-1
+          ring-white/35
+          sm:rounded-[31px]
+        "
+      />
+
+      {/* CONNECTED CARE LABEL */}
+      <div
+        className="
+          absolute
+          bottom-3
+          left-3
+          right-3
+          rounded-[18px]
+          border
+          border-white/25
+          bg-[#40352f]/35
+          px-3
+          py-2
+          shadow-[0_8px_24px_rgba(30,22,18,0.12)]
+          backdrop-blur-lg
+          sm:bottom-4
+          sm:left-4
+          sm:right-4
+        "
+      >
+        <div className="flex items-center justify-between">
+          <p
+            className="
+              text-[9px]
+              font-medium
+              uppercase
+              tracking-[0.14em]
+              text-white/90
+              sm:text-[10px]
+            "
+          >
+            Connected care
+          </p>
+
+          {/* LIVE DOT */}
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#8fc4bd] opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#8fc4bd]" />
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* CENTER NODE DOT */}
+  <div
+    className="
+      absolute
+      left-1/2
+      top-1/2
+      h-3
+      w-3
+      -translate-x-1/2
+      -translate-y-1/2
+      rounded-full
+      border-2
+      border-white/80
+      bg-[#c98055]
+      opacity-0
+    "
+  />
+</div>
 
               {/* --------------------------------
                   SMALL TOPOLOGY LABEL
