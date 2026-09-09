@@ -3,61 +3,43 @@ import { Container } from "@/components/ui/Container";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { ActionLink } from "@/components/ui/ActionButton";
 import { cn } from "@/lib/utils";
-import weight from "@/assets/goal-weight.jpg";
-import hair from "@/assets/goal-hair.jpg";
-import labs from "@/assets/goal-labs.jpg";
-import preventive from "@/assets/care-primary.jpg";
-import wellness from "@/assets/care-wellness.jpg";
+import { imageAt, serviceById, site } from "@/content/thryve";
 
+/* Each goal maps to a real service; copy is drawn from that service. */
 const OPTIONS = [
   {
     id: "weight",
     label: "Lose weight",
-    headline: "A plan your body agrees with.",
-    copy: "Clinical review, nutrition support and treatment where it helps — adjusted month by month.",
-    cta: "Start weight care",
-    image: weight,
-    alt: "A person preparing a fresh balanced meal in a sunlit kitchen",
+    headline: "Science-backed, not a fad.",
+    service: serviceById("weight-management"),
     tone: "bg-ivory",
-  },
-  {
-    id: "hair",
-    label: "Keep my hair",
-    headline: "Act early. Keep more.",
-    copy: "An honest assessment of what's happening and the treatments that actually have evidence.",
-    cta: "Start hair care",
-    image: hair,
-    alt: "A person with healthy hair in warm window light",
-    tone: "bg-sand",
   },
   {
     id: "hormones",
     label: "Balance my hormones",
     headline: "Energy, mood, sleep — measured.",
-    copy: "Full hormone panels read by a clinician, with a plan instead of a printout.",
-    cta: "Test my levels",
-    image: labs,
-    alt: "A clinician handling sample vials in a bright laboratory",
+    service: serviceById("hormone-optimization"),
+    tone: "bg-sand",
+  },
+  {
+    id: "peptides",
+    label: "Recover and perform",
+    headline: "Repair, signalled at cell level.",
+    service: serviceById("peptide-therapy"),
     tone: "bg-linen",
   },
   {
-    id: "preventive",
-    label: "Stay ahead",
-    headline: "Find it early. Stay ahead.",
-    copy: "Annual review, screening and risk mapping, planned in years rather than visits.",
-    cta: "Plan a review",
-    image: preventive,
-    alt: "A clinician and patient reviewing a health plan together",
+    id: "primary",
+    label: "Find a provider I keep",
+    headline: "Healthcare, the way it should be.",
+    service: serviceById("direct-primary-care"),
     tone: "bg-ivory",
   },
   {
-    id: "wellness",
-    label: "Feel better day to day",
-    headline: "Small changes, held in place.",
-    copy: "Nutrition, sleep, movement and mental health, planned as one programme.",
-    cta: "Explore wellness",
-    image: wellness,
-    alt: "A person stretching in a sunlit room",
+    id: "skin",
+    label: "Improve my skin",
+    headline: "Collagen, built by your own skin.",
+    service: serviceById("aesthetic-skinpen"),
     tone: "bg-clay-soft/40",
   },
 ];
@@ -121,10 +103,12 @@ export function CareFinder() {
                 key={`p-${current.id}`}
                 className="mt-4 animate-fade-in leading-relaxed text-ink-soft"
               >
-                {current.copy}
+                {current.service.description}
               </p>
               <div key={`c-${current.id}`} className="mt-8 animate-fade-in">
-                <ActionLink to="/book">{current.cta}</ActionLink>
+                <ActionLink href={site.bookingUrl} external>
+                  Book a consultation
+                </ActionLink>
               </div>
             </div>
           </div>
@@ -133,8 +117,8 @@ export function CareFinder() {
             {OPTIONS.map((o, i) => (
               <img
                 key={o.id}
-                src={o.image}
-                alt={o.alt}
+                src={imageAt(o.service, 1).src}
+                alt={imageAt(o.service, 1).alt}
                 loading="lazy"
                 width={1200}
                 height={1500}

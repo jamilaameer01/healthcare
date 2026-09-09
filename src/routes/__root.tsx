@@ -81,12 +81,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Meridian Health — Better care, made personal" },
+      { title: "Thryve Wellness — Refined Wellness. Elevated Results." },
       {
         name: "description",
-        content: "Modern healthcare designed around you, your goals and your everyday life.",
+        content:
+          "Direct primary care, hormone optimization, medical weight management and aesthetics in Naples, Florida.",
       },
-      { name: "author", content: "Meridian Health" },
+      { name: "author", content: "Thryve Wellness" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#f8f6f1" },

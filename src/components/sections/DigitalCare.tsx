@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { mission, serviceById, services } from "@/content/thryve";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,43 +17,17 @@ type Point3D = {
   z: number;
 };
 
-const NODE_IMAGES: NodeImage[] = [
-  {
-    src: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=700&q=90",
-    alt: "Medical laboratory",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=700&q=90",
-    alt: "Medical diagnostics",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&w=700&q=90",
-    alt: "Medical imaging",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=700&q=90",
-    alt: "Heart monitoring",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=700&q=90",
-    alt: "Clinical diagnostics",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=700&q=90",
-    alt: "Laboratory testing",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=700&q=90",
-    alt: "Healthcare diagnostics",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=700&q=90",
-    alt: "Laboratory equipment",
-  },
-];
+/*
+ * Nodes draw from every distinct service photo in turn, so the ring shows
+ * eight different images rather than repeating what the neighbouring
+ * sections already show.
+ */
+const NODE_IMAGES: NodeImage[] = services
+  .flatMap((s) => s.images.map((image) => ({ src: image.src, alt: image.alt })))
+  .filter((image, index, all) => all.findIndex((i) => i.src === image.src) === index)
+  .slice(0, 8);
 
-const CENTER_IMAGE =
-   "https://thumbs.wbm.im/pw/medium/588697064908331e962391273026cb41.jpg";
+const CENTER_IMAGE = serviceById("direct-primary-care").images[2]!.src;
 
 /*
  * STAR TOPOLOGY
@@ -500,35 +475,29 @@ export function DigitalCare() {
 
           <div className="relative z-30 max-w-xl lg:-ml-4 xl:-ml-8">
             <span className="mb-5 inline-flex items-center rounded-full border border-[#c98055]/20 bg-white/60 px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-[#9a6042]">
-              Digital care
+              Our mission
             </span>
 
             <h2 className="max-w-lg text-4xl font-medium leading-[1.05] tracking-[-0.04em] text-[#29231f] sm:text-5xl lg:text-6xl">
-              Healthcare that
+              Modern medicine,
               <span className="block text-[#b76f4b]">
-                connects everything.
+                advanced therapies.
               </span>
             </h2>
 
-            <p className="mt-6 max-w-md text-base leading-7 text-[#665c55] sm:text-lg">
-              Your care should feel connected, intelligent, and
-              effortless. One digital experience brings your
-              treatment, diagnostics, progress, and care team
-              together.
+            <p className="mt-6 max-w-lg text-base leading-7 text-[#665c55] sm:text-lg">
+              {mission}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <div className="rounded-full border border-[#29231f]/10 bg-white/60 px-4 py-2 text-sm text-[#4d443e]">
-                Personalized care
-              </div>
-
-              <div className="rounded-full border border-[#29231f]/10 bg-white/60 px-4 py-2 text-sm text-[#4d443e]">
-                Smart diagnostics
-              </div>
-
-              <div className="rounded-full border border-[#29231f]/10 bg-white/60 px-4 py-2 text-sm text-[#4d443e]">
-                Continuous support
-              </div>
+              {["Hormone optimization", "Peptide therapy", "Weight management"].map((pill) => (
+                <div
+                  key={pill}
+                  className="rounded-full border border-[#29231f]/10 bg-white/60 px-4 py-2 text-sm text-[#4d443e]"
+                >
+                  {pill}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -739,7 +708,7 @@ export function DigitalCare() {
     >
       <img
         src={CENTER_IMAGE}
-        alt="Connected digital healthcare"
+        alt="A patient in an unhurried consultation with her provider"
           className="h-full w-full object-cover object-center"
         draggable={false}
       />
@@ -818,7 +787,7 @@ export function DigitalCare() {
             sm:text-[10px]
           "
         >
-          Connected care
+          One practice
         </p>
 
         {/* LIVE DOT */}

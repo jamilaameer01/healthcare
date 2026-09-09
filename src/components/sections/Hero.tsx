@@ -7,18 +7,13 @@ import { Stage } from "@/components/3d/Stage";
 import heroCare from "@/assets/hero-care.jpg";
 import ambientVideo from "@/assets/hero-ambient.mp4";
 import ambientPoster from "@/assets/hero-ambient-poster.jpg";
+import { site } from "@/content/thryve";
 
+/* Drawn from the Direct Primary Care membership described in the content. */
 const BADGES = [
-  "Board-certified specialists",
-  "Same-week appointments",
-  "Care plans built for you",
-];
-
-/* Figures mirror the Trust section so the site tells one story. */
-const PROOF = [
-  { value: "15+", label: "Years of care" },
-  { value: "25K+", label: "Patients supported" },
-  { value: "98%", label: "Patient satisfaction" },
+  "Direct primary care membership",
+  "Same-day or next-day appointments",
+  "No copays, no surprise bills",
 ];
 
 export function Hero() {
@@ -134,7 +129,7 @@ export function Hero() {
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-clay/60" />
                 <span className="relative inline-flex size-2 rounded-full bg-clay" />
               </span>
-              <span className="label-mono text-ink-soft">Now accepting new patients</span>
+              <span className="label-mono text-ink-soft">{site.city}</span>
             </div>
 
             <TextReveal
@@ -142,18 +137,21 @@ export function Hero() {
               immediate
               delay={0.15}
               className="display-xl"
-              lines={["Better care.", "Made personal."]}
+              lines={["Refined wellness.", "Elevated results."]}
             />
             <p
               data-hero-fade
               className="mt-8 max-w-md text-lg leading-relaxed text-ink-soft opacity-0"
             >
-              Modern healthcare designed around you, your goals, and your everyday life.
+              A concierge-level practice combining modern medicine with advanced therapies —
+              hormone optimization, peptides and medically guided weight management.
             </p>
             <div data-hero-fade className="mt-10 flex flex-wrap items-center gap-3 opacity-0">
-              <ActionLink href="#care">Explore care</ActionLink>
-              <ActionLink href="#specialists" variant="outline" withArrow={false}>
-                Meet our specialists
+              <ActionLink href={site.bookingUrl} external>
+                Book an appointment
+              </ActionLink>
+              <ActionLink href={site.phoneHref} variant="outline" withArrow={false}>
+                {site.phone}
               </ActionLink>
             </div>
 
@@ -179,7 +177,7 @@ export function Hero() {
               <img
                 data-hero-img
                 src={heroCare}
-                alt="A doctor listening to a patient in a warm, light-filled consultation room"
+                alt="A patient in an unhurried consultation with her provider in a warm, light-filled room"
                 width={1600}
                 height={1920}
                 fetchPriority="high"

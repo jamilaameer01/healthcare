@@ -2,31 +2,10 @@ import { Container } from "@/components/ui/Container";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { Reveal } from "@/components/animations/Reveal";
 import { Arrow, ActionLink } from "@/components/ui/ActionButton";
-import { ParallaxImage } from "@/components/animations/ParallaxImage";
-import tools from "@/assets/goal-tools.jpg";
 
-const TOOLS = [
-  {
-    id: "01",
-    title: "Symptom check",
-    copy: "Answer a few questions and see which care fits.",
-  },
-  {
-    id: "02",
-    title: "Lab results, explained",
-    copy: "Every number in plain language, with what to do next.",
-  },
-  {
-    id: "03",
-    title: "Progress tracking",
-    copy: "Weight, sleep and energy in one simple timeline.",
-  },
-  {
-    id: "04",
-    title: "Refills and reminders",
-    copy: "Treatment kept on schedule without you chasing it.",
-  },
-];
+import { membership, site } from "@/content/thryve";
+
+const TOOLS = membership;
 
 export function HealthTools() {
   return (
@@ -34,17 +13,19 @@ export function HealthTools() {
       <Container wide>
         <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
           <div>
-            <p className="label-mono text-clay">Ongoing care</p>
+            <p className="label-mono text-clay">Membership</p>
             <TextReveal
               className="display-md mt-6 max-w-[16ch]"
-              lines={["Tools that keep", "you moving."]}
+              lines={["What your", "membership includes."]}
             />
             <p className="mt-6 max-w-md text-lg leading-relaxed text-ink-soft">
-              Care doesn't stop at the appointment. Everything you need between visits sits in one
-              place.
+              Because insurance isn't dictating visit length or treatment decisions, care becomes
+              personal, proactive and relationship-driven.
             </p>
             <div className="mt-10">
-              <ActionLink to="/book">Create your plan</ActionLink>
+              <ActionLink href={site.bookingUrl} external>
+                Become a member
+              </ActionLink>
             </div>
           </div>
 

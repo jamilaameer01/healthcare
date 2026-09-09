@@ -2,33 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, registerGsap, prefersReducedMotion, ScrollTrigger } from "@/lib/motion";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
-import patient1 from "@/assets/patient-1.jpg";
-import patient2 from "@/assets/patient-2.jpg";
-import patient3 from "@/assets/care-mens.jpg";
+import { team } from "@/content/thryve";
 
-const STORIES = [
-  {
-    quote: "For the first time, healthcare actually felt designed for me.",
-    name: "Claire R.",
-    detail: "Patient since 2019",
-    image: patient1,
-    alt: "Portrait of a patient in warm natural light",
-  },
-  {
-    quote: "One phone call, and someone already knew my history.",
-    name: "David L.",
-    detail: "Patient since 2016",
-    image: patient2,
-    alt: "Portrait of a patient smiling by a window",
-  },
-  {
-    quote: "They gave me time. That changed the diagnosis.",
-    name: "Marcus T.",
-    detail: "Patient since 2021",
-    image: patient3,
-    alt: "Portrait of a patient at home",
-  },
-];
+/*
+ * The practice's own philosophy, in the team's words and with their photos.
+ * Independent of the review cards further down the page.
+ */
+const STORIES = team.map((member) => ({
+  excerpt: member.excerpt,
+  name: member.name,
+  detail: member.role,
+  image: member.image,
+  alt: `Portrait of ${member.name}, ${member.role}`,
+}));
 
 export function PatientStories() {
   const root = useRef<HTMLElement>(null);
@@ -74,9 +60,14 @@ export function PatientStories() {
         <Container wide>
           <div className="mx-auto grid max-w-[1180px] gap-10 md:grid-cols-[1fr_0.7fr] md:items-center md:gap-12">
             <div>
-              <p className="label-mono text-clay">Patient experience</p>
+                <p className="label-mono text-clay">Meet the people behind your care</p>
 
-              <div className="relative mt-6 md:min-h-[16rem]">
+              {/*
+                The quotes are stacked absolutely, so this box has to reserve
+                room for the longest one — at display-md over 24ch it ran to
+                six lines and collided with the content below.
+              */}
+              <div className="relative mt-6 md:min-h-[19rem] lg:min-h-[17rem]">
                 {STORIES.map((s, i) => (
                   <blockquote
                     key={s.name}
@@ -88,8 +79,11 @@ export function PatientStories() {
                       i !== active ? "mt-14 md:mt-0" : "",
                     )}
                   >
-                    <p className="display-md max-w-[24ch]">“{s.quote}”</p>
-                    <footer className="mt-8 text-sm text-ink-soft">
+                    {/* Dark section: keep type on the on-dark palette. */}
+                    <p className="max-w-[52ch] text-lg leading-[1.65] text-on-dark md:text-xl md:leading-[1.6]">
+                      {s.excerpt}
+                    </p>
+                    <footer className="mt-7 text-sm text-on-dark-soft">
                       {s.name} · {s.detail}
                     </footer>
                   </blockquote>
@@ -97,6 +91,7 @@ export function PatientStories() {
               </div>
             </div>
 
+            {/* Portrait frame: the team photos are tall originals. */}
             <div className="media-depth-drift relative aspect-4/5 w-full overflow-hidden rounded-lg bg-mist sm:mx-auto sm:max-w-[360px] md:mx-0 md:ml-auto md:max-h-[460px] md:max-w-[380px]">
               {STORIES.map((s, i) => (
                 <img
@@ -107,7 +102,7 @@ export function PatientStories() {
                   width={1200}
                   height={1500}
                   className={cn(
-                    "absolute inset-0 size-full object-cover transition-all duration-[900ms] ease-cinematic",
+                    "absolute inset-0 size-full object-cover object-top transition-all duration-[900ms] ease-cinematic",
                     i === active ? "scale-100 opacity-100" : "scale-105 opacity-0",
                   )}
                 />

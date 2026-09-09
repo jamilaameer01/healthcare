@@ -5,15 +5,9 @@ import { ActionLink } from "@/components/ui/ActionButton";
 import { Stage } from "@/components/3d/Stage";
 import { cn } from "@/lib/utils";
 
-const SYSTEMS = [
-  { name: "Heart & circulation", copy: "Blood pressure, lipids, rhythm and long-term risk." },
-  { name: "Metabolic health", copy: "Glucose, thyroid and how your body uses energy." },
-  { name: "Sleep & recovery", copy: "Rest quality, fatigue patterns and daytime energy." },
+import { panels, site } from "@/content/thryve";
 
-  { name: "Musculoskeletal", copy: "Strength, mobility, pain and injury history." },
-  { name: "Mental wellbeing", copy: "Stress, focus and how you actually feel day to day." },
-  // { name: "Nutrition", copy: "Diet, deficiencies and practical everyday change." },
-];
+const SYSTEMS = panels;
 
 /**
  * Health assessment visualiser: choosing a system lights up the matching
@@ -31,15 +25,16 @@ export function HealthAssessment() {
   return (
     <section id="assessment" className="bg-sand py-12 md:py-16">
       <Container wide>
-        <p className="label-mono text-clay">Your assessment</p>
+        <p className="label-mono text-clay">Testing and assessment</p>
         <div className="mt-8 grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-14">
           <div>
             <TextReveal
               className="display-md max-w-[15ch]"
-              lines={["A full read on", "how you're doing."]}
+              lines={["Precision testing", "comes first."]}
             />
             <p className="mt-6 max-w-md text-base leading-relaxed text-ink-soft">
-              Choose a system to see what we look at.
+              The DUTCH Test evaluates hormone and adrenal function — including their metabolites —
+              alongside the panels below. Choose one to see what we review.
             </p>
 
             <ul className="mt-10">
@@ -74,7 +69,9 @@ export function HealthAssessment() {
             </ul>
 
             <div className="mt-10">
-              <ActionLink to="/book">Book an assessment</ActionLink>
+              <ActionLink href={site.bookingUrl} external>
+                Book an assessment
+              </ActionLink>
             </div>
           </div>
 

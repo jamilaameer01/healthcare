@@ -41,6 +41,8 @@ export function ActionLink({
   className,
   withArrow = true,
   onClick,
+  /** Set for off-site links such as the booking system. */
+  external = false,
 }: {
   to?: string;
   href?: string;
@@ -49,6 +51,7 @@ export function ActionLink({
   className?: string;
   withArrow?: boolean;
   onClick?: () => void;
+  external?: boolean;
 }) {
   const content = (
     <>
@@ -66,7 +69,12 @@ export function ActionLink({
     );
   }
   return (
-    <a href={href ?? "#"} className={classes} onClick={onClick}>
+    <a
+      href={href ?? "#"}
+      className={classes}
+      onClick={onClick}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
       {content}
     </a>
   );

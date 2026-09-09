@@ -1,40 +1,83 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./Container";
+import { site } from "@/content/thryve";
+
+const SOCIALS = [
+  { label: "Instagram", href: site.instagram },
+  { label: "Facebook", href: site.facebook },
+  { label: "TikTok", href: site.tiktok },
+];
 
 export function Footer() {
   return (
     <footer className="dark-section border-t border-line-dark py-14">
-      <Container wide className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <span aria-hidden className="size-2 rounded-full bg-clay" />
-            <span className="text-[15px] font-medium tracking-[-0.02em]">Meridian Health</span>
+      <Container wide>
+        <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr_0.9fr] md:gap-12">
+          <div>
+            <div className="flex items-center gap-2">
+              <span aria-hidden className="size-2 rounded-full bg-clay" />
+              <span className="text-[15px] font-medium tracking-[-0.02em]">{site.name}</span>
+            </div>
+            <p className="mt-3 max-w-xs text-sm text-on-dark-soft">{site.tagline}</p>
+            <p className="mt-5 text-sm text-on-dark-soft">{site.address.join(", ")}</p>
           </div>
-          <p className="mt-3 max-w-xs text-sm text-on-dark-soft">
-            A private clinic built around continuity of care.
-          </p>
+
+          <div className="text-sm text-on-dark-soft">
+            <p className="label-mono text-clay-soft">Contact</p>
+            <a href={site.phoneHref} className="mt-4 block hover:text-on-dark">
+              {site.phone}
+            </a>
+            <p className="mt-1">Fax {site.fax}</p>
+            <p className="mt-4">
+              {site.hours[0]?.day} · {site.hours[0]?.time}
+            </p>
+          </div>
+
+          <nav aria-label="Footer" className="text-sm text-on-dark-soft">
+            <p className="label-mono text-clay-soft">Explore</p>
+            <div className="mt-4 flex flex-col gap-2">
+              <Link to="/services" className="hover:text-on-dark">
+                Medical services
+              </Link>
+              <a href="/#tools" className="hover:text-on-dark">
+                Membership
+              </a>
+              <Link to="/approach" className="hover:text-on-dark">
+                About the practice
+              </Link>
+              <a href="/#contact" className="hover:text-on-dark">
+                Visit us
+              </a>
+              <a
+                href={site.bookingUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-on-dark"
+              >
+                Book an appointment
+              </a>
+            </div>
+          </nav>
         </div>
-        <nav
-          aria-label="Footer"
-          className="flex flex-wrap gap-x-8 gap-y-3 text-sm text-on-dark-soft"
-        >
-          <a href="/#services" className="hover:text-on-dark">
-            Services
-          </a>
-          <a href="/#specialists" className="hover:text-on-dark">
-            Specialists
-          </a>
-          <Link to="/approach" className="hover:text-on-dark">
-            Our approach
-          </Link>
-          <a href="/#contact" className="hover:text-on-dark">
-            Contact
-          </a>
-          <Link to="/book" className="hover:text-on-dark">
-            Book
-          </Link>
-        </nav>
-        <p className="text-xs text-on-dark-soft">© {new Date().getFullYear()} Meridian Health</p>
+
+        <div className="mt-12 flex flex-col gap-4 border-t border-line-dark pt-8 text-xs text-on-dark-soft sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            {SOCIALS.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-on-dark"
+              >
+                {s.label}
+              </a>
+            ))}
+          </div>
+        </div>
       </Container>
     </footer>
   );

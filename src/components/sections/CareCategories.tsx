@@ -5,50 +5,41 @@ import { Arrow } from "@/components/ui/ActionButton";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { TiltCard } from "@/components/animations/TiltCard";
 import { cn } from "@/lib/utils";
-import weight from "@/assets/goal-weight.jpg";
-import hair from "@/assets/goal-hair.jpg";
-import labs from "@/assets/goal-labs.jpg";
-import preventive from "@/assets/care-primary.jpg";
-import wellness from "@/assets/care-wellness.jpg";
+import { serviceById, studioImage } from "@/content/thryve";
 
+/*
+ * The five headline services, sized by prominence in the existing grid.
+ * These cards use the site's own curated photography, not the clinic's
+ * service photos — those carry the Medical services section instead.
+ */
 const CATEGORIES = [
   {
-    title: "Weight management",
-    copy: "A plan built on your body, not a diet trend.",
-    image: weight,
-    alt: "A person preparing a fresh balanced meal in a sunlit kitchen",
+    ...serviceById("hormone-optimization"),
+    picture: studioImage(serviceById("hormone-optimization")),
     span: "sm:col-span-2 lg:col-span-7",
     ratio: "aspect-4/3",
   },
   {
-    title: "Hair health",
-    copy: "Treat thinning early, with real clinical advice.",
-    image: hair,
-    alt: "A person with healthy hair standing in warm window light",
+    ...serviceById("weight-management"),
+    picture: studioImage(serviceById("weight-management")),
     span: "lg:col-span-5",
     ratio: "aspect-4/5",
   },
   {
-    title: "Hormone health",
-    copy: "Testing and treatment for energy, mood and sleep.",
-    image: labs,
-    alt: "A clinician handling sample vials in a bright laboratory",
+    ...serviceById("peptide-therapy"),
+    picture: studioImage(serviceById("peptide-therapy")),
     span: "lg:col-span-4",
     ratio: "aspect-4/5",
   },
   {
-    title: "Preventive health",
-    copy: "Find things early. Stay ahead of them.",
-    image: preventive,
-    alt: "A patient talking with her clinician in a bright consultation room",
+    ...serviceById("direct-primary-care"),
+    picture: studioImage(serviceById("direct-primary-care")),
     span: "lg:col-span-4",
     ratio: "aspect-4/5",
   },
   {
-    title: "Wellness",
-    copy: "Sleep, movement and nutrition, coached over months.",
-    image: wellness,
-    alt: "A person stretching in a sunlit room",
+    ...serviceById("aesthetic-skinpen"),
+    picture: studioImage(serviceById("aesthetic-skinpen")),
     span: "lg:col-span-4",
     ratio: "aspect-4/5",
   },
@@ -61,7 +52,7 @@ export function CareCategories() {
         <div className="flex flex-wrap items-end justify-between gap-8">
           <TextReveal className="display-md max-w-[16ch]" lines={["Start with", "your goal."]} />
           <p className="max-w-xs text-base leading-relaxed text-ink-soft">
-            Choose what matters most right now. One team, one record, one plan.
+            Modern medicine and advanced therapies, delivered in one private practice.
           </p>
         </div>
 
@@ -73,8 +64,8 @@ export function CareCategories() {
                 className="group relative block h-full overflow-hidden rounded-lg bg-ivory"
               >
                 <ParallaxImage
-                  src={c.image}
-                  alt={c.alt}
+                  src={c.picture.src}
+                  alt={c.picture.alt}
                   width={1200}
                   height={1500}
                   amount={8}
@@ -85,7 +76,7 @@ export function CareCategories() {
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 md:p-8">
                   <div className="text-on-dark">
                     <h3 className="display-sm">{c.title}</h3>
-                    <p className="mt-2 max-w-[28ch] text-sm text-on-dark/85">{c.copy}</p>
+                    <p className="mt-2 max-w-[30ch] text-sm text-on-dark/85">{c.short}</p>
                   </div>
                   <span className="mb-1 flex size-11 shrink-0 items-center justify-center rounded-full border border-white/35 text-on-dark transition-colors duration-500 group-hover:bg-on-dark group-hover:text-ink">
                     <Arrow />

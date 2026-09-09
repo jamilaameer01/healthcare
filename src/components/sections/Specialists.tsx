@@ -3,41 +3,35 @@ import { Container } from "@/components/ui/Container";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { TiltCard } from "@/components/animations/TiltCard";
 import { prefersReducedMotion } from "@/lib/motion";
-import doctor1 from "@/assets/doctor-1.jpg";
-import doctor2 from "@/assets/doctor-2.jpg";
-import doctor3 from "@/assets/doctor-3.jpg";
-import doctor4 from "@/assets/doctor-4.jpg";
+import { placeholderReviews } from "@/content/thryve";
 
-const PEOPLE = [
-  {
-    name: "Dr. Elena Marsh",
-    specialty: "Internal Medicine",
-    copy: "Leads our preventive review programme.",
-    credentials: "MBBS, MRCP",
-    image: doctor1,
-  },
-  {
-    name: "Dr. Anders Holt",
-    specialty: "Cardiology",
-    copy: "Long-term cardiovascular risk and rehabilitation.",
-    credentials: "MD, FRCP",
-    image: doctor2,
-  },
-  {
-    name: "Dr. Amara Boateng",
-    specialty: "Women's Health",
-    copy: "Gynaecology, fertility and hormonal care.",
-    credentials: "MBChB, MRCOG",
-    image: doctor3,
-  },
-  {
-    name: "Dr. Kenji Sato",
-    specialty: "Diagnostic Imaging",
-    copy: "Same-day imaging and reporting on site.",
-    credentials: "MD, FRCR",
-    image: doctor4,
-  },
-];
+/*
+ * Patient review cards.
+ *
+ * ⚠️ Fed by PLACEHOLDER data — see `placeholderReviews` in @/content/thryve.
+ * Swap that array for real reviews before launch; this section needs no
+ * change. Separate from the "How we practise" section, which carries the
+ * team's own quotes and portraits.
+ */
+const CARDS = placeholderReviews;
+
+function Stars({ rating }: { rating: number }) {
+  return (
+    <div className="flex items-center gap-1" aria-label={`${rating} out of 5`}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg
+          key={i}
+          aria-hidden
+          viewBox="0 0 20 20"
+          className={i < rating ? "size-4 text-clay" : "size-4 text-ink/15"}
+          fill="currentColor"
+        >
+          <path d="M10 1.6l2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8L10 1.6z" />
+        </svg>
+      ))}
+    </div>
+  );
+}
 
 export function Specialists() {
   const track = useRef<HTMLUListElement>(null);
@@ -61,18 +55,15 @@ export function Specialists() {
     return () => cancelAnimationFrame(frame);
   }, [paused]);
 
-  const peopleLoop = [...PEOPLE, ...PEOPLE];
+  const cardLoop = [...CARDS, ...CARDS];
 
   return (
-    <section id="specialists" className="bg-ivory py-24 md:py-36">
+    <section id="specialists" className="bg-ivory py-16 md:py-24">
       <Container wide>
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <TextReveal
-            className="display-md max-w-[16ch]"
-            lines={["Meet the people", "behind your care."]}
-          />
+          <TextReveal className="display-md max-w-[16ch]" lines={["What patients", "tell us."]} />
           <p className="max-w-xs text-base leading-relaxed text-ink-soft">
-            A small team, deliberately. You will see the same faces for years.
+            Experiences from across the practice, in patients' own words.
           </p>
         </div>
       </Container>
@@ -83,32 +74,40 @@ export function Specialists() {
         onPointerLeave={() => setPaused(false)}
         onFocusCapture={() => setPaused(true)}
         onBlurCapture={() => setPaused(false)}
-        className="no-scrollbar mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 md:mt-20 md:px-10"
+        className="no-scrollbar mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 md:mt-16 md:px-10"
       >
-        {peopleLoop.map((p, index) => (
+        {cardLoop.map((card, index) => (
           <li
-            key={`${p.name}-${index}`}
-            aria-hidden={index >= PEOPLE.length ? true : undefined}
-            className="group w-[76vw] shrink-0 snap-center sm:w-[46vw] lg:w-[26vw] xl:w-[22vw]"
+            key={`${card.name}-${index}`}
+            aria-hidden={index >= CARDS.length ? true : undefined}
+            className="w-[80vw] shrink-0 snap-center sm:w-[48vw] lg:w-[30vw] xl:w-[24vw]"
           >
-            <TiltCard intensity={6}>
-              <div className="media-depth-drift aspect-3/4 w-full overflow-hidden rounded-lg bg-linen">
-                <img
-                  src={p.image}
-                  alt={`Portrait of ${p.name}`}
-                  loading="lazy"
-                  width={800}
-                  height={1100}
-                  className="size-full object-cover transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.05]"
-                />
-              </div>
+            <TiltCard intensity={4} className="h-full">
+              <figure className="flex h-full flex-col justify-between rounded-lg border border-line bg-sand/50 p-7 md:p-8">
+                <div>
+                  <Stars rating={card.rating} />
+                  <blockquote className="mt-5">
+                    <p className="text-lg leading-relaxed text-ink">“{card.quote}”</p>
+                  </blockquote>
+                </div>
+
+                <figcaption className="mt-8 flex items-center gap-4 border-t border-ink/10 pt-6">
+                  {/* Initial-letter avatar rather than a photo. */}
+                  <span
+                    aria-hidden
+                    className="font-display flex size-12 shrink-0 items-center justify-center rounded-full bg-clay/15 text-lg font-medium text-clay"
+                  >
+                    {card.name.charAt(0)}
+                  </span>
+                  <div>
+                    <p className="text-[15px] font-medium tracking-[-0.01em] text-ink">
+                      {card.name}
+                    </p>
+                    <p className="mt-0.5 text-sm text-clay">{card.service}</p>
+                  </div>
+                </figcaption>
+              </figure>
             </TiltCard>
-            <div className="mt-5">
-              <h3 className="display-sm">{p.name}</h3>
-              <p className="mt-1 text-sm text-clay">{p.specialty}</p>
-              <p className="mt-3 max-w-[30ch] text-sm leading-relaxed text-ink-soft">{p.copy}</p>
-              <p className="label-mono mt-4 text-ink-soft/70">{p.credentials}</p>
-            </div>
           </li>
         ))}
       </ul>

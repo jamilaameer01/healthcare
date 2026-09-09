@@ -4,13 +4,13 @@ import { gsap, prefersReducedMotion } from "@/lib/motion";
 import { Container } from "./Container";
 import { ActionLink } from "./ActionButton";
 import { cn } from "@/lib/utils";
+import { site } from "@/content/thryve";
 
 const LINKS = [
-  { label: "Care", href: "/#care" },
-  { label: "Treatment", href: "/#treatment" },
-  { label: "Services", href: "/#services" },
-  { label: "Specialists", href: "/#specialists" },
-  { label: "Tools", href: "/#tools" },
+  { label: "Services", to: "/services" },
+  { label: "Assessment", href: "/#assessment" },
+  { label: "Membership", href: "/#tools" },
+  { label: "Team", href: "/#specialists" },
   { label: "About", to: "/approach" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -72,7 +72,7 @@ export function Navbar() {
         <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <span aria-hidden className="size-2 rounded-full bg-clay" />
           <span className="font-display text-[17px] font-medium tracking-[-0.03em]">
-            Meridian Health
+            {site.name}
           </span>
         </Link>
 
@@ -99,8 +99,13 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <ActionLink to="/book" className="hidden h-11 min-h-11 md:inline-flex" withArrow={false}>
-            Get started
+          <ActionLink
+            href={site.bookingUrl}
+            external
+            className="hidden h-11 min-h-11 md:inline-flex"
+            withArrow={false}
+          >
+            Book now
           </ActionLink>
           <button
             type="button"
@@ -153,10 +158,18 @@ export function Navbar() {
                 </div>
               ))}
             </nav>
-            <div data-menu-item>
-              <ActionLink to="/book" className="w-full" onClick={() => setOpen(false)}>
-                Get started
+            <div data-menu-item className="space-y-4">
+              <ActionLink
+                href={site.bookingUrl}
+                external
+                className="w-full"
+                onClick={() => setOpen(false)}
+              >
+                Book an appointment
               </ActionLink>
+              <a href={site.phoneHref} className="block text-sm text-ink-soft">
+                {site.phone}
+              </a>
             </div>
           </Container>
         </div>

@@ -2,20 +2,22 @@ import { useState, type FormEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Container } from "@/components/ui/Container";
 import { SectionLabel } from "@/components/ui/SectionLabel";
+import { ActionLink } from "@/components/ui/ActionButton";
+import { services, site } from "@/content/thryve";
 
 export const Route = createFileRoute("/book")({
   head: () => ({
     meta: [
-      { title: "Book an appointment — Meridian Health" },
+      { title: "Book an appointment — Thryve Wellness" },
       {
         name: "description",
         content:
-          "Request an appointment with a Meridian Health specialist in London. We reply within one working day.",
+          "Request an appointment at Thryve Wellness in Naples, Florida, or book instantly through our online scheduler.",
       },
-      { property: "og:title", content: "Book an appointment — Meridian Health" },
+      { property: "og:title", content: "Book an appointment — Thryve Wellness" },
       {
         property: "og:description",
-        content: "Request an appointment with a Meridian Health specialist in London.",
+        content: "Request an appointment at Thryve Wellness in Naples, Florida.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -24,7 +26,7 @@ export const Route = createFileRoute("/book")({
   component: BookPage,
 });
 
-const AREAS = ["Preventive Care", "Primary Care", "Women's Health", "Diagnostics", "Wellness"];
+const AREAS = services.map((s) => s.title);
 
 const field =
   "mt-2 w-full border-b border-line bg-transparent pb-3 text-base outline-none transition-colors focus:border-accent";
@@ -44,16 +46,44 @@ function BookPage() {
           <SectionLabel>Appointments</SectionLabel>
           <h1 className="display-md mt-8 max-w-[14ch]">Request a time that suits you.</h1>
           <p className="mt-6 max-w-sm text-base leading-relaxed text-ink-soft">
-            Send a request and our reception team replies within one working day. For urgent
-            symptoms, call +44 20 7946 0182.
+            Book instantly through our online scheduler, or send a request below and we will be in
+            touch. For anything urgent, call{" "}
+            <a href={site.phoneHref} className="text-ink underline decoration-clay/40">
+              {site.phone}
+            </a>
+            .
           </p>
+
+          <div className="mt-9">
+            <ActionLink href={site.bookingUrl} external>
+              Book online now
+            </ActionLink>
+          </div>
+
+          <dl className="mt-12 space-y-5 text-sm">
+            <div className="rule-line pt-5">
+              <dt className="label-mono text-ink-soft">Address</dt>
+              <dd className="mt-2">{site.addressLine}</dd>
+            </div>
+            <div className="rule-line pt-5">
+              <dt className="label-mono text-ink-soft">Hours</dt>
+              <dd className="mt-2">
+                {site.hours.map((h) => (
+                  <p key={h.day}>
+                    {h.day} · {h.time}
+                  </p>
+                ))}
+              </dd>
+            </div>
+          </dl>
         </div>
 
         {sent ? (
           <div className="rule-line pt-8" role="status">
             <h2 className="text-2xl tracking-[-0.025em]">Request received.</h2>
             <p className="mt-4 max-w-sm text-base text-ink-soft">
-              Thank you — we will be in touch within one working day to confirm a time.
+              Thank you — we will be in touch to confirm a time. You can also book instantly through
+              our online scheduler.
             </p>
           </div>
         ) : (
