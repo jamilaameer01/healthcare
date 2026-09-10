@@ -8,10 +8,12 @@ const base =
   "group inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full px-7 text-[0.9375rem] font-medium transition-[background-color,color,border-color,transform,opacity] duration-500 ease-cinematic will-change-transform";
 
 const variants: Record<Variant, string> = {
-  solid: "bg-ink text-on-dark hover:bg-clay",
+  /* Clay carries the primary action site-wide; ink is the hover. */
+  solid: "bg-clay text-on-dark hover:bg-ink",
   outline: "border border-ink/20 text-ink hover:border-ink/60",
   ghost: "px-0 text-ink hover:text-clay",
-  onDark: "bg-on-dark text-ink hover:bg-clay-soft",
+  /* Ink would vanish into a dark section, so there the hover is the pale pill. */
+  onDark: "bg-clay text-on-dark hover:bg-on-dark hover:text-ink",
   onDarkOutline: "border border-white/25 text-on-dark hover:border-on-dark",
 };
 

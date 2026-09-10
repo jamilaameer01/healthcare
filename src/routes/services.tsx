@@ -7,7 +7,7 @@ import { ActionLink, Arrow } from "@/components/ui/ActionButton";
 import facility from "@/assets/facility.jpg";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { cn } from "@/lib/utils";
-import { medicalServices, type ServiceItem } from "@/content/medical-services";
+import { medicalServices, type MedicalService, type ServiceItem } from "@/content/medical-services";
 import { site } from "@/content/thryve";
 import { focal } from "@/content/imageFocus";
 
@@ -31,14 +31,6 @@ export const Route = createFileRoute("/services")({
   }),
   component: ServicesPage,
 });
-
-/** Items that carry a heading or copy — rendered as two-column rows. */
-const withCopy = (service: { items: ServiceItem[] }) =>
-  service.items.filter((i) => Boolean(i.parts?.length || i.title));
-
-/** Items that are only a photograph — collected into one grid. */
-const imagesOnly = (service: { items: ServiceItem[] }) =>
-  service.items.filter((i) => i.image && !i.parts?.length && !i.title);
 
 /** Body copy for one item: paragraphs and bulleted lists, in order. */
 function ItemBody({ item }: { item: ServiceItem }) {
@@ -66,11 +58,126 @@ function ItemBody({ item }: { item: ServiceItem }) {
   );
 }
 
+/** One photograph. Brand marks and product shots are never cropped. */
+function ServiceImage({ item, alt }: { item: ServiceItem; alt: string }) {
+  const contain = item.fit === "contain";
+
+  return (
+    <div
+      className={cn(
+        "media-depth-drift w-full overflow-hidden rounded-lg",
+        contain
+          ? "flex aspect-4/3 items-center justify-center border border-line bg-white p-6"
+          : "aspect-4/3 bg-linen",
+      )}
+    >
+      <img
+        src={item.image}
+        alt={alt}
+        loading="lazy"
+        width={1400}
+        height={1050}
+        style={contain ? {} : focal(item.image!)}
+        className={cn(
+          contain ? "max-h-full w-auto max-w-full object-contain" : "size-full object-cover",
+        )}
+      />
+    </div>
+  );
+}
+
+/**
+ * Every photograph a category has, stacked in one column: the first at full
+ * width, the rest paired below it. The column holds still while the copy
+ * beside it scrolls, so a long passage never leaves the page half empty.
+ */
+function ServiceImages({ service }: { service: MedicalService }) {
+  const images = service.items.filter((i) => i.image);
+  if (!images.length) return null;
+
+  const [first, ...rest] = images;
+
+  return (
+    <div className="lg:sticky lg:top-28 lg:self-start">
+      <ServiceImage item={first!} alt={first!.title ?? `${service.title} at ${site.name}`} />
+
+      {rest.length ? (
+        <div className={cn("mt-4 grid gap-4", rest.length > 1 && "grid-cols-2")}>
+          {rest.map((item, i) => (
+            <ServiceImage key={i} item={item} alt={`${service.title} at ${site.name}`} />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function ServiceSection({ service, index }: { service: MedicalService; index: number }) {
+  const copy = service.items.filter((i) => i.parts?.length || i.title);
+
+  return (
+    <section
+      id={service.id}
+      className={cn("scroll-mt-28 py-14 md:py-20", index % 2 === 0 ? "bg-sand" : "bg-ivory")}
+    >
+      {/* Wider side margins than the opening section, so each category sits in from the edge. */}
+      <Container wide className="lg:px-20 xl:px-28">
+        <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+          <ServiceImages service={service} />
+
+          <Reveal blur={false} stagger={0.08}>
+            <p className="label-mono text-clay">
+              {String(index + 1).padStart(2, "0")} /{" "}
+              {String(medicalServices.length).padStart(2, "0")}
+            </p>
+            <h2 className="display-md mt-5">{service.title}</h2>
+            <p className="mt-6 text-base leading-relaxed text-ink-soft md:text-lg">
+              {service.description}
+            </p>
+
+            {service.symptoms ? (
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {service.symptoms.map((symptom) => (
+                  <div
+                    key={symptom}
+                    className="rule-line pt-4 text-base leading-relaxed text-ink-soft"
+                  >
+                    {symptom}
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            {copy.length ? (
+              <div className="rule-line mt-10 space-y-10 pt-10">
+                {copy.map((item, i) => (
+                  <div key={item.title ?? i}>
+                    {item.title && item.title !== service.title ? (
+                      <h3 className="display-sm mb-4 max-w-[26ch]">{item.title}</h3>
+                    ) : null}
+                    <ItemBody item={item} />
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            <div className="mt-10">
+              <ActionLink href={site.bookingUrl} external>
+                Book a consultation
+              </ActionLink>
+            </div>
+          </Reveal>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 function ServicesPage() {
   return (
     <>
       {/* ---------- page opening ---------- */}
-      <section className="bg-ivory pb-14 pt-36 md:pb-20 md:pt-44">
+      <section className="bg-ivory pb-14 pt-28 md:pb-20 md:pt-36">
         <Container wide>
           <div className="grid items-end gap-12 lg:grid-cols-[1fr_0.82fr] lg:gap-16">
             <div>
@@ -103,7 +210,7 @@ function ServicesPage() {
             the site's own rule language rather than a cloud of pills.
           */}
           <Reveal
-            className="mt-16 grid gap-x-14 border-t border-ink/12 sm:grid-cols-2 md:mt-20"
+            className="mt-16 grid gap-x-14 border-t border-ink/12 sm:grid-cols-2 md:mt-20 lg:grid-cols-4"
             blur={false}
             stagger={0.05}
           >
@@ -125,142 +232,31 @@ function ServicesPage() {
 
       {/* ---------- one block per service category ---------- */}
       {medicalServices.map((service, index) => (
-        <section
-          key={service.id}
-          id={service.id}
-          className={cn("py-16 md:py-24", index % 2 === 0 ? "bg-sand" : "bg-ivory")}
-        >
-          <Container wide>
-            <Reveal className="max-w-3xl" blur={false} stagger={0.08}>
-              <p className="label-mono text-clay">
-                {String(index + 1).padStart(2, "0")} /{" "}
-                {String(medicalServices.length).padStart(2, "0")}
-              </p>
-              <h2 className="display-md mt-5 max-w-[24ch]">{service.title}</h2>
-              <p className="mt-6 text-base leading-relaxed text-ink-soft md:text-lg">
-                {service.description}
-              </p>
-            </Reveal>
-
-            {service.symptoms ? (
-              <Reveal
-                className="mt-10 grid max-w-3xl gap-3 sm:grid-cols-2"
-                blur={false}
-                stagger={0.05}
-              >
-                {service.symptoms.map((symptom) => (
-                  <div
-                    key={symptom}
-                    className="rule-line pt-4 text-base leading-relaxed text-ink-soft"
-                  >
-                    {symptom}
-                  </div>
-                ))}
-              </Reveal>
-            ) : null}
-
-            {/*
-              Items with copy alternate as two-column rows with their tops
-              aligned; the image column is capped so a 4:3 photo cannot run
-              away in height. Image-only items are collected into one tidy
-              grid instead of a stack of full-width plates.
-            */}
-            <div className="mt-14 space-y-14 md:mt-16 md:space-y-20">
-              {withCopy(service).map((item, i) => (
-                <Reveal
-                  key={item.title ?? i}
-                  className={cn(
-                    "grid items-start gap-8 lg:gap-14",
-                    !item.image
-                      ? "max-w-3xl"
-                      : i % 2 === 1
-                        ? "lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)]"
-                        : "lg:grid-cols-[minmax(0,440px)_minmax(0,1fr)]",
-                  )}
-                  blur={false}
-                  stagger={0.08}
-                >
-                  {item.image ? (
-                    <div
-                      className={cn(
-                        "media-depth-drift w-full overflow-hidden rounded-lg",
-                        item.fit === "contain"
-                          ? "flex aspect-16/9 items-center justify-center border border-line bg-white p-6"
-                          : "aspect-4/3 bg-linen",
-                        i % 2 === 1 ? "lg:order-last" : "",
-                      )}
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.title ?? service.title}
-                        loading="lazy"
-                        width={1400}
-                        height={1050}
-                        style={item.fit === "contain" ? undefined : focal(item.image)}
-                        className={cn(
-                          item.fit === "contain"
-                            ? "max-h-full w-auto max-w-full object-contain"
-                            : "size-full object-cover",
-                        )}
-                      />
-                    </div>
-                  ) : null}
-
-                  <div className="lg:pt-1">
-                    {item.title && item.title !== service.title ? (
-                      <h3 className="display-sm mb-5 max-w-[26ch]">{item.title}</h3>
-                    ) : null}
-                    <ItemBody item={item} />
-                  </div>
-                </Reveal>
-              ))}
-
-              {imagesOnly(service).length ? (
-                <Reveal
-                  className={cn(
-                    "grid gap-5",
-                    imagesOnly(service).length > 1 ? "sm:grid-cols-2 lg:grid-cols-3" : "max-w-xl",
-                  )}
-                  blur={false}
-                  stagger={0.08}
-                >
-                  {imagesOnly(service).map((item, i) => (
-                    <ParallaxImage
-                      key={i}
-                      src={item.image!}
-                      alt={`${service.title} at ${site.name}`}
-                      width={1400}
-                      height={1050}
-                      imgStyle={focal(item.image!)}
-                      amount={5}
-                      zoom={1.04}
-                      className="aspect-4/3 w-full rounded-lg"
-                    />
-                  ))}
-                </Reveal>
-              ) : null}
-            </div>
-          </Container>
-        </section>
+        <ServiceSection key={service.id} service={service} index={index} />
       ))}
 
       {/* ---------- closing call to action ---------- */}
       <section className="dark-section py-16 md:py-24">
         <Container wide>
-          <TextReveal
-            className="display-md max-w-[20ch] text-on-dark"
-            lines={["Not sure where", "to start?"]}
-          />
-          <p className="mt-6 max-w-md text-base leading-relaxed text-on-dark-soft">
-            Book a consultation and we will map the right testing and treatment around your goals.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <ActionLink href={site.bookingUrl} external variant="onDark">
-              Book an appointment
-            </ActionLink>
-            <ActionLink href={site.phoneHref} variant="onDarkOutline" withArrow={false}>
-              {site.phone}
-            </ActionLink>
+          <div className="grid items-end gap-10 lg:grid-cols-2 lg:gap-16">
+            <TextReveal
+              className="display-md max-w-[20ch] text-on-dark"
+              lines={["Not sure where", "to start?"]}
+            />
+            <div>
+              <p className="max-w-md text-base leading-relaxed text-on-dark-soft">
+                Book a consultation and we will map the right testing and treatment around your
+                goals.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <ActionLink href={site.bookingUrl} external variant="onDark">
+                  Book an appointment
+                </ActionLink>
+                <ActionLink href={site.phoneHref} variant="onDarkOutline" withArrow={false}>
+                  {site.phone}
+                </ActionLink>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
