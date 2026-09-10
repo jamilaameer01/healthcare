@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { gsap, registerGsap, prefersReducedMotion, ScrollTrigger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -10,6 +10,7 @@ export function ParallaxImage({
   alt,
   className,
   imgClassName,
+  imgStyle,
   width,
   height,
   amount = 12,
@@ -20,6 +21,8 @@ export function ParallaxImage({
   alt: string;
   className?: string;
   imgClassName?: string;
+  /** Crop focus for the frame — see `focal` in `@/content/imageFocus`. */
+  imgStyle?: CSSProperties;
   width: number;
   height: number;
   amount?: number;
@@ -61,6 +64,7 @@ export function ParallaxImage({
         alt={alt}
         width={width}
         height={height}
+        style={imgStyle}
         loading={priority ? "eager" : "lazy"}
         {...(priority ? { fetchPriority: "high" as const } : {})}
         className={cn("size-full object-cover will-change-transform", imgClassName)}

@@ -4,6 +4,7 @@ import { TextReveal } from "@/components/animations/TextReveal";
 import { ActionLink } from "@/components/ui/ActionButton";
 import { cn } from "@/lib/utils";
 import { imageAt, serviceById, site } from "@/content/thryve";
+import { focal } from "@/content/imageFocus";
 
 /* Each goal maps to a real service; copy is drawn from that service. */
 const OPTIONS = [
@@ -114,20 +115,25 @@ export function CareFinder() {
           </div>
 
           <div className="media-depth-drift relative aspect-4/3 w-full overflow-hidden rounded-lg bg-linen sm:mx-auto sm:max-w-[420px] lg:aspect-5/4 lg:max-h-[460px] lg:max-w-[580px]">
-            {OPTIONS.map((o, i) => (
-              <img
-                key={o.id}
-                src={imageAt(o.service, 1).src}
-                alt={imageAt(o.service, 1).alt}
-                loading="lazy"
-                width={1200}
-                height={1500}
-                className={cn(
-                  "absolute inset-0 size-full object-cover transition-all duration-[900ms] ease-cinematic",
-                  i === active ? "scale-100 opacity-100" : "scale-105 opacity-0",
-                )}
-              />
-            ))}
+            {OPTIONS.map((o, i) => {
+              const image = imageAt(o.service, 1);
+
+              return (
+                <img
+                  key={o.id}
+                  src={image.src}
+                  alt={image.alt}
+                  loading="lazy"
+                  width={1200}
+                  height={1500}
+                  style={focal(image.src)}
+                  className={cn(
+                    "absolute inset-0 size-full object-cover transition-all duration-[900ms] ease-cinematic",
+                    i === active ? "scale-100 opacity-100" : "scale-105 opacity-0",
+                  )}
+                />
+              );
+            })}
           </div>
         </div>
       </Container>

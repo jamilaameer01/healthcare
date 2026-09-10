@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { mission, serviceById, services } from "@/content/thryve";
+import { focal } from "@/content/imageFocus";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -568,6 +569,7 @@ export function DigitalCare() {
                     <img
                       src={image.src}
                       alt={image.alt}
+                      style={focal(image.src)}
                       className="h-full w-full object-cover"
                       loading="lazy"
                       draggable={false}
@@ -647,7 +649,8 @@ export function DigitalCare() {
                     <img
                       src={CENTER_IMAGE}
                       alt="A patient in an unhurried consultation with her provider"
-                      className="h-full w-full object-cover object-center"
+                      style={focal(CENTER_IMAGE)}
+                      className="h-full w-full object-cover"
                       draggable={false}
                     />
 

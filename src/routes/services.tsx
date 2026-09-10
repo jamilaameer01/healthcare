@@ -9,6 +9,7 @@ import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { cn } from "@/lib/utils";
 import { medicalServices, type ServiceItem } from "@/content/medical-services";
 import { site } from "@/content/thryve";
+import { focal } from "@/content/imageFocus";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -195,6 +196,7 @@ function ServicesPage() {
                         loading="lazy"
                         width={1400}
                         height={1050}
+                        style={item.fit === "contain" ? undefined : focal(item.image)}
                         className={cn(
                           item.fit === "contain"
                             ? "max-h-full w-auto max-w-full object-contain"
@@ -229,6 +231,7 @@ function ServicesPage() {
                       alt={`${service.title} at ${site.name}`}
                       width={1400}
                       height={1050}
+                      imgStyle={focal(item.image!)}
                       amount={5}
                       zoom={1.04}
                       className="aspect-4/3 w-full rounded-lg"
