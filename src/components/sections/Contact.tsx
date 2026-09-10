@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { ActionLink } from "@/components/ui/ActionButton";
+import { SocialLinks } from "@/components/ui/SocialLinks";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { site } from "@/content/thryve";
@@ -9,12 +10,6 @@ const DETAILS = [
   { label: "Phone", value: [site.phone] },
   { label: "Fax", value: [site.fax] },
   { label: "Hours", value: site.hours.map((h) => `${h.day} · ${h.time}`) },
-];
-
-const SOCIALS = [
-  { label: "Instagram", href: site.instagram },
-  { label: "Facebook", href: site.facebook },
-  { label: "TikTok", href: site.tiktok },
 ];
 
 export function Contact() {
@@ -55,29 +50,18 @@ export function Contact() {
               <ActionLink href={site.bookingUrl} external>
                 Book an appointment
               </ActionLink>
-              <ActionLink
-                href={`https://www.google.com/maps/dir/?api=1&destination=${site.mapQuery}`}
-                external
-                variant="outline"
-                withArrow={false}
-              >
-                Get directions
+              {/* Directions, hours and the enquiry form all live on the
+                  contact page, so this teaser points there rather than
+                  repeating the maps deep link. */}
+              <ActionLink to="/contact" variant="outline">
+                Contact and directions
               </ActionLink>
             </div>
 
-            <div className="mt-10 flex flex-wrap gap-6 text-sm text-ink-soft">
-              {SOCIALS.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-clay"
-                >
-                  {s.label}
-                </a>
-              ))}
-            </div>
+            <SocialLinks
+              className="mt-8 -ml-3"
+              linkClassName="text-ink-soft hover:bg-ink/5 hover:text-clay"
+            />
           </div>
 
           <div className="overflow-hidden rounded-lg border border-line bg-sand p-3">

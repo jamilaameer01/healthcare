@@ -9,17 +9,19 @@ import { site } from "@/content/thryve";
 import logo from "@/assets/logo.png";
 
 /*
- * The section links carry a `hash` rather than an `href="/#…"`. A bare anchor
- * is a document navigation: from any page but the home page it reloaded the
+ * Every entry is now a page of its own, so none of them carry a `hash`. The
+ * type keeps `hash` optional because the spread below still supports it: a
+ * section link must use one rather than an `href="/#…"`, since a bare anchor
+ * is a document navigation — from any page but the home page it reloaded the
  * whole bundle, and on the home page it jumped natively, past both the fixed
- * header and Lenis. As router links they stay client-side and SmoothScroll
- * lands them.
+ * header and Lenis.
  */
-const LINKS = [
+const LINKS: { label: string; to: string; hash?: string }[] = [
   { label: "Home", to: "/" },
-  { label: "Services", to: "/services" },
-  { label: "About", to: "/", hash: "team" },
-  { label: "Contact", to: "/", hash: "contact" },
+  { label: "Medical services", to: "/services" },
+  { label: "Aesthetics", to: "/aesthetic-services" },
+  { label: "About", to: "/about" },
+  { label: "Contact", to: "/contact" },
 ];
 
 export function Navbar() {
@@ -102,7 +104,9 @@ export function Navbar() {
           />
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">
+        {/* Five entries with a two-word label among them: the row needs the
+            tighter gap to hold one line at 1024px, and opens up again at xl. */}
+        <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex xl:gap-9">
           {LINKS.map((l) => (
             <Link
               key={l.label}
@@ -111,6 +115,8 @@ export function Navbar() {
                  `exactOptionalPropertyTypes` rejects an explicit undefined. */
               {...(l.hash ? { hash: l.hash } : {})}
               className="text-sm text-ink-soft transition-colors hover:text-ink"
+              activeProps={{ className: "text-ink" }}
+              activeOptions={{ exact: l.to === "/" }}
             >
               {l.label}
             </Link>

@@ -1,13 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { Container } from "./Container";
+import { SocialLinks } from "./SocialLinks";
 import { site } from "@/content/thryve";
 import logo from "@/assets/logo.png";
-
-const SOCIALS = [
-  { label: "Instagram", href: site.instagram },
-  { label: "Facebook", href: site.facebook },
-  { label: "TikTok", href: site.tiktok },
-];
 
 export function Footer() {
   return (
@@ -45,19 +40,23 @@ export function Footer() {
               <Link to="/services" className="hover:text-on-dark">
                 Medical services
               </Link>
+              <Link to="/aesthetic-services" className="hover:text-on-dark">
+                Aesthetic services
+              </Link>
+              <Link to="/about" className="hover:text-on-dark">
+                About the practice
+              </Link>
+              <Link to="/contact" className="hover:text-on-dark">
+                Contact and directions
+              </Link>
               {/*
-                Router links with a hash, not `href="/#…"`: a bare anchor is a
-                document navigation, so from any page but the home page these
+                Membership has no page of its own yet, so it stays a section
+                link. Router link with a hash, not `href="/#…"`: a bare anchor
+                is a document navigation, so from any page but the home page it
                 reloaded the whole bundle before moving.
               */}
               <Link to="/" hash="tools" className="hover:text-on-dark">
                 Membership
-              </Link>
-              <Link to="/" hash="team" className="hover:text-on-dark">
-                About the practice
-              </Link>
-              <Link to="/" hash="contact" className="hover:text-on-dark">
-                Visit us
               </Link>
               <a
                 href={site.bookingUrl}
@@ -75,19 +74,12 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            {SOCIALS.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-on-dark"
-              >
-                {s.label}
-              </a>
-            ))}
-          </div>
+          {/* Negative margin pulls the icons' 44px targets back level with the
+              copyright line, which has no such padding. */}
+          <SocialLinks
+            className="-mx-3"
+            linkClassName="text-on-dark-soft hover:bg-white/10 hover:text-on-dark"
+          />
         </div>
       </Container>
     </footer>

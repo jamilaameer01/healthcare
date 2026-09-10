@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap, registerGsap, prefersReducedMotion, ScrollTrigger } from "@/lib/motion";
 import { Container } from "@/components/ui/Container";
+import { ActionLink } from "@/components/ui/ActionButton";
 import { cn } from "@/lib/utils";
 import { team } from "@/content/thryve";
 
@@ -88,6 +89,10 @@ export function PatientStories() {
               </article>
             ))}
           </div>
+
+          <ActionLink to="/about" variant="onDarkOutline" className="mt-10">
+            Read about the practice
+          </ActionLink>
         </Container>
       </div>
 
@@ -124,6 +129,13 @@ export function PatientStories() {
                   </blockquote>
                 ))}
               </div>
+
+              {/* Outside the quote stack: those are absolutely positioned in a
+                  fixed-height box, so anything placed inside it would collide
+                  with the longest excerpt. */}
+              <ActionLink to="/about" variant="onDarkOutline" className="mt-2">
+                Read about the practice
+              </ActionLink>
             </div>
 
             {/* Portrait frame: the team photos are tall originals. */}
