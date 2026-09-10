@@ -97,7 +97,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={root} className="relative overflow-hidden bg-ivory pt-36 md:pt-44">
+    <section ref={root} className="relative overflow-hidden bg-ivory pt-28 md:pt-36">
       {/* Ambient background video — decorative, sits behind everything. */}
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
         <video
