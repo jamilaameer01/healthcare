@@ -5,7 +5,8 @@ import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { ActionLink } from "@/components/ui/ActionButton";
-import facility from "@/assets/facility.jpg";
+/* Not `facility.jpg`: that one already opens the services page. */
+import space from "@/assets/space-1.jpg";
 import {
   imageAt,
   mission,
@@ -93,14 +94,20 @@ function AboutPage() {
               </div>
             </div>
 
+            {/*
+              An explicit height at lg, so the photograph finishes on the same
+              baseline as the label, heading, paragraph and buttons beside it
+              rather than running past them.
+            */}
             <ParallaxImage
-              src={facility}
-              alt="A quiet, daylit room at the practice"
-              width={1600}
-              height={1000}
+              src={space}
+              alt="The daylit reception area at the practice"
+              width={1408}
+              height={1008}
               amount={8}
               zoom={1.06}
-              className="aspect-4/3 w-full rounded-lg sm:aspect-16/10 lg:aspect-4/3"
+              priority
+              className="aspect-16/10 w-full rounded-lg lg:aspect-auto lg:h-[26rem]"
             />
           </div>
         </Container>
@@ -140,43 +147,56 @@ function AboutPage() {
 
       {/* ---------- the team, with full bios ---------- */}
       <section id="team" className="scroll-mt-28 bg-ivory py-16 md:py-24">
-        <Container wide>
+        {/* Held in from the edges, the way each category on the services page
+            is — the bios read as a column rather than running the full width. */}
+        <Container wide className="lg:px-20 xl:px-28">
           <SectionLabel>The team</SectionLabel>
           <h2 className="display-md mt-8 max-w-[22ch]">The people you actually see.</h2>
 
           <div className="mt-14 space-y-20 md:mt-16 md:space-y-28">
-            {team.map((member, i) => (
-              <Reveal
+            {team.map((member) => (
+              /*
+                The portrait keeps to one side for every member rather than
+                alternating, and holds still while the bio beside it scrolls —
+                the arrangement the services page uses. Alternating sides meant
+                mirroring the grid template on every other row, and the two
+                columns never settled at the same height.
+
+                The grid is a plain element and only the bio is wrapped in
+                `Reveal`, exactly as the services page keeps `ServiceImages`
+                outside it: the reveal animates its children's transforms, and
+                a transform on the sticky column would fight its own offset as
+                it pins.
+              */
+              <div
                 key={member.name}
-                className={`grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 ${
-                  i % 2 === 1 ? "lg:[&>*:first-child]:order-last" : ""
-                }`}
-                blur={false}
-                stagger={0.08}
+                className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[320px_1fr] lg:gap-14"
               >
-                <div className="media-depth-drift aspect-4/5 w-full overflow-hidden rounded-lg bg-linen sm:mx-auto sm:max-w-[420px] lg:mx-0 lg:max-w-none">
-                  <img
-                    src={member.image}
-                    alt={`Portrait of ${member.name}, ${member.role}`}
-                    loading="lazy"
-                    width={1200}
-                    height={1500}
-                    className="size-full object-cover object-top"
-                  />
+                <div className="mx-auto w-full max-w-[320px] lg:mx-0 lg:sticky lg:top-28 lg:self-start">
+                  <div className="media-depth-drift aspect-4/5 w-full overflow-hidden rounded-lg bg-linen">
+                    <img
+                      src={member.image}
+                      alt={`Portrait of ${member.name}, ${member.role}`}
+                      loading="lazy"
+                      width={1200}
+                      height={1500}
+                      className="size-full object-cover object-top"
+                    />
+                  </div>
                 </div>
 
-                <div>
+                <Reveal blur={false} stagger={0.08}>
                   <h3 className="display-sm">{member.name}</h3>
                   <p className="mt-2 text-sm text-clay">{member.role}</p>
-                  <div className="mt-6 space-y-4 text-base leading-relaxed text-ink-soft">
+                  <div className="mt-5 space-y-4 text-base leading-relaxed text-ink-soft">
                     {member.bio.map((paragraph) => (
                       <p key={paragraph.slice(0, 40)} className="max-w-[62ch]">
                         {paragraph}
                       </p>
                     ))}
                   </div>
-                </div>
-              </Reveal>
+                </Reveal>
+              </div>
             ))}
           </div>
         </Container>
@@ -191,27 +211,44 @@ function AboutPage() {
       */}
       <section className="bg-sand py-12 md:py-16">
         <Container wide>
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr] lg:items-end lg:gap-16">
-            <div>
-              <SectionLabel>Certified partners</SectionLabel>
-              <h2 className="display-sm mt-5 max-w-[24ch]">The testing behind every plan.</h2>
-            </div>
-            <p className="max-w-md text-base leading-relaxed text-ink-soft">
+          <div className="mx-auto max-w-xl text-center">
+            <SectionLabel className="justify-center">Certified partners</SectionLabel>
+            <h2 className="display-sm mt-5">The testing behind every plan.</h2>
+            <p className="mt-4 text-base leading-relaxed text-ink-soft">
               We treat from data, not guesswork. These are the laboratories and technologies whose
               certification and results our treatment plans are built on.
             </p>
           </div>
 
-          <Reveal className="mt-9 flex flex-wrap gap-4" blur={false} stagger={0.1}>
+          {/*
+            One centred row, every mark on the same baseline. The three are a
+            wide wordmark, a square seal and a photograph, so the tiles are a
+            fixed size and the marks are contained inside a fixed-height band
+            within them — that band, not the artwork, is what makes them line
+            up with each other. White, because two of the three carry their own
+            white ground.
+          */}
+          <Reveal
+            className="mt-10 flex flex-wrap items-stretch justify-center gap-4"
+            blur={false}
+            stagger={0.1}
+          >
             {partners.map((p) => (
               <a
                 key={p.name}
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex w-[148px] flex-col items-center gap-3 rounded-lg border border-line bg-white p-5 transition-colors duration-500 ease-cinematic hover:border-clay/40"
+                className="group flex w-[168px] flex-col items-center gap-3 rounded-lg border border-line bg-white p-5 transition-colors duration-500 ease-cinematic hover:border-clay/40"
               >
-                <img src={p.image} alt="" loading="lazy" className="h-11 w-full object-contain" />
+                <span className="flex h-14 w-full items-center justify-center">
+                  <img
+                    src={p.image}
+                    alt=""
+                    loading="lazy"
+                    className="max-h-14 w-auto max-w-full object-contain"
+                  />
+                </span>
                 <span className="text-center text-xs leading-snug text-ink-soft transition-colors duration-500 group-hover:text-ink">
                   {p.name}
                 </span>

@@ -87,13 +87,18 @@ function TreatmentSection({
       <Container wide className="lg:px-20 xl:px-28">
         <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <div className="media-depth-drift aspect-4/5 w-full overflow-hidden rounded-lg bg-linen">
+            {/*
+              4:3 for the lead: the treatment photograph is 1.4:1, so this
+              frame trims a sliver off the sides and nothing off the top or
+              bottom — where the device and the patient's face are.
+            */}
+            <div className="media-depth-drift aspect-4/3 w-full overflow-hidden rounded-lg bg-linen">
               <img
                 src={lead!.src}
                 alt={lead!.alt}
                 loading="lazy"
-                width={1200}
-                height={1500}
+                width={lead!.w}
+                height={lead!.h}
                 style={focal(lead!.src)}
                 className="size-full object-cover"
               />
@@ -104,14 +109,14 @@ function TreatmentSection({
                 {rest.map((image) => (
                   <div
                     key={image.src}
-                    className="aspect-4/3 w-full overflow-hidden rounded-lg bg-linen"
+                    className="aspect-16/10 w-full overflow-hidden rounded-lg bg-linen"
                   >
                     <img
                       src={image.src}
                       alt={image.alt}
                       loading="lazy"
-                      width={1200}
-                      height={1504}
+                      width={image.w}
+                      height={image.h}
                       style={focal(image.src)}
                       className="size-full object-cover"
                     />
@@ -179,9 +184,7 @@ function AestheticServicesPage() {
       {/* ---------- page opening ---------- */}
       <section className="bg-ivory pb-14 pt-28 md:pb-20 md:pt-36">
         <Container wide>
-          {/* `items-stretch` so the photograph matches the height of the copy
-              beside it rather than sitting in a short box of its own. */}
-          <div className="grid items-stretch gap-12 lg:grid-cols-[1fr_0.82fr] lg:gap-16">
+          <div className="grid items-end gap-12 lg:grid-cols-[1fr_0.82fr] lg:gap-16">
             <div>
               <SectionLabel>Aesthetic services</SectionLabel>
               <TextReveal
@@ -205,16 +208,23 @@ function AestheticServicesPage() {
               </div>
             </div>
 
+            {/*
+              An explicit height at lg rather than stretching to the copy
+              column: matching that column made the opening photograph tower
+              over the page. 24rem sits it close to the height of the label,
+              heading, paragraph and buttons beside it, with `items-end`
+              bringing the two to a common baseline.
+            */}
             <ParallaxImage
               src={aestheticHero.src}
               alt={aestheticHero.alt}
-              width={1200}
-              height={1504}
+              width={aestheticHero.w}
+              height={aestheticHero.h}
               amount={8}
               zoom={1.06}
               imgStyle={focal(aestheticHero.src)}
               priority
-              className="aspect-4/3 w-full rounded-lg sm:aspect-16/10 lg:aspect-auto lg:h-full lg:min-h-[26rem]"
+              className="aspect-16/10 w-full rounded-lg lg:aspect-auto lg:h-[24rem]"
             />
           </div>
 

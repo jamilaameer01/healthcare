@@ -417,6 +417,15 @@ export const placeholderReviews = [
   },
 ];
 
+/*
+ * Certified partners.
+ *
+ * The three marks are very different objects — a wide wordmark, a square
+ * certification seal, and (for SkinPen) a photograph rather than a logo at
+ * all. The About page therefore contains each one inside a fixed-height band
+ * instead of scaling it to a shared width, which is what keeps them level
+ * with one another.
+ */
 export const partners = [
   {
     name: "DUTCH Test",
@@ -429,7 +438,7 @@ export const partners = [
     image: `${CDN}/Skin-pen-pic-1536x1098-720e2ed.jpg/:/rs=w:560,cg:true`,
   },
   {
-    name: "EvexiPEL Certified Provider",
+    name: "EvexiPEL",
     href: "https://www.evexias.com/",
     image: `${CDN}/EvexiPEL-Certified-Provider-Seal_%20(2).png/:/rs=w:400,cg:true`,
   },

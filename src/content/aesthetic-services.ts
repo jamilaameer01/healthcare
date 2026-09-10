@@ -9,16 +9,19 @@
  *
  * Text is the client's own.
  *
- * Imagery follows the convention set in `thryve.ts`: the site's own curated
- * photography rather than the export's assets. The export's only picture here
- * is the manufacturer's product shot of the device on a white studio ground —
- * it can only be shown letterboxed in a white box, which reads as a hole in
- * the page, so the device is credited with a link instead and the treatment is
- * illustrated with skin photography that fills its frame.
+ * The export's photograph carries the treatment on its own: it shows the
+ * SkinPen in use on a patient's face, which says more about what the treatment
+ * is than any amount of stock skin photography beside it. It is requested at
+ * 1400w rather than the export's 800w crop, and at 1.4:1 it sits in a 4:3
+ * frame with almost nothing trimmed, so it needs no letterboxing.
+ *
+ * `images` stays a list so a treatment with more than one photograph renders
+ * the extras beneath the lead without a layout change.
  */
 
-import goalHair from "@/assets/goal-hair.jpg";
 import careWomens from "@/assets/care-womens.jpg";
+
+const CDN = "https://img1.wsimg.com/isteam/ip/f0f8b0ea-42a5-4042-94cc-1824291818a6";
 
 /** A run of body copy: prose, or a list of claims. */
 export type AestheticPart = { type: "p"; text: string } | { type: "list"; items: string[] };
@@ -28,7 +31,12 @@ export type AestheticSection = {
   parts: AestheticPart[];
 };
 
-export type AestheticImage = { src: string; alt: string };
+/**
+ * Intrinsic dimensions travel with the image so the `<img>` attributes cannot
+ * drift out of step with the file when photographs are swapped around — a
+ * mismatched pair reserves the wrong space and shifts the layout as it loads.
+ */
+export type AestheticImage = { src: string; alt: string; w: number; h: number };
 
 export type AestheticService = {
   id: string;
@@ -55,7 +63,12 @@ export const aestheticServices: AestheticService[] = [
     description:
       "SkinPen® microneedling is an FDA-cleared, minimally invasive treatment that works with your skin rather than on top of it — activating the repair process that produces new collagen and elastin.",
     images: [
-      { src: goalHair, alt: "Close-up portrait showing clear, healthy skin in warm daylight" },
+      {
+        src: `${CDN}/Skin-pen-pic-1536x1098.jpg/:/rs=w:1400,cg:true`,
+        alt: "A clinician performing a SkinPen® microneedling treatment on a patient's face",
+        w: 1400,
+        h: 1001,
+      },
     ],
     device: { name: "SkinPen® by Crown Aesthetics", href: "https://skinpen.com/" },
     sections: [
@@ -124,6 +137,8 @@ export const aestheticServices: AestheticService[] = [
 export const aestheticHero: AestheticImage = {
   src: careWomens,
   alt: "A patient in warm, natural daylight at the practice",
+  w: 1200,
+  h: 1504,
 };
 
 /** Look up one treatment. */
