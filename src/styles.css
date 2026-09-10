@@ -238,6 +238,31 @@
   }
 }
 
+/*
+ * A hairline scrollbar for panels on the dark ground. The platform default is
+ * a wide, opaque light bar that sits on the navy like a scar; this keeps the
+ * affordance but draws it in the section's own palette. Firefox takes the
+ * standard properties, WebKit needs its pseudo-elements, so both are set.
+ */
+@utility scrollbar-subtle {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--on-dark) 22%, transparent) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--on-dark) 18%, transparent);
+    border-radius: 999px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--on-dark) 34%, transparent);
+  }
+}
+
 @keyframes media-depth-drift {
   0%,
   100% {

@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 import { PageTransition } from "@/components/animations/PageTransition";
 
 function NotFoundComponent() {
@@ -149,6 +150,9 @@ function RootComponent() {
         </PageTransition>
       </main>
       <Footer />
+      {/* Outside <main> and after the footer: it is page furniture, not
+          content, and its z-30 keeps it under the header and mobile menu. */}
+      <ChatWidget />
     </QueryClientProvider>
   );
 }
