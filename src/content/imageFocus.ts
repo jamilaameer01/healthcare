@@ -42,6 +42,10 @@ const FOCUS: ReadonlyArray<readonly [string, string]> = [
   ["edu-preventive", "15%"],
   ["edu-wellness", "35%"], // figure stretching at the window, low in frame
   ["goal-hair", "12%"],
+  /* No face in this one — a still life. The value holds the clinician's hands
+     and the labelled samples in frame when the 4:5 original is cropped to a
+     landscape hero, instead of centring on empty bench. */
+  ["goal-labs", "42%"],
   ["goal-weight", "8%"],
   ["hero-care", "25%"],
   ["patient-1", "12%"],

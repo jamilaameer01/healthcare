@@ -5,7 +5,8 @@ import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { ActionLink } from "@/components/ui/ActionButton";
-/* Not `facility.jpg`: that one already opens the services page. */
+/* The reception area, rather than a treatment room: this page is the practice
+   and the people, and the clinical frames belong on the services pages. */
 import space from "@/assets/space-1.jpg";
 import {
   imageAt,

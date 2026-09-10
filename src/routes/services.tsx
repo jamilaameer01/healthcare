@@ -4,7 +4,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/animations/Reveal";
 import { TextReveal } from "@/components/animations/TextReveal";
 import { ActionLink, Arrow } from "@/components/ui/ActionButton";
-import facility from "@/assets/facility.jpg";
+import labs from "@/assets/goal-labs.jpg";
 import { ParallaxImage } from "@/components/animations/ParallaxImage";
 import { cn } from "@/lib/utils";
 import { medicalServices, type MedicalService, type ServiceItem } from "@/content/medical-services";
@@ -194,13 +194,21 @@ function ServicesPage() {
               </p>
             </div>
 
+            {/*
+              A clinician at the bench rather than an empty room: this page is
+              the medical scope, and the testing behind it is what the copy
+              beside this frame is about. The source is portrait, so the crop
+              point in `imageFocus` holds the hands and samples in frame.
+            */}
             <ParallaxImage
-              src={facility}
-              alt="A quiet, daylit room at the practice"
-              width={1600}
-              height={1000}
+              src={labs}
+              alt="A clinician preparing samples in a bright laboratory"
+              width={1200}
+              height={1500}
               amount={8}
               zoom={1.06}
+              priority
+              imgStyle={focal(labs)}
               className="aspect-4/3 w-full rounded-lg sm:aspect-16/10 lg:aspect-4/3"
             />
           </div>
